@@ -1,0 +1,65 @@
+* { margin: 0; padding: 0; }
+
+#container { width: 60%; min-width: 300px; display: table; margin: 0 auto; padding: 20px; }
+
+#header { padding-bottom: 1em; }
+
+#page-homepage .ui.card>.extra,
+#page-homepage .ui.cards>.card>.extra{ text-align: justify; }
+#page-homepage .address { color: grey; }
+#page-homepage .filters-description { margin-top: 0; margin-bottom: 2em; }
+
+#page-admin { padding-left: 120px; }
+#page-admin #sidebar { width: 120px; }
+#page-admin #container { width: 99%; display: table; margin: 0 auto; min-width: 0; }
+#page-admin #dashboard { margin-top: 1em; }
+#page-admin #services .icon.remove { float: right; margin: 0; padding: 2px; cursor: pointer; }
+
+#page-song #map { height: 300px; }
+#page-song .comments { max-width: 100%; margin: 0; }
+#page-song .address { color: rgba(101, 101, 101, 0.8); }
+#page-song .phones p { margin: 0; font-size: 13px; }
+#page-song #timetable .buttons { padding: 2px; }
+#page-song #timetable .label { margin: 2px; cursor: pointer; }
+#page-song #timetable .header label { color: #009fda; cursor: pointer; }
+#page-song #information { border-top: 2px solid #d95c5c; border-bottom: 2px solid #d95c5c; }
+#page-song #information p { text-align: justify; }
+#page-song #information .column:first-child { padding: 22px; }
+#page-song #information .column:first-child .icon.warning.sign { font-size: 5em; }
+
+#page-error #main { padding: 40px 60px; }
+#page-error #main h1 { font-size: 38px; }
+#page-error #main p { font-size: 22px; color: #d95c5c!important; }
+
+#page-registration #main,
+#page-login #main { padding: 60px; display: table; margin: 0 auto; width: 70% }
+
+#footer { margin-top: 1em; }
+#footer .description { padding-bottom: 1em; }
+#footer .contacts p { margin: 0; }
+
+.item.highlight { font-weight: bold; color: #d95c5c!important; }
+
+.black { color: rgba(0,0,0,.8); }
+
+.no-decoration { text-decoration: none!important; }
+
+.bold { font-weight: bold!important; }
+
+.right   { text-align: right!important; }
+.center  { text-align: center!important; }
+.justify { text-align: justify!important; }
+
+.width-2  { width: 2%;  }
+.width-3  { width: 3%;  }
+.width-5  { width: 5%;  }
+.width-10 { width: 10%; }
+.width-15 { width: 15%; }
+.width-20 { width: 20%; }
+.width-25 { width: 25%; }
+.width-30 { width: 30%; }
+.width-33 { width: 33%; }
+
+.invisible { display: none; }
+
+.ui.popup { text-align: justify; }
