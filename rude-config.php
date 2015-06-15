@@ -16,9 +16,8 @@ define('RUDE_DATABASE_PORT', '3306');      # database port
 
 # roles
 
-define('RUDE_ROLE_ADMIN',   1);
-define('RUDE_ROLE_COMPANY', 2);
-define('RUDE_ROLE_USER',    3);
+define('RUDE_ROLE_ADMIN', 1);
+define('RUDE_ROLE_USER',  2);
 
 
 # directories

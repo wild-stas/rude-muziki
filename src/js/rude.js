@@ -40,6 +40,26 @@ var rude =
 		}
 	},
 
+	player:
+	{
+
+		add:
+		{
+			song: function(id, file_name)
+			{
+				soundManager.createSound(
+				{
+					url: 'src/audio/' + file_name,
+
+					onfinish: function()
+					{
+						console.log('playing finished');
+					}
+				});
+			}
+		}
+	},
+
 	homepage:
 	{
 

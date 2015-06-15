@@ -49,6 +49,9 @@ class site
 			<?= html::js('src/js/semantic-ui/1.11.4/semantic.min.js') ?>
 			<?= html::css('src/js/semantic-ui/1.11.4/semantic.min.css') ?>
 
+<!--			--><?//= html::js('src/js/sound-manager/2.97a/soundmanager2.min.js') ?>
+			<?= html::js('src/js/sound-manager/2.97a/soundmanager2.js') ?>
+
 			<?= html::js('src/js/rude.js') ?>
 			<?= html::js('src/js/rude-fixes.js') ?>
 

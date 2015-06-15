@@ -2,22 +2,13 @@
 
 namespace rude;
 
-if (!defined('RUDE_DATABASE_TABLE_SONGS'))             { define('RUDE_DATABASE_TABLE_SONGS',             'songs'); }
-if (!defined('RUDE_DATABASE_TABLE_SONGS_PRIMARY_KEY')) { define('RUDE_DATABASE_TABLE_SONGS_PRIMARY_KEY', 'id'); }
+if (!defined('RUDE_DATABASE_TABLE_SONG_AUTHORS'))             { define('RUDE_DATABASE_TABLE_SONG_AUTHORS',             'song_authors'); }
+if (!defined('RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY')) { define('RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY', 'id'); }
 
-class song
+class song_author
 {
-	public $id              = null;
-	public $name            = null;
-	public $description     = null;
-	public $author_id       = null;
-	public $genre_id        = null;
-	public $length          = null;
-	public $file_audio      = null;
-	public $file_audio_size = null;
-	public $file_image      = null;
-	public $file_image_size = null;
-	public $timestamp       = null;
+	public $id   = null;
+	public $name = null;
 
 
 	public function __construct($id = null)
@@ -38,8 +29,8 @@ class song
 		}
 
 
-		$q = new query_select(RUDE_DATABASE_TABLE_SONGS);
-		$q->where(RUDE_DATABASE_TABLE_SONGS_PRIMARY_KEY, $id);
+		$q = new query_select(RUDE_DATABASE_TABLE_SONG_AUTHORS);
+		$q->where(RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY, $id);
 		$q->query();
 
 
@@ -64,7 +55,7 @@ class song
 
 	public function save()
 	{
-		$q = new query_insert(RUDE_DATABASE_TABLE_SONGS);
+		$q = new query_insert(RUDE_DATABASE_TABLE_SONG_AUTHORS);
 
 		foreach (get_object_vars($this) as $field => $value)
 		{
@@ -81,11 +72,11 @@ class song
 
 	public function update()
 	{
-		$q = new query_update(RUDE_DATABASE_TABLE_SONGS);
+		$q = new query_update(RUDE_DATABASE_TABLE_SONG_AUTHORS);
 
 		foreach (get_object_vars($this) as $field => $value)
 		{
-			if ($field == RUDE_DATABASE_TABLE_SONGS_PRIMARY_KEY)
+			if ($field == RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY)
 			{
 				continue;
 			}
@@ -96,7 +87,7 @@ class song
 			}
 		}
 
-		$q->where(RUDE_DATABASE_TABLE_SONGS_PRIMARY_KEY, $this->id);
+		$q->where(RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY, $this->id);
 		$q->query();
 
 		return $q->affected();
@@ -104,8 +95,8 @@ class song
 
 	public function delete()
 	{
-		$q = new query_delete(RUDE_DATABASE_TABLE_SONGS);
-		$q->where(RUDE_DATABASE_TABLE_SONGS_PRIMARY_KEY, $this->id);
+		$q = new query_delete(RUDE_DATABASE_TABLE_SONG_AUTHORS);
+		$q->where(RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY, $this->id);
 		$q->query();
 
 		return $q->affected();
