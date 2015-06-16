@@ -21,11 +21,11 @@ class page_homepage
 		<body>
 		<div id="container">
 
+			<? site::menu() ?>
+
 			<? site::logo() ?>
 
 			<div id="page-homepage">
-
-				<? site::menu() ?>
 
 				<div id="content">
 					<? static::main() ?>
@@ -33,6 +33,8 @@ class page_homepage
 			</div>
 
 			<? site::footer() ?>
+
+			<? site::player() ?>
 		</div>
 
 		</body>

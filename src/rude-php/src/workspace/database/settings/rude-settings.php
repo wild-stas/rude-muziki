@@ -51,7 +51,7 @@ class settings
 
 		if ($key         !== null) { $q->add('key',         $key        ); }
 		if ($val         !== null) { $q->add('val',         $val        ); }
-		if ($description !== null) { $q->add('description', $description); }
+		if ($description !== null) { $q->add('description', $description); }
 
 		$q->query();
 
@@ -64,7 +64,7 @@ class settings
 
 		if ($key         !== null) { $q->update('key',         $key        ); }
 		if ($val         !== null) { $q->update('val',         $val        ); }
-		if ($description !== null) { $q->update('description', $description); }
+		if ($description !== null) { $q->update('description', $description); }
 
 		$q->where(RUDE_DATABASE_TABLE_SETTINGS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -101,7 +101,7 @@ class settings
 		return $database->get_object()->count;
 	}
 
-		public static function get_by_id($id, $only_first = false)
+	public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_SETTINGS);
 		$q->where('id', $id);
@@ -211,5 +211,5 @@ class settings
 	public static function is_exists_description($description)
 	{
 		return static::get_by_description($description) == true;
-	}
+	}
 }

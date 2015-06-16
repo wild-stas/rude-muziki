@@ -46,6 +46,9 @@ class site
 
 			<?= html::js('src/js/jquery/1.11.2/jquery-1.11.2.min.js') ?>
 
+			<?= html::js('src/js/jquery-ui/1.11.4/jquery-ui.js') ?>
+			<?= html::css('src/js/jquery-ui/1.11.4/jquery-ui.css') ?>
+
 			<?= html::js('src/js/semantic-ui/1.11.4/semantic.min.js') ?>
 			<?= html::css('src/js/semantic-ui/1.11.4/semantic.min.css') ?>
 
@@ -72,6 +75,12 @@ class site
 	public static function menu()
 	{
 		?>
+		<div id="player" class="ui top inverted labeled icon sidebar menu visible">
+			<div class="item">
+
+			</div>
+		</div>
+
 		<div id="menu" class="ui secondary pointing menu">
 			<a class="item <?= static::highlight_item('homepage') ?>" href="<?= RUDE_SITE_URL ?>">
 				<i class="icon home"></i> Главная
@@ -193,6 +202,53 @@ class site
 				</div>
 			</div>
 		</div>
+		<?
+	}
+
+	public static function player()
+	{
+		?>
+		<div id="player" class="ui bottom inverted labeled icon sidebar menu visible">
+			<div class="item">
+				<div class="button group">
+					<i class="icon backward"></i>
+
+					<i class="icon play"></i>
+					<i class="icon stop invisible"></i>
+
+					<i class="icon forward"></i>
+				</div>
+			</div>
+
+			<div class="item">
+				<div class="button group">
+					<i class="icon repeat"></i>
+					<i class="icon random"></i>
+				</div>
+			</div>
+
+			<div class="item">
+				<div class="song slider">
+					<div class="container"></div>
+
+					<span class="value">00:00</span>
+				</div>
+			</div>
+
+			<div class="item">
+				<div class="volume slider">
+					<i class="icon volume up" onclick="rude.player.slider.volume.toggle()"></i>
+
+					<div class="container"></div>
+
+					<span class="value">0%</span>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			rude.player.init();
+		</script>
 		<?
 	}
 

@@ -49,7 +49,7 @@ class song_authors
 	{
 		$q = new query_insert(RUDE_DATABASE_TABLE_SONG_AUTHORS);
 
-		if ($name !== null) { $q->add('name', $name); }
+		if ($name !== null) { $q->add('name', $name); }
 
 		$q->query();
 
@@ -60,7 +60,7 @@ class song_authors
 	{
 		$q = new query_update(RUDE_DATABASE_TABLE_SONG_AUTHORS);
 
-		if ($name !== null) { $q->update('name', $name); }
+		if ($name !== null) { $q->update('name', $name); }
 
 		$q->where(RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -97,7 +97,7 @@ class song_authors
 		return $database->get_object()->count;
 	}
 
-		public static function get_by_id($id, $only_first = false)
+	public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_SONG_AUTHORS);
 		$q->where('id', $id);
@@ -151,5 +151,5 @@ class song_authors
 	public static function is_exists_name($name)
 	{
 		return static::get_by_name($name) == true;
-	}
+	}
 }

@@ -42,27 +42,187 @@ var rude =
 
 	player:
 	{
+		manager: null,
 
-		add:
+		settings:
 		{
-			song: function(id, file_name)
+			directory:
 			{
-				soundManager.createSound(
+				audio: 'src/audio/'
+			},
+
+			selector:
+			{
+				slider:
 				{
-					url: 'src/audio/' + file_name,
+					volume: '#player .volume.slider .container',
+					song:   '#player .song.slider   .container'
+				}
+			}
+		},
+
+		init: function()
+		{
+			$(function()
+			{
+				rude.player.manager = soundManager;
+//				rude.player.manager.debugMode = true;
+//				rude.player.manager.consoleOnly = false;
+
+//				soundManager.url = '../sound-manager/2.97a/swf/soundmanager2.swf';
+
+
+
+				soundManager.onload = function()
+				{
+					rude.player.song.add('1', '', '', 'song_555f988e709c7.mp3');
+
+//					rude.player.manager.play('1');
+//					rude.player.manager.setVolume('1', 50);
+//					rude.player.manager.setPan('1', -100);
+				};
+
+				rude.player.slider.song.init();
+				rude.player.slider.volume.init();
+			});
+		},
+
+		slider:
+		{
+			song:
+			{
+				init: function()
+				{
+					$(rude.player.settings.selector.slider.song).slider
+					({
+						min: 0,
+						max: 100,
+
+						change: function()
+						{
+							rude.player.slider.song.update();
+						}
+					});
+
+//					rude.player.slider.volume.enable();
+				},
+
+				update: function()
+				{
+					var value = rude.player.slider.song.value();
+
+				},
+
+				disable: function() { $(rude.player.settings.selector.slider.song).slider('disable'); },
+				enable:  function() { $(rude.player.settings.selector.slider.song).slider('enable');  },
+
+				value: function(value)
+				{
+					if (typeof value === 'undefined')
+					{
+						return $(rude.player.settings.selector.slider.song).slider('option', 'value');
+					}
+
+					return $(rude.player.settings.selector.slider.song).slider('option', 'value', value);
+				}
+			},
+
+			volume:
+			{
+				init: function()
+				{
+					$(rude.player.settings.selector.slider.volume).slider
+					({
+						min: 0,
+						max: 100,
+
+						change: function()
+						{
+							rude.player.slider.volume.update();
+						}
+					});
+
+//					rude.player.slider.volume.enable();
+				},
+
+				update: function()
+				{
+					var value = rude.player.slider.volume.value();
+
+					var selector = $(rude.player.settings.selector.slider.volume).parent().find('.icon.volume');
+
+					selector.removeClass('up').removeClass('down').removeClass('off');
+
+					     if (value == 0) { $(selector).addClass('off');  }
+					else if (value < 30) { $(selector).addClass('down'); }
+					else                 { $(selector).addClass('up');   }
+
+					selector.parent().find('.value').html(value + '%');
+
+				},
+
+				toggle: function()
+				{
+					var value = rude.player.slider.volume.value();
+
+					var selector = $(rude.player.settings.selector.slider.volume).parent().find('.icon.volume');
+
+					if (value != 0)
+					{
+						selector.attr('data-value', value);
+
+						rude.player.slider.volume.value(0);
+					}
+					else
+					{
+						var loaded = selector.attr('data-value');
+
+						if (!loaded)
+						{
+							loaded = 100;
+						}
+
+						rude.player.slider.volume.value(loaded);
+					}
+
+					rude.player.slider.volume.update();
+				},
+
+				disable: function() { $(rude.player.settings.selector.slider.volume).slider('disable'); },
+				enable:  function() { $(rude.player.settings.selector.slider.volume).slider('enable');  },
+
+				value: function(value)
+				{
+					if (typeof value === 'undefined')
+					{
+						return $(rude.player.settings.selector.slider.volume).slider('option', 'value');
+					}
+
+					return $(rude.player.settings.selector.slider.volume).slider('option', 'value', value);
+				}
+			}
+		},
+
+		song:
+		{
+			add: function(id, name, author, file)
+			{
+				rude.player.manager.createSound
+				({
+					id: id,
+
+					url: rude.player.settings.directory.audio + file,
+
+					autoLoad: true,
 
 					onfinish: function()
 					{
+
 						console.log('playing finished');
 					}
 				});
 			}
 		}
-	},
-
-	homepage:
-	{
-
 	},
 
 	base64:
@@ -151,29 +311,42 @@ var rude =
 			}
 		}
 	},
-	crawler:{
-		init: function()
+
+	crawler:
+	{
+		init: function ()
 		{
-			$(document).ready(function() {
-				$('a').click(function() {
+			$(function()
+			{
+				$('a').click(function ()
+				{
 					var url = $(this).attr('href');
 
-					$.ajax({
-						url:   'index.php' + url + '&ajax=1',
-						success: function(data){
-							$('#content').html(data);
+					$.ajax
+					({
+						url: 'index.php' + url + '&ajax=1',
+
+						success: function (data) { $('#content').html(data); },
+
+						error: function (xhr, ajaxOptions, thrownError)
+						{
+							if (xhr.status == 404)
+							{
+								$('#content').html(data);
+							}
 						}
 					});
 
-					// меняется ссылка
-					if(url != window.location){
+
+					if (url != window.location) // меняется ссылка
+					{
 						window.history.pushState(null, null, url);
 					}
 
-					// Предотвращаем дефолтное поведение
-					return false;
+
+					return false; // предотвращаем дефолтное поведение
 				});
 			});
-		}		
+		}
 	}
 };
