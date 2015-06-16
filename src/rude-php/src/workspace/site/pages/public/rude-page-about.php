@@ -6,32 +6,28 @@ class page_about
 {
 	public static function init($title = 'О нас')
 	{
-		site::doctype();
-
-		?>
-		<html>
-
-		<? site::head($title) ?>
-
-		<body>
-		<div id="container">
-
-			<? site::logo($title) ?>
-
-			<div id="page-about">
-				<? site::menu() ?>
-
-				<div id="content">
-					<? static::main() ?>
+		if (get('ajax')=='1'){
+			static::main();
+		}else{
+			site::doctype();
+			?>
+			<html>
+			<? site::head($title) ?>
+			<body>
+			<div id="container">
+				<? site::logo($title) ?>
+				<div id="page-about">
+					<? site::menu() ?>
+					<div id="content">
+						<? static::main() ?>
+					</div>
 				</div>
+				<? site::footer() ?>
 			</div>
-
-			<? site::footer() ?>
-		</div>
-
-		</body>
-		</html>
-		<?
+			</body>
+			</html>
+			<?
+		}
 	}
 
 	public static function main()
