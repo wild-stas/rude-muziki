@@ -38,7 +38,7 @@
 	cursor: default;
 	-ms-touch-action: none;
 	touch-action: none;
-	background: rgb(255, 159, 0)!important;
+	background: rgb(221, 220, 220)!important;
 	border-width: 3px;
 	border-style: double;
 }
