@@ -150,5 +150,30 @@ var rude =
 				}
 			}
 		}
+	},
+	crawler:{
+		init: function()
+		{
+			$(document).ready(function() {
+				$('a').click(function() {
+					var url = $(this).attr('href');
+
+					$.ajax({
+						url:   'index.php' + url + '&ajax=1',
+						success: function(data){
+							$('#content').html(data);
+						}
+					});
+
+					// меняется ссылка
+					if(url != window.location){
+						window.history.pushState(null, null, url);
+					}
+
+					// Предотвращаем дефолтное поведение
+					return false;
+				});
+			});
+		}		
 	}
 };

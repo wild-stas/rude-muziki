@@ -54,7 +54,7 @@ class users
 		if ($email      !== null) { $q->add('email',      $email     ); }
 		if ($hash       !== null) { $q->add('hash',       $hash      ); }
 		if ($salt       !== null) { $q->add('salt',       $salt      ); }
-		if ($registered !== null) { $q->add('registered', $registered); }
+		if ($registered !== null) { $q->add('registered', $registered); }
 
 		$q->query();
 
@@ -70,7 +70,7 @@ class users
 		if ($email      !== null) { $q->update('email',      $email     ); }
 		if ($hash       !== null) { $q->update('hash',       $hash      ); }
 		if ($salt       !== null) { $q->update('salt',       $salt      ); }
-		if ($registered !== null) { $q->update('registered', $registered); }
+		if ($registered !== null) { $q->update('registered', $registered); }
 
 		$q->where(RUDE_DATABASE_TABLE_USERS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -107,7 +107,7 @@ class users
 		return $database->get_object()->count;
 	}
 
-	public static function get_by_id($id, $only_first = false)
+		public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_USERS);
 		$q->where('id', $id);
@@ -301,5 +301,5 @@ class users
 	public static function is_exists_registered($registered)
 	{
 		return static::get_by_registered($registered) == true;
-	}
+	}
 }
