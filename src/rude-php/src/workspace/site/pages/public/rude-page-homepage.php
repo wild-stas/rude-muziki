@@ -11,6 +11,14 @@ class page_homepage
 
 	public function init()
 	{
+		if (get('ajax'))
+		{
+			static::main();
+
+			return;
+		}
+
+
 		site::doctype();
 
 		?>
@@ -23,7 +31,7 @@ class page_homepage
 
 			<? site::menu() ?>
 
-			<? site::logo() ?>
+			<? site::header() ?>
 
 			<div id="page-homepage">
 
@@ -47,17 +55,45 @@ class page_homepage
 	{
 		?>
 		<div id="main">
+			<div class="ui double six cards">
+				<?
+					$songs = songs::get_last(100);
 
-			<div class="filters">
-				<div class="ui form">
-					<div class="ui two fields">
+					foreach ($songs as $song)
+					{
 
-					</div>
-				</div>
-			</div>
 
-			<div class="ui special cards">
+						?>
+						<div class="card">
+							<div class="image">
+								<?
+									if ($song->file_image == 'dummy.png' or $song->file_image == 'dummy.jpg')
+									{
+										?><i class="icon music"></i><?
+									}
+									else
+									{
+										?><img src="src/img/covers/<?= $song->file_image ?>"><?
+									}
+								?>
+							</div>
+							<div class="content">
+								<a class="header" onclick=""><?= $song->name ?></a>
 
+								<div class="ui divider">
+
+								</div>
+
+								<div class="description">
+									<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '', '', '<?= $song->file_audio ?>'); rude.player.manager.play('<?= $song->file_audio ?>'); rude.player.manager.setVolume('<?= $song->file_audio ?>', 20);">
+										<i class="icon video play"></i> Listen
+									</div>
+								</div>
+							</div>
+						</div>
+						<?
+					}
+				?>
 			</div>
 		</div>
 

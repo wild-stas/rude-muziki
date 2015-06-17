@@ -13,6 +13,14 @@ var rude =
 		}
 	},
 
+	string:
+	{
+		starts_with: function(string, substring)
+		{
+			return string.indexOf(substring) === 0;
+		}
+	},
+
 	semantic:
 	{
 		init:
@@ -66,21 +74,30 @@ var rude =
 			$(function()
 			{
 				rude.player.manager = soundManager;
-//				rude.player.manager.debugMode = true;
+				rude.player.manager.debugMode = true;
 //				rude.player.manager.consoleOnly = false;
 
 //				soundManager.url = '../sound-manager/2.97a/swf/soundmanager2.swf';
 
 
-
-				soundManager.onload = function()
-				{
-					rude.player.song.add('1', '', '', 'song_555f988e709c7.mp3');
-
-//					rude.player.manager.play('1');
-//					rude.player.manager.setVolume('1', 50);
-//					rude.player.manager.setPan('1', -100);
-				};
+//				rude.player.manager.setup
+//				({
+//					defaultOptions:
+//					{
+//						volume: 33 // set global default volume for all sound objects
+//					}
+//				});
+//
+//				rude.player.manager = function()
+//				{
+////					rude.player.song.add('1', '', '', 'song_555f988e709c7.mp3');
+//
+////					rude.player.manager.play('1');
+////					rude.player.manager.setVolume('1', 50);
+////					rude.player.manager.setPan('1', -100);
+//
+//
+//				};
 
 				rude.player.slider.song.init();
 				rude.player.slider.volume.init();
@@ -256,6 +273,23 @@ var rude =
 
 	url:
 	{
+		parse: function(url)
+		{
+			var parser = document.createElement('a');
+
+			parser.href = url;
+
+			return parser; // http://example.com:3000/pathname/?search=test#hash
+			               //
+			               // parser.protocol => "http:"
+			               // parser.host     => "example.com:3000"
+			               // parser.hostname => "example.com"
+			               // parser.port     => "3000"
+			               // parser.pathname => "/pathname/"
+			               // parser.hash     => "#hash"
+			               // parser.search   => "?search=test"
+		},
+
 		reload: function()
 		{
 			location.reload();
@@ -322,29 +356,36 @@ var rude =
 				{
 					var url = $(this).attr('href');
 
+					if (rude.string.starts_with(url, 'http'))
+					{
+						var parts = rude.url.parse(url);
+
+						url = parts.search;
+					}
+
 					$.ajax
 					({
-						url: 'index.php' + url + '&ajax=1',
+						url: 'index.php' + url,
 
-						success: function (data) { $('#content').html(data); },
+						type: 'GET',
 
-						error: function (xhr, ajaxOptions, thrownError)
+						data: { ajax: 1 },
+
+						success: function (data)
 						{
-							if (xhr.status == 404)
-							{
-								$('#content').html(data);
-							}
+							$('#content').html(data);
+
+							console.log('success!');
 						}
 					});
 
 
-					if (url != window.location) // меняется ссылка
+					if (url != window.location) // change current url
 					{
 						window.history.pushState(null, null, url);
 					}
 
-
-					return false; // предотвращаем дефолтное поведение
+					return false; // ignore default event
 				});
 			});
 		}

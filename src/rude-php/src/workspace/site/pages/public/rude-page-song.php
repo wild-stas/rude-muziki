@@ -21,7 +21,7 @@ class page_song
 		<body>
 		<div id="container">
 
-			<? site::logo() ?>
+			<? site::header() ?>
 
 			<div id="page-song">
 

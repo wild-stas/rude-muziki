@@ -63,11 +63,11 @@ class site
 		<?
 	}
 
-	public static function logo()
+	public static function header()
 	{
 		?>
 		<div id="header">
-			<h1 class="ui header"><a href="<?= RUDE_SITE_URL ?>"><?= current::title() ?></a></h1>
+
 		</div>
 		<?
 	}
@@ -75,75 +75,103 @@ class site
 	public static function menu()
 	{
 		?>
-		<div id="player" class="ui top inverted labeled icon sidebar menu visible">
+		<div id="menu" class="ui top inverted sidebar menu visible">
 			<div class="item">
-
+				<a href="<?= site::url('homepage') ?>">
+					<i class="icon home"></i> Homepage
+				</a>
 			</div>
-		</div>
 
-		<div id="menu" class="ui secondary pointing menu">
-			<a class="item <?= static::highlight_item('homepage') ?>" href="<?= RUDE_SITE_URL ?>">
-				<i class="icon home"></i> Главная
-			</a>
+			<div class="ui dropdown item">
+				<i class="icon list"></i>
 
-			<a class="item <?= static::highlight_item('about') ?>" href="<?= site::url('about') ?>">
-				<i class="icon info"></i> О нас
-			</a>
+				Genres
+
+				<div class="menu">
+
+					<?
+						$database = database();
+						$database->query('
+							SELECT
+								song_genres.*,
+
+								(SELECT COUNT(*) FROM songs WHERE songs.genre_id = song_genres.id) AS count
+							FROM
+								song_genres
+							ORDER BY
+								name ASC
+						');
+
+						foreach ($database->get_object_list() as $genre)
+						{
+							?><a class="item"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+						}
+					?>
+				</div>
+			</div>
+
+			<script>
+				rude.semantic.init.dropdown();
+			</script>
+
+
+			<div class="item">
+				<a href="#">
+					<i class="icon diamond"></i> Popular
+				</a>
+			</div>
+
+			<div class="item">
+				<a href="#">
+					<i class="icon announcement"></i> New
+				</a>
+			</div>
+
 
 			<?
 				if (current::user_is_logged())
 				{
 					?>
-					<div class="right menu">
-
-						<?
-							if (current::visitor_is_admin())
-							{
-								?>
-								<a class="ui item highlight <?= static::highlight_item('admin') ?>" href="<?= site::url('admin') ?>">
-									<i class="icon configure"></i>
-									Панель администратора
-								</a>
-								<?
-							}
-							else if (current::visitor_is_user())
-							{
-								?>
-								<a class="ui item highlight <?= static::highlight_item('company') ?>" href="<?= site::url('company') ?>">
-									<i class="icon configure"></i>
-									Панель пользователя
-								</a>
-								<?
-							}
-						?>
-
-						<a class="ui item <?= static::highlight_item('logout') ?>" href="<?= site::url('logout') ?>">
-							<i class="icon sign out"></i>
-							Выход
-						</a>
-					</div>
+					<a class="ui item right bold" href="<?= site::url('logout') ?>">
+						<i class="icon sign out"></i>
+						Logout
+					</a>
 					<?
+
+					if (current::visitor_is_admin())
+					{
+						?>
+						<a class="ui item right bold" href="<?= site::url('admin') ?>">
+							<i class="icon configure"></i>
+							Admin Panel
+						</a>
+						<?
+					}
+					else if (current::visitor_is_user())
+					{
+						?>
+						<a class="ui item right bold" href="<?= site::url('company') ?>">
+							<i class="icon configure"></i>
+							User Panel
+						</a>
+						<?
+					}
 				}
 				else
 				{
 					?>
-					<div class="right menu">
-						<a class="ui item <?= static::highlight_item('registration') ?>" href="<?= site::url('registration') ?>">
-							<i class="icon add user"></i>
-							Регистрация
-						</a>
-					</div>
+					<a class="ui item right" href="<?= site::url('registration') ?>">
+						<i class="icon add user"></i>
+						Sign Up
+					</a>
 
-					<div class="right menu">
-						<a class="ui item <?= static::highlight_item('login') ?>" href="<?= site::url('login') ?>">
-							<i class="icon sign in"></i>
-							Авторизация
-						</a>
-					</div>
+					<a class="ui item right" href="<?= site::url('login') ?>">
+						<i class="icon sign in"></i>
+						Sign In
+					</a>
 					<?
 				}
 			?>
-
 		</div>
 		<?
 	}
@@ -151,57 +179,7 @@ class site
 	public static function footer()
 	{
 		?>
-		<div id="footer" class="ui black vertical segment">
-			<div class="container">
-				<div class="ui stackable divided relaxed grid">
-					<div class="eight wide column">
-						<h4 class="ui header">Нужна помощь?</h4>
 
-						<div class="description">
-							<p>В случае если у вас что-то не получается или же если вы хотите задать какие-либо вопросы другого характера, можете обращаться по следующим реквизитам:</p>
-						</div>
-
-						<div class="contacts">
-							<p><i class="icon mail"></i> koskaglebov@gmail.com</p>
-							<p><i class="icon call"></i> +7(920)3736292</p>
-							<p><i class="icon skype"></i> koskaglebov</p>
-						</div>
-					</div>
-
-					<div class="four wide column">
-						<h4 class="ui header">Навигация</h4>
-						<div class="ui link list">
-							<a class="item" href="<?= RUDE_SITE_URL ?>"><i class="icon home"></i> Главная страница</a>
-							<a class="item" href="<?= site::url('discounts') ?>"><i class="icon diamond"></i> Акции</a>
-							<a class="item" href="<?= site::url('about') ?>"><i class="icon info"></i> О нас</a>
-						</div>
-					</div>
-
-					<div class="four wide column">
-						<h4 class="ui header">Аккаунт</h4>
-						<div class="ui link list">
-
-							<?
-								if (current::user_is_logged())
-								{
-									?>
-									<a class="item" href="<?= site::url('logout') ?>"><i class="icon sign out"></i> Выход</a>
-									<?
-								}
-								else
-								{
-									?>
-									<a class="item" href="<?= site::url('registration') ?>"><i class="icon user add"></i> Регистрация</a>
-									<a class="item" href="<?= site::url('login') ?>"><i class="icon sign in"></i> Авторизация</a>
-									<?
-								}
-							?>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		<?
 	}
 

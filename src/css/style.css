@@ -1,8 +1,13 @@
 * { margin: 0; padding: 0; }
 
-#container { width: 60%; min-width: 300px; display: table; margin: 0 auto; padding: 20px; }
+#container { width: 60%; min-width: 300px; display: table; margin: 0 auto; padding: 45px 20px 60px 20px; }
 
 #header { padding-bottom: 1em; }
+
+#page-homepage .cards .card .image i { height: 149px; width: 149px; font-size: 4em; position: relative; padding-top: 40px; }
+#page-homepage .cards .card .header { padding-bottom: 20px; }
+#page-homepage .cards .card .description { position: absolute; bottom: 15px; }
+#page-homepage .cards .card .description .button { position: relative; bottom: 0; }
 
 #page-admin { padding-left: 120px; }
 #page-admin #sidebar { width: 120px; }
@@ -28,26 +33,12 @@
 #player .song.slider   .ui-slider-horizontal .ui-slider-handle,
 #player .volume.slider .ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.6em; }
 #player .song.slider   .ui-slider .ui-slider-handle,
-#player .volume.slider .ui-slider .ui-slider-handle {
-	position: absolute;
-	z-index: 2;
-	border: 1px solid rgba(0, 0, 0, 0.54);
-	cursor: pointer!important;
-	width: .8em;
-	height: .8em;
-	cursor: default;
-	-ms-touch-action: none;
-	touch-action: none;
-	background: rgb(221, 220, 220)!important;
-	border-width: 3px;
-	border-style: double;
-}
+#player .volume.slider .ui-slider .ui-slider-handle { position: absolute; z-index: 2; border: 1px solid rgba(0, 0, 0, 0.54); cursor: pointer!important; width: .8em; height: .8em; cursor: default; -ms-touch-action: none; touch-action: none; background: rgb(221, 220, 220)!important; border-width: 3px; border-style: double; }
 
-#footer { margin-top: 1em; }
-#footer .description { padding-bottom: 1em; }
-#footer .contacts p { margin: 0; }
+#menu .item:hover,
+#menu .item a:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }
 
-.item.highlight { font-weight: bold; color: #d95c5c!important; }
+.bold { font-weight: bold; }
 
 .black { color: rgba(0,0,0,.8); }
 

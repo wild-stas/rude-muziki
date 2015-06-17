@@ -591,9 +591,16 @@ class filesystem
 
 		foreach ($arguments as $index => $argument)
 		{
-			$arguments[$index] = trim($argument, DIRECTORY_SEPARATOR);
+			     if ($index == 0) { $arguments[$index] = rtrim($argument, DIRECTORY_SEPARATOR); }
+			else                  { $arguments[$index] =  trim($argument, DIRECTORY_SEPARATOR); }
+
 		}
 
 		return implode(DIRECTORY_SEPARATOR, $arguments);
+	}
+
+	public static function format($path)
+	{
+		return realpath($path);
 	}
 }

@@ -21,7 +21,7 @@ class page_login
 		<body>
 			<div id="container">
 
-				<? site::logo() ?>
+				<? site::header() ?>
 
 				<div id="page-login">
 					<? site::menu() ?>

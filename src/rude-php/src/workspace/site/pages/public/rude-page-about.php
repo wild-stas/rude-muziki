@@ -15,7 +15,7 @@ class page_about
 			<? site::head($title) ?>
 			<body>
 			<div id="container">
-				<? site::logo($title) ?>
+				<? site::header($title) ?>
 				<div id="page-about">
 					<? site::menu() ?>
 					<div id="content">

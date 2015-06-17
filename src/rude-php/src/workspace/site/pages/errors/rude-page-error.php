@@ -6,6 +6,13 @@ class page_error
 {
 	public static function init($title, $message)
 	{
+		if (get('ajax'))
+		{
+			static::main($title, $message);
+
+			return;
+		}
+
 		site::doctype();
 
 		?>
@@ -16,7 +23,7 @@ class page_error
 		<body>
 		<div id="container">
 
-			<? site::logo($title) ?>
+			<? site::header($title) ?>
 
 			<div id="page-error">
 				<? site::menu() ?>

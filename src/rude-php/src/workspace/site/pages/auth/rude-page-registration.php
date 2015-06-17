@@ -21,7 +21,7 @@ class page_registration
 		<body>
 			<div id="container">
 
-				<? site::logo() ?>
+				<? site::header() ?>
 
 				<div id="page-registration">
 					<? site::menu() ?>
