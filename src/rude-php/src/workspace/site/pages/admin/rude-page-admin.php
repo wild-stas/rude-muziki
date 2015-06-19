@@ -35,9 +35,17 @@ class page_admin
 						<?
 							switch (current::task())
 							{
-								case 'users':    $page = new page_admin_users();    break;
-								case 'services': $page = new page_admin_services(); break;
-								case 'settings': $page = new page_admin_settings(); break;
+								case 'users':       $page = new page_admin_users();       break;
+								case 'settings':    $page = new page_admin_settings();    break;
+								case 'song':        $page = new page_admin_song();        break;
+								case 'add_song':    $page = new page_admin_song_add();    break;
+								case 'edit_song':   $page = new page_admin_song_edit();   break;
+								case 'genre':       $page = new page_admin_genre();       break;
+								case 'add_genre':   $page = new page_admin_genre_add();   break;
+								case 'edit_genre':  $page = new page_admin_genre_edit();  break;
+								case 'author':      $page = new page_admin_author();      break;
+								case 'add_author':  $page = new page_admin_author_add();  break;
+								case 'edit_author': $page = new page_admin_author_edit(); break;
 
 								default:
 									$page = new page_admin_dashboard();
@@ -68,7 +76,9 @@ class page_admin
 
 				static::sidebar_item_admin('Сводка',       'browser');
 				static::sidebar_item_admin('Пользователи', 'users',     'users');
-				static::sidebar_item_admin('Сервисы',      'configure', 'services');
+				static::sidebar_item_admin('Треки',        'configure', 'song');
+				static::sidebar_item_admin('Жанры',        'configure', 'genre');
+				static::sidebar_item_admin('Исполнители',  'configure', 'author');
 				static::sidebar_item_admin('Настройки',    'settings',  'settings');
 
 				static::sidebar_item_global('Выход', 'sign out', site::url('logout'));

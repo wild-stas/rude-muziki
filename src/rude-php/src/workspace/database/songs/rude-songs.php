@@ -58,7 +58,7 @@ class songs
 		if ($file_audio_size !== null) { $q->add('file_audio_size', $file_audio_size); }
 		if ($file_image      !== null) { $q->add('file_image',      $file_image     ); }
 		if ($file_image_size !== null) { $q->add('file_image_size', $file_image_size); }
-		if ($timestamp       !== null) { $q->add('timestamp',       $timestamp      ); }
+		if ($timestamp       !== null) { $q->add('timestamp',       $timestamp      ); }
 
 		$q->query();
 
@@ -78,7 +78,7 @@ class songs
 		if ($file_audio_size !== null) { $q->update('file_audio_size', $file_audio_size); }
 		if ($file_image      !== null) { $q->update('file_image',      $file_image     ); }
 		if ($file_image_size !== null) { $q->update('file_image_size', $file_image_size); }
-		if ($timestamp       !== null) { $q->update('timestamp',       $timestamp      ); }
+		if ($timestamp       !== null) { $q->update('timestamp',       $timestamp      ); }
 
 		$q->where(RUDE_DATABASE_TABLE_SONGS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -115,7 +115,7 @@ class songs
 		return $database->get_object()->count;
 	}
 
-	public static function get_by_id($id, $only_first = false)
+		public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_SONGS);
 		$q->where('id', $id);
@@ -421,5 +421,5 @@ class songs
 	public static function is_exists_timestamp($timestamp)
 	{
 		return static::get_by_timestamp($timestamp) == true;
-	}
+	}
 }

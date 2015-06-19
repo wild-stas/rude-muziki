@@ -52,7 +52,7 @@ class comments
 		if ($song_id   !== null) { $q->add('song_id',   $song_id  ); }
 		if ($user_id   !== null) { $q->add('user_id',   $user_id  ); }
 		if ($text      !== null) { $q->add('text',      $text     ); }
-		if ($timestamp !== null) { $q->add('timestamp', $timestamp); }
+		if ($timestamp !== null) { $q->add('timestamp', $timestamp); }
 
 		$q->query();
 
@@ -66,7 +66,7 @@ class comments
 		if ($song_id   !== null) { $q->update('song_id',   $song_id  ); }
 		if ($user_id   !== null) { $q->update('user_id',   $user_id  ); }
 		if ($text      !== null) { $q->update('text',      $text     ); }
-		if ($timestamp !== null) { $q->update('timestamp', $timestamp); }
+		if ($timestamp !== null) { $q->update('timestamp', $timestamp); }
 
 		$q->where(RUDE_DATABASE_TABLE_COMMENTS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -103,7 +103,7 @@ class comments
 		return $database->get_object()->count;
 	}
 
-	public static function get_by_id($id, $only_first = false)
+		public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_COMMENTS);
 		$q->where('id', $id);
@@ -241,5 +241,5 @@ class comments
 	public static function is_exists_timestamp($timestamp)
 	{
 		return static::get_by_timestamp($timestamp) == true;
-	}
+	}
 }
