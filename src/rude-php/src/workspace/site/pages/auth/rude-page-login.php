@@ -32,6 +32,8 @@ class page_login
 				</div>
 
 				<? site::footer() ?>
+
+				<? site::player() ?>
 			</div>
 
 			</body>
@@ -43,20 +45,24 @@ class page_login
 	{
 		?>
 		<div id="main">
+
 			<form id="login" method="post" class="ui form error">
+
+				<h4 class="ui header dividing">Authorization</h4>
+
 				<input type="hidden" name="action" value="authorization">
 
-				<? site::error('При попытке авторизации возникли некоторые трудности. Пожалуйста, проверьте корректность ввода данных со следующими рекомендациями:') ?>
+				<? site::error('Auth aborted') ?>
 
 				<div class="field">
-					<input name="username" type="text" placeholder="Псевдоним" value="<?= get('username') ?>">
+					<input name="username" type="text" placeholder="Username" value="<?= get('username') ?>">
 				</div>
 
 				<div class="field">
-					<input name="password" type="password" placeholder="Пароль" value="<?= get('password') ?>">
+					<input name="password" type="password" placeholder="Password" value="<?= get('password') ?>">
 				</div>
 
-				<input class="ui button green to-left" type="submit" value="Авторизироваться">
+				<input class="ui button green fluid" type="submit" value="Sign In">
 			</form>
 		</div>
 
@@ -79,37 +85,37 @@ class page_login
 
 		if (!$username)
 		{
-			errors::add('Укажите имя пользователя.');
+			errors::add('Fill the username field.');
 		}
 
 		if (!$password)
 		{
-			errors::add('Введите пароль пользователя.');
+			errors::add('Fill the password field.');
 		}
 
 		if ($password and string::length($password) < 4)
 		{
-			errors::add('Пароль не может быть короче 4 символов.');
+			errors::add('Password should be longer than 3 characters.');
 		}
 
 		if ($username and string::length($username) < 4)
 		{
-			errors::add('Имя пользователя не может быть короче 4 символов.');
+			errors::add('Username should be longer than 3 characters.');
 		}
 
 		if ($username and string::length($username) > 32)
 		{
-			errors::add('Имя пользователя не может содержать более 32 символов.');
+			errors::add('Username should be shorter than 32 characters.');
 		}
 
 		if (!site::is_username_valid($username))
 		{
-			errors::add('Имя пользователя может содержать только цифры, буквы русского и английского алфавита, а также пробел, чёрточку и символ нижнего подчёркивания.');
+			errors::add('Username should only contain letters, numbers, space, dash and underscore characters.');
 		}
 
 		if (!users::get_by_name($username))
 		{
-			errors::add('Указанного Вами пользователя не существует.');
+			errors::add('We don\'t have such user.');
 		}
 
 		if (!errors::get())
@@ -120,7 +126,7 @@ class page_login
 			}
 			else
 			{
-				errors::add('Указанный Вами пароль не подходит к данному пользователю.');
+				errors::add('Wrong password.');
 			}
 		}
 	}

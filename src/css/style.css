@@ -4,10 +4,10 @@
 
 #header { padding-bottom: 1em; }
 
-#page-homepage .cards .card .image i { height: 149px; width: 149px; font-size: 4em; position: relative; padding-top: 40px; }
-#page-homepage .cards .card .header { padding-bottom: 20px; }
-#page-homepage .cards .card .description { position: absolute; bottom: 15px; }
-#page-homepage .cards .card .description .button { position: relative; bottom: 0; }
+#recent.cards .card .image i { height: 149px; width: 149px; font-size: 4em; position: relative; padding-top: 40px; }
+#recent.cards .card .header { padding-bottom: 20px; }
+#recent.cards .card .description { position: absolute; bottom: 15px; }
+#recent.cards .card .description .button { position: relative; bottom: 0; }
 
 #page-admin { padding-left: 120px; }
 #page-admin #sidebar { width: 120px; }
@@ -18,8 +18,12 @@
 #page-error #main h1 { font-size: 38px; }
 #page-error #main p { font-size: 22px; color: #d95c5c!important; }
 
-#page-registration #main,
-#page-login #main { padding: 60px; display: table; margin: 0 auto; width: 70% }
+
+#page-login,
+#page-registration { max-width: 500px; display: table; margin: 15px auto 60px auto; }
+
+
+#comments { max-width: inherit; }
 
 #player .icon { cursor: pointer; font-size: 1.2em; }
 #player .icon:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }

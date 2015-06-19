@@ -4,9 +4,25 @@ namespace rude;
 
 class page_homepage
 {
+	private $songs = null;
+
 	public function __construct()
 	{
+		$q = new query_select('songs');
+		$q->limit(100);
+		$q->order_by('id', 'DESC');
 
+
+		$genre_id = (int) get('genre_id');
+
+		if ($genre_id)
+		{
+			$q->where('genre_id', $genre_id);
+		}
+
+		$q->query();
+
+		$this->songs = $q->get_object_list();
 	}
 
 	public function init()
@@ -55,43 +71,42 @@ class page_homepage
 	{
 		?>
 		<div id="main">
-			<div class="ui double six cards">
+			<div id="recent" class="ui double six cards">
 				<?
-					$songs = songs::get_last(100);
-
-					foreach ($songs as $song)
+					if ($this->songs)
 					{
-
-
-						?>
-						<div class="card">
-							<div class="image">
-								<?
-									if ($song->file_image == 'dummy.png' or $song->file_image == 'dummy.jpg')
-									{
-										?><i class="icon music"></i><?
-									}
-									else
-									{
-										?><img src="src/img/covers/<?= $song->file_image ?>"><?
-									}
-								?>
-							</div>
-							<div class="content">
-								<a class="header" onclick=""><?= $song->name ?></a>
-
-								<div class="ui divider">
-
+						foreach ($this->songs as $song)
+						{
+							?>
+							<div class="card">
+								<div class="image">
+									<?
+										if ($song->file_image)
+										{
+											?><img src="src/img/covers/<?= $song->file_image ?>"><?
+										}
+										else
+										{
+											?><i class="icon music"></i><?
+										}
+									?>
 								</div>
+								<div class="content">
+									<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
 
-								<div class="description">
-									<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '', '', '<?= $song->file_audio ?>'); rude.player.manager.play('<?= $song->file_audio ?>'); rude.player.manager.setVolume('<?= $song->file_audio ?>', 20);">
-										<i class="icon video play"></i> Listen
+									<div class="ui divider">
+
+									</div>
+
+									<div class="description">
+										<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '', '', '<?= $song->file_audio ?>'); rude.player.manager.play('<?= $song->file_audio ?>'); rude.player.manager.setVolume('<?= $song->file_audio ?>', 20);">
+											<i class="icon video play"></i> Listen
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<?
+							<?
+						}
 					}
 				?>
 			</div>

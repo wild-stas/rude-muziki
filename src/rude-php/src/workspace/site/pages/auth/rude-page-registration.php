@@ -43,12 +43,15 @@ class page_registration
 		?>
 		<div id="main">
 			<form id="registration" method="post" class="ui form error">
+
+				<h4 class="ui header dividing">Registration</h4>
+
 				<input type="hidden" name="action" value="registration">
 
-				<? site::error('При попытке регистрации возникли некоторые трудности. Пожалуйста, проверьте корректность ввода данных со следующими рекомендациями:') ?>
+				<? site::error('Registration Aborted') ?>
 
 				<div class="field">
-					<input name="username" type="text" placeholder="Псевдоним" value="<?= get('username') ?>">
+					<input name="username" type="text" placeholder="Username" value="<?= get('username') ?>">
 				</div>
 
 				<div class="field">
@@ -56,28 +59,14 @@ class page_registration
 				</div>
 
 				<div class="field">
-					<input name="password" type="password" placeholder="Пароль" value="<?= get('password') ?>">
+					<input name="password" type="password" placeholder="Password" value="<?= get('password') ?>">
 				</div>
 
 				<div class="field">
-					<input name="password-repeat" type="password" placeholder="Пароль (повторно)" value="<?= get('password-repeat') ?>">
+					<input name="password-repeat" type="password" placeholder="Password (confirm)" value="<?= get('password-repeat') ?>">
 				</div>
 
-
-				<div class="field">
-					<div class="ui selection dropdown">
-						<input type="hidden" name="role-id" value="<?= get('role-id') ?>">
-						<div class="default text">Выберите роль пользователя в системе</div>
-						<i class="dropdown icon"></i>
-
-						<div class="menu">
-							<div class="item" data-value="<?= RUDE_ROLE_USER ?>">Пользователь</div>
-							<div class="item" data-value="<?= RUDE_ROLE_COMPANY ?>">Компания</div>
-						</div>
-					</div>
-				</div>
-
-				<input class="ui button green to-left" type="submit" value="Зарегистрироваться">
+				<input class="ui button green fluid" type="submit" value="Sign Up">
 			</form>
 		</div>
 
@@ -94,76 +83,69 @@ class page_registration
 			return;
 		}
 
-
 		$username        = get('username');
 		$email           = get('email');
 		$password        = get('password');
 		$password_repeat = get('password-repeat');
-		$role_id         = get('role-id');
 
 		if (!$username)
 		{
-			errors::add('Выберите себя имя пользователя.');
+			errors::add('Fill the username field.');
 		}
 
 		if (!$email)
 		{
-			errors::add('Укажите e-mail адрес.');
+			errors::add('Fill the mail field.');
 		}
 
 		if (!string::is_email($email))
 		{
-			errors::add('Введите корректный e-mail адрес.');
+			errors::add('It\'s not an email address.');
 		}
 
 		if (!$password)
 		{
-			errors::add('Придумайте пароль для своего пользователя.');
+			errors::add('Fill the password field.');
 		}
 
 		if ($password and string::length($password) < 4)
 		{
-			errors::add('Пароль не может быть короче 4 символов.');
+			errors::add('Password should be longer than 3 characters.');
 		}
 
 		if ($username and string::length($username) < 4)
 		{
-			errors::add('Имя пользователя не может быть короче 4 символов.');
+			errors::add('Username should be longer than 3 characters.');
 		}
 
 		if ($username and string::length($username) > 32)
 		{
-			errors::add('Имя пользователя не может содержать более 32 символов.');
+			errors::add('Username should be shorter than 32 characters.');
 		}
 
 		if (!$password_repeat)
 		{
-			errors::add('Введите свой пароль ещё раз в соответствующее поле.');
-		}
-
-		if ($role_id != RUDE_ROLE_USER and $role_id != RUDE_ROLE_COMPANY)
-		{
-			errors::add('Пожалуйста, выберите роль пользователя в системе из предложенных в выпадающем списке.');
+			errors::add('Fill the password confirmation field');
 		}
 
 		if ($password != $password_repeat)
 		{
-			errors::add('Указанные пароли должны совпадать.');
+			errors::add('Passwords does not match.');
 		}
 
 		if (!site::is_username_valid($username))
 		{
-			errors::add('Имя пользователя может содержать только цифры, буквы русского и английского алфавита, а также пробел, чёрточку и символ нижнего подчёркивания.');
+			errors::add('Username should only contain letters, numbers, space, dash and underscore characters.');
 		}
 
 		if (users::is_exists_name($username))
 		{
-			errors::add('Пользователь с таким псевдонимом уже существует');
+			errors::add('User with such username already registered.');
 		}
 
 		if (!errors::get())
 		{
-			if (site::register($username, $email, $password, $role_id))
+			if (site::register($username, $email, $password, RUDE_ROLE_USER))
 			{
 				site::auth($username, $password);
 

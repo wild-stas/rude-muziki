@@ -175,7 +175,7 @@ class database
 	 */
 	public function get_object_list()
 	{
-		$object_list = array();
+		$object_list = [];
 
 		while ($object = $this->result->fetch_object())
 		{

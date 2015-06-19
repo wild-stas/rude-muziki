@@ -74,6 +74,21 @@ class site
 
 	public static function menu()
 	{
+		$database = database();
+		$database->query
+		('
+			SELECT
+				song_genres.*,
+
+				(SELECT COUNT(*) FROM songs WHERE songs.genre_id = song_genres.id) AS count
+			FROM
+				song_genres
+			ORDER BY
+				name ASC
+		');
+
+		$genres = $database->get_object_list();
+
 		?>
 		<div id="menu" class="ui top inverted sidebar menu visible">
 			<div class="item">
@@ -88,23 +103,13 @@ class site
 				Genres
 
 				<div class="menu">
-
 					<?
-						$database = database();
-						$database->query('
-							SELECT
-								song_genres.*,
-
-								(SELECT COUNT(*) FROM songs WHERE songs.genre_id = song_genres.id) AS count
-							FROM
-								song_genres
-							ORDER BY
-								name ASC
-						');
-
-						foreach ($database->get_object_list() as $genre)
+						if ($genres)
 						{
-							?><a class="item"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+							foreach ($genres as $genre)
+							{
+								?><a class="item" href="<?= site::url('homepage') ?>&genre_id=<?= url::encode($genre->id) ?>"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+							}
 						}
 					?>
 				</div>
@@ -230,7 +235,7 @@ class site
 		<?
 	}
 
-	public static function error($message)
+	public static function error($title)
 	{
 		$errors = errors::get();
 
@@ -241,8 +246,7 @@ class site
 
 		?>
 		<div class="ui error message">
-			<div class="ui header dividing">Операция прервана</div>
-			<p class="black"><?= $message ?></p>
+			<div class="ui header dividing"><?= $title ?></div>
 
 			<div class="ui list">
 			<?
@@ -256,13 +260,18 @@ class site
 		<?
 	}
 
-	public static function url($page, $task = null)
+	public static function url($page, $task = null, $id = null)
 	{
 		$url = '?page=' . url::encode($page);
 
 		if ($task !== null)
 		{
 			$url .= '&task=' . url::encode($task);
+		}
+
+		if ($id !== null)
+		{
+			$url .= '&id=' . url::encode($id);
 		}
 
 		return $url;
