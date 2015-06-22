@@ -54,7 +54,7 @@ class playlists
 		if ($description     !== null) { $q->add('description',     $description    ); }
 		if ($flle_image      !== null) { $q->add('flle_image',      $flle_image     ); }
 		if ($file_image_size !== null) { $q->add('file_image_size', $file_image_size); }
-		if ($timestamp       !== null) { $q->add('timestamp',       $timestamp      ); }
+		if ($timestamp       !== null) { $q->add('timestamp',       $timestamp      ); }
 
 		$q->query();
 
@@ -70,7 +70,7 @@ class playlists
 		if ($description     !== null) { $q->update('description',     $description    ); }
 		if ($flle_image      !== null) { $q->update('flle_image',      $flle_image     ); }
 		if ($file_image_size !== null) { $q->update('file_image_size', $file_image_size); }
-		if ($timestamp       !== null) { $q->update('timestamp',       $timestamp      ); }
+		if ($timestamp       !== null) { $q->update('timestamp',       $timestamp      ); }
 
 		$q->where(RUDE_DATABASE_TABLE_PLAYLISTS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -107,7 +107,7 @@ class playlists
 		return $database->get_object()->count;
 	}
 
-	public static function get_by_id($id, $only_first = false)
+		public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_PLAYLISTS);
 		$q->where('id', $id);
@@ -301,5 +301,5 @@ class playlists
 	public static function is_exists_timestamp($timestamp)
 	{
 		return static::get_by_timestamp($timestamp) == true;
-	}
+	}
 }
