@@ -115,6 +115,8 @@ var rude =
 						min: 0,
 						max: 100,
 
+						range: 'min',
+
 						change: function()
 						{
 							rude.player.slider.song.update();
@@ -152,6 +154,8 @@ var rude =
 					({
 						min: 0,
 						max: 100,
+
+						range: 'min',
 
 						change: function()
 						{
@@ -376,6 +380,13 @@ var rude =
 							$('#content').html(data);
 
 							console.log('success!');
+						},
+
+						error: function (request, status, error)
+						{
+							$('#content').html(request.responseText);
+
+							console.log('fail!');
 						}
 					});
 

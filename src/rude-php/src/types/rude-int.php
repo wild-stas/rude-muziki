@@ -21,6 +21,30 @@ class int
 		return mt_rand($min, $max);
 	}
 
+	public static function rand_unique($min, $max, $count)
+	{
+		$result = [];
+
+		for ($i = 0; $i < $count; $i++)
+		{
+			$result[] = mt_rand($min, $max);
+		}
+
+		$result = array_unique($result);
+
+		while (count($result) < $count)
+		{
+			$number = mt_rand($min, $max);
+
+			if (!in_array($number, $result))
+			{
+				$result[] = $number;
+			}
+		}
+
+		return $result;
+	}
+
 	/**
 	 * @en Check if number is odd
 	 * @ru Проверяет, является ли число нечётным

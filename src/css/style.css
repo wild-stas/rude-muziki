@@ -25,6 +25,7 @@
 
 #comments { max-width: inherit; }
 
+
 #player .icon { cursor: pointer; font-size: 1.2em; }
 #player .icon:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }
 #player .button.group { display: inline-block; }
@@ -38,9 +39,16 @@
 #player .volume.slider .ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.6em; }
 #player .song.slider   .ui-slider .ui-slider-handle,
 #player .volume.slider .ui-slider .ui-slider-handle { position: absolute; z-index: 2; border: 1px solid rgba(0, 0, 0, 0.54); cursor: pointer!important; width: .8em; height: .8em; cursor: default; -ms-touch-action: none; touch-action: none; background: rgb(221, 220, 220)!important; border-width: 3px; border-style: double; }
+#player .song.title { font-family: monospace; font-size: 12px; top: -4px; padding-right: 28px; position: relative; }
+#player .ui-slider-range-min { background: orange; }
+#player #playlist-size { bottom: 17px; left: 14px; position: absolute; background: rgb(245, 156, 52); color: black; padding: 1px 2px 0 1px; font-family: monospace; font-size: 11px; }
+
 
 #menu .item:hover,
 #menu .item a:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }
+#menu .ui.dropdown .item.active { background-color: rgba(255, 165, 0, 0.38)!important; }
+#menu .ui.dropdown .icon.caret.down { position: relative; top: 2px; }
+
 
 .bold { font-weight: bold; }
 

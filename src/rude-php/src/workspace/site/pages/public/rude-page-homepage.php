@@ -116,8 +116,6 @@ class page_homepage
 			rude.semantic.init.rating();
 
 			rude.semantic.init.dropdown();
-			
-			rude.crawler.init();
 		</script>
 		<?
 	}

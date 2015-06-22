@@ -2,8 +2,6 @@
 
 namespace rude;
 
-$cms = null;
-
 class site
 {
 	public static function init()
@@ -69,6 +67,10 @@ class site
 		<div id="header">
 
 		</div>
+
+		<script>
+			rude.crawler.init();
+		</script>
 		<?
 	}
 
@@ -100,7 +102,7 @@ class site
 			<div class="ui dropdown item">
 				<i class="icon list"></i>
 
-				Genres
+				Genres <i class="icon caret down"></i>
 
 				<div class="menu">
 					<?
@@ -108,7 +110,7 @@ class site
 						{
 							foreach ($genres as $genre)
 							{
-								?><a class="item" href="<?= site::url('homepage') ?>&genre_id=<?= url::encode($genre->id) ?>"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+								?><a class="item" href="<?= site::url('homepage') ?>&genre_id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
 							}
 						}
 					?>
@@ -211,6 +213,10 @@ class site
 			</div>
 
 			<div class="item">
+				<div class="song title">
+					Mama Rumbee
+				</div>
+
 				<div class="song slider">
 					<div class="container"></div>
 
@@ -225,6 +231,14 @@ class site
 					<div class="container"></div>
 
 					<span class="value">0%</span>
+				</div>
+			</div>
+
+			<div class="item">
+				<div class="button group">
+					<i class="icon list"></i>
+
+					<span id="playlist-size">0</span>
 				</div>
 			</div>
 		</div>
