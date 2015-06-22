@@ -8,26 +8,37 @@ class page_about
 	{
 		if (get('ajax')=='1'){
 			static::main();
-		}else{
-			site::doctype();
-			?>
-			<html>
-			<? site::head($title) ?>
-			<body>
-			<div id="container">
-				<? site::header($title) ?>
-				<div id="page-about">
-					<? site::menu() ?>
-					<div id="content">
-						<? static::main() ?>
-					</div>
-				</div>
-				<? site::footer() ?>
-			</div>
-			</body>
-			</html>
-			<?
+
+			return;
 		}
+
+		site::doctype();
+
+		?>
+			<html>
+
+			<? site::head($title) ?>
+
+			<body>
+				<div id="container">
+
+					<? site::header($title) ?>
+
+					<div id="page-about">
+						<? site::menu() ?>
+
+						<div id="content">
+							<? static::main() ?>
+						</div>
+					</div>
+
+					<? site::footer() ?>
+
+					<? site::player() ?>
+				</div>
+			</body>
+		</html>
+		<?
 	}
 
 	public static function main()

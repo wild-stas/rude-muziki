@@ -34,6 +34,8 @@ class page_error
 			</div>
 
 			<? site::footer() ?>
+
+			<? site::player() ?>
 		</div>
 
 		</body>

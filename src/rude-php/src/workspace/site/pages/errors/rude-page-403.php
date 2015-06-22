@@ -8,7 +8,7 @@ class page_403
 	{
 		headers::forbidden();
 
-		page_error::init('403', 'Для доступа к данной странице необходимо авторизоваться');
+		page_error::init('403', 'Auth required');
 
 		die;
 	}

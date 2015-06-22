@@ -8,6 +8,6 @@ class page_logout
 	{
 		site::logout();
 
-		headers::redirect(RUDE_SITE_URL);
+		headers::redirect(RUDE_SITE_URL . site::url('homepage') . '&ajax=1');
 	}
 }

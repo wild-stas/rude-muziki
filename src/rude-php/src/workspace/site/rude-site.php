@@ -2,8 +2,6 @@
 
 namespace rude;
 
-$cms = null;
-
 class site
 {
 	public static function init()
@@ -69,11 +67,30 @@ class site
 		<div id="header">
 
 		</div>
+
+		<script>
+			rude.crawler.init();
+		</script>
 		<?
 	}
 
 	public static function menu()
 	{
+		$database = database();
+		$database->query
+		('
+			SELECT
+				song_genres.*,
+
+				(SELECT COUNT(*) FROM songs WHERE songs.genre_id = song_genres.id) AS count
+			FROM
+				song_genres
+			ORDER BY
+				name ASC
+		');
+
+		$genres = $database->get_object_list();
+
 		?>
 		<div id="menu" class="ui top inverted sidebar menu visible">
 			<div class="item">
@@ -85,26 +102,16 @@ class site
 			<div class="ui dropdown item">
 				<i class="icon list"></i>
 
-				Genres
+				Genres <i class="icon caret down"></i>
 
 				<div class="menu">
-
 					<?
-						$database = database();
-						$database->query('
-							SELECT
-								song_genres.*,
-
-								(SELECT COUNT(*) FROM songs WHERE songs.genre_id = song_genres.id) AS count
-							FROM
-								song_genres
-							ORDER BY
-								name ASC
-						');
-
-						foreach ($database->get_object_list() as $genre)
+						if ($genres)
 						{
-							?><a class="item"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+							foreach ($genres as $genre)
+							{
+								?><a class="item" href="<?= site::url('homepage') ?>&genre_id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+							}
 						}
 					?>
 				</div>
@@ -186,13 +193,46 @@ class site
 	public static function player()
 	{
 		?>
+		<div id="playlist" class="ui modal small transition">
+			<i class="close icon"></i>
+			<div class="header">
+				Playlist
+			</div>
+			<div class="content">
+				<table class="ui table striped celled small compact">
+					<tbody>
+						<?
+							$songs = songs::get_first(14);
+
+							foreach ($songs as $song)
+							{
+								?>
+								<tr>
+									<td class="width-2"><i class="icon video play"></i></td>
+									<td><?= $song->name ?></td>
+									<td class="width-2"><i class="icon remove"></i></td>
+								</tr>
+								<?
+							}
+						?>
+					</tbody>
+				</table>
+
+			</div>
+			<div class="actions">
+				<div class="ui positive button">
+					Hide
+				</div>
+			</div>
+		</div>
+
 		<div id="player" class="ui bottom inverted labeled icon sidebar menu visible">
 			<div class="item">
 				<div class="button group">
 					<i class="icon backward"></i>
 
-					<i class="icon play"></i>
-					<i class="icon stop invisible"></i>
+					<i id="player-button-play" class="icon play" onclick="rude.player.song.play();"></i>
+					<i id="player-button-stop" class="icon stop" onclick="rude.player.song.stop();" style="display: none;"></i>
 
 					<i class="icon forward"></i>
 				</div>
@@ -206,20 +246,34 @@ class site
 			</div>
 
 			<div class="item">
+				<marquee id="player-song-title" class="song title" scrollamount="4" behavior="scroll">
+					&nbsp;
+				</marquee>
+
 				<div class="song slider">
+					<input id="player-song-current" type="hidden">
+
 					<div class="container"></div>
 
-					<span class="value">00:00</span>
+					<span id="player-song-length" class="value">00:00/00:00</span>
 				</div>
 			</div>
 
 			<div class="item">
 				<div class="volume slider">
-					<i class="icon volume up" onclick="rude.player.slider.volume.toggle()"></i>
+					<i id="player-volume-icon" class="icon volume up" onclick="rude.player.slider.volume.toggle()"></i>
 
 					<div class="container"></div>
 
-					<span class="value">0%</span>
+					<span id="player-volume-level" class="value">0%</span>
+				</div>
+			</div>
+
+			<div class="item">
+				<div class="button group pointer" onclick="$('#playlist').modal('show')">
+					<i class="icon list"></i>
+
+					<span id="playlist-size">0</span>
 				</div>
 			</div>
 		</div>
@@ -230,7 +284,7 @@ class site
 		<?
 	}
 
-	public static function error($message)
+	public static function error($title)
 	{
 		$errors = errors::get();
 
@@ -241,8 +295,7 @@ class site
 
 		?>
 		<div class="ui error message">
-			<div class="ui header dividing">Операция прервана</div>
-			<p class="black"><?= $message ?></p>
+			<div class="ui header dividing"><?= $title ?></div>
 
 			<div class="ui list">
 			<?
@@ -256,13 +309,18 @@ class site
 		<?
 	}
 
-	public static function url($page, $task = null)
+	public static function url($page, $task = null, $id = null)
 	{
 		$url = '?page=' . url::encode($page);
 
 		if ($task !== null)
 		{
 			$url .= '&task=' . url::encode($task);
+		}
+
+		if ($id !== null)
+		{
+			$url .= '&id=' . url::encode($id);
 		}
 
 		return $url;
