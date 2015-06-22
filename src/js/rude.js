@@ -174,7 +174,7 @@ var rude =
 					icon.removeClass('up').removeClass('down').removeClass('off');
 
 					     if (value == 0) { icon.addClass('off');  }
-					else if (value < 30) { icon.addClass('down'); }
+					else if (value < 45) { icon.addClass('down'); }
 					else                 { icon.addClass('up');   }
 
 					$(rude.player.settings.selector.slider.volume_level).html(value + '%');
