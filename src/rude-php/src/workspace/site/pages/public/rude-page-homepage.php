@@ -30,7 +30,7 @@ class page_homepage
 
 		if ($genre_id)
 		{
-			$q .= 'AND songs.genre_id = ' . (int) $genre_id;
+			$q .= 'AND songs.genre_id = ' . (int) $genre_id . PHP_EOL;
 		}
 
 

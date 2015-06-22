@@ -26,7 +26,7 @@ class page_registration
 				<div id="page-registration">
 					<? site::menu() ?>
 
-					<div id="content" class="ui segment">
+					<div id="content"">
 						<? static::main() ?>
 					</div>
 				</div>
