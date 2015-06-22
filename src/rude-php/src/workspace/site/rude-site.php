@@ -193,13 +193,46 @@ class site
 	public static function player()
 	{
 		?>
+		<div id="playlist" class="ui modal small transition">
+			<i class="close icon"></i>
+			<div class="header">
+				Playlist
+			</div>
+			<div class="content">
+				<table class="ui table striped celled small compact">
+					<tbody>
+						<?
+							$songs = songs::get_first(14);
+
+							foreach ($songs as $song)
+							{
+								?>
+								<tr>
+									<td class="width-2"><i class="icon video play"></i></td>
+									<td><?= $song->name ?></td>
+									<td class="width-2"><i class="icon remove"></i></td>
+								</tr>
+								<?
+							}
+						?>
+					</tbody>
+				</table>
+
+			</div>
+			<div class="actions">
+				<div class="ui positive button">
+					Hide
+				</div>
+			</div>
+		</div>
+
 		<div id="player" class="ui bottom inverted labeled icon sidebar menu visible">
 			<div class="item">
 				<div class="button group">
 					<i class="icon backward"></i>
 
-					<i class="icon play"></i>
-					<i class="icon stop invisible"></i>
+					<i id="player-button-play" class="icon play" onclick="rude.player.song.play();"></i>
+					<i id="player-button-stop" class="icon stop" onclick="rude.player.song.stop();" style="display: none;"></i>
 
 					<i class="icon forward"></i>
 				</div>
@@ -213,29 +246,31 @@ class site
 			</div>
 
 			<div class="item">
-				<div class="song title">
-					Mama Rumbee
-				</div>
+				<marquee id="player-song-title" class="song title" scrollamount="4" behavior="scroll">
+					&nbsp;
+				</marquee>
 
 				<div class="song slider">
+					<input id="player-song-current" type="hidden">
+
 					<div class="container"></div>
 
-					<span class="value">00:00</span>
+					<span id="player-song-length" class="value">00:00/00:00</span>
 				</div>
 			</div>
 
 			<div class="item">
 				<div class="volume slider">
-					<i class="icon volume up" onclick="rude.player.slider.volume.toggle()"></i>
+					<i id="player-volume-icon" class="icon volume up" onclick="rude.player.slider.volume.toggle()"></i>
 
 					<div class="container"></div>
 
-					<span class="value">0%</span>
+					<span id="player-volume-level" class="value">0%</span>
 				</div>
 			</div>
 
 			<div class="item">
-				<div class="button group">
+				<div class="button group pointer" onclick="$('#playlist').modal('show')">
 					<i class="icon list"></i>
 
 					<span id="playlist-size">0</span>

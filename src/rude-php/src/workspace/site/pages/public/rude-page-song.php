@@ -102,7 +102,7 @@ class page_song
 				<div class="title">
 					<h3 class="ui header dividing"><?= $this->song->name ?></h3>
 
-					<div class="ui heart rating" data-rating="4" data-max-rating="5"></div>
+<!--					<div class="ui heart rating" data-rating="4" data-max-rating="5"></div>-->
 
 					<script>
 						rude.semantic.init.rating();
@@ -110,16 +110,16 @@ class page_song
 				</div>
 
 				<div class="image">
-					<?
-						if ($this->song->file_image)
-						{
-							?><img src="src/img/covers/<?= $this->song->file_image ?>"><?
-						}
-						else
-						{
-							?><i class="icon music"></i><?
-						}
-					?>
+<!--					--><?//
+//						if ($this->song->file_image)
+//						{
+//							?><!--<img src="src/img/covers/--><?//= $this->song->file_image ?><!--">--><?//
+//						}
+//						else
+//						{
+//							?><!--<i class="icon music"></i>--><?//
+//						}
+//					?>
 				</div>
 			</div>
 

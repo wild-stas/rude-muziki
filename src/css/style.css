@@ -32,17 +32,20 @@
 #player .song.slider   .container { display: inline-block; width: 180px; margin: 0 10px 3px 10px; }
 #player .volume.slider .container { display: inline-block; width: 80px; margin: 0 10px 3px 10px; }
 #player .song.slider   .value,
-#player .volume.slider .value { width: 30px; display: inline-block; text-align: right; color: white; font-size: 0.8em; font-family: monospace; top: -2px; position: relative; }
+#player .volume.slider .value { display: inline-block; text-align: right; color: white; font-size: 0.8em; font-family: monospace; top: -3px; position: relative; min-width: 26px; }
 #player .song.slider   .ui-slider-horizontal,
 #player .volume.slider .ui-slider-horizontal { height: .4em; }
 #player .song.slider   .ui-slider-horizontal .ui-slider-handle,
 #player .volume.slider .ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.6em; }
 #player .song.slider   .ui-slider .ui-slider-handle,
 #player .volume.slider .ui-slider .ui-slider-handle { position: absolute; z-index: 2; border: 1px solid rgba(0, 0, 0, 0.54); cursor: pointer!important; width: .8em; height: .8em; cursor: default; -ms-touch-action: none; touch-action: none; background: rgb(221, 220, 220)!important; border-width: 3px; border-style: double; }
-#player .song.title { font-family: monospace; font-size: 12px; top: -4px; padding-right: 28px; position: relative; }
+#player .song.title { font-family: monospace; font-size: 12px; top: -4px; padding-left: 9px; position: relative; text-align: left; }
 #player .ui-slider-range-min { background: orange; }
 #player #playlist-size { bottom: 17px; left: 14px; position: absolute; background: rgb(245, 156, 52); color: black; padding: 1px 2px 0 1px; font-family: monospace; font-size: 11px; }
 
+#playlist .content { background: #F7F7F8; }
+#playlist table { border: none; }
+#playlist table .icon { margin: 0!important; }
 
 #menu .item:hover,
 #menu .item a:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }
@@ -72,6 +75,10 @@
 .width-30 { width: 30%; }
 .width-33 { width: 33%; }
 
+.nowrap { white-space: nowrap!important; }
+
 .invisible { display: none!important; }
 
 .ui.popup { text-align: justify; }
+
+.pointer { cursor: pointer!important; }

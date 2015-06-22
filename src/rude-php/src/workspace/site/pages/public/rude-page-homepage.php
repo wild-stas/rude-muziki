@@ -8,21 +8,39 @@ class page_homepage
 
 	public function __construct()
 	{
-		$q = new query_select('songs');
-		$q->limit(100);
-		$q->order_by('id', 'DESC');
+		$q =
+		'
+			SELECT
+				songs.*,
+
+				song_authors.name AS author_name,
+				song_genres.name  AS genre_name
+			FROM
+				songs
+			LEFT JOIN
+				song_authors ON song_authors.id = songs.author_id
+			LEFT JOIN
+				song_genres ON song_genres.id = songs.genre_id
+			WHERE
+				1 = 1
+		';
 
 
 		$genre_id = (int) get('genre_id');
 
 		if ($genre_id)
 		{
-			$q->where('genre_id', $genre_id);
+			$q .= 'AND songs.genre_id = ' . (int) $genre_id;
 		}
 
-		$q->query();
 
-		$this->songs = $q->get_object_list();
+		$q .= 'ORDER BY songs.id DESC LIMIT 100';
+
+
+		$database = database();
+		$database->query($q);
+
+		$this->songs = $database->get_object_list();
 	}
 
 	public function init()
@@ -71,7 +89,7 @@ class page_homepage
 	{
 		?>
 		<div id="main">
-			<div id="recent" class="ui double six cards">
+			<div id="recent" class="ui double six doubling cards">
 				<?
 					if ($this->songs)
 					{
@@ -99,7 +117,7 @@ class page_homepage
 									</div>
 
 									<div class="description">
-										<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '', '', '<?= $song->file_audio ?>'); rude.player.manager.play('<?= $song->file_audio ?>'); rude.player.manager.setVolume('<?= $song->file_audio ?>', 20);">
+										<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.manager.play('<?= $song->file_audio ?>'); rude.player.manager.setVolume('<?= $song->file_audio ?>', 20);">
 											<i class="icon video play"></i> Listen
 										</div>
 									</div>
