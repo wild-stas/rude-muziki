@@ -11,7 +11,7 @@
 
 #page-admin { padding-left: 120px; }
 #page-admin #sidebar { width: 120px; }
-#page-admin #container { width: 99%; display: table; margin: 0 auto; min-width: 0; }
+#page-admin #container { display: table; margin: 0 auto; min-width: 0; }
 #page-admin #dashboard { margin-top: 1em; }
 
 #page-error #main { padding: 40px 60px; }
@@ -82,3 +82,10 @@
 .ui.popup { text-align: justify; }
 
 .pointer { cursor: pointer!important; }
+
+.actions-fixed {
+	background: #efefef;
+	padding: 1rem 2rem;
+	border-top: 1px solid rgba(39,41,43,.15);
+	text-align: right;
+}

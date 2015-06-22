@@ -4,7 +4,7 @@ namespace rude;
 
 class page_admin
 {
-	public static function init($title = 'Панель администратора')
+	public static function init($title = 'Admin Panel')
 	{
 		if (!current::user_is_logged() or !current::visitor_is_admin())
 		{
@@ -76,12 +76,12 @@ class page_admin
 				static::sidebar_item_global('Home', 'home', RUDE_SITE_URL);
 
 				//static::sidebar_item_admin('Сводка',       'browser');
-				static::sidebar_item_admin('Users', 'users',     'users');
+//				static::sidebar_item_admin('Users', 'users',     'users');
 				static::sidebar_item_admin('Songs',        'configure', 'song');
 				static::sidebar_item_admin('Genres',        'configure', 'genre');
 				static::sidebar_item_admin('Authors',  'configure', 'author');
 				static::sidebar_item_admin('Playlists',    'configure', 'playlist');
-				static::sidebar_item_admin('Settings',    'settings',  'settings');
+//				static::sidebar_item_admin('Settings',    'settings',  'settings');
 
 				static::sidebar_item_global('Exit', 'sign out', site::url('logout'));
 			?>
