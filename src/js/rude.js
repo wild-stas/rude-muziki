@@ -68,8 +68,8 @@ var rude =
 			{
 				buttons:
 				{
-					play: '#playlist-button-play',
-					stop: '#playlist-button-stop'
+					play: '#player-button-play',
+					stop: '#player-button-stop'
 				},
 
 				slider:
