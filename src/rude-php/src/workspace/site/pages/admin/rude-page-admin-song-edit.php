@@ -19,20 +19,20 @@ class page_admin_song_edit
 			?>
 			<audio id="audio"></audio>
 			<form class="ui form error" method="post" enctype="multipart/form-data" action="http://localhost/rude-muziki/?page=admin&task=edit_song&step=2">
-				<input id="id" name="id" value="<?=$song->id;?>">			
+				<input type="hidden" id="id" name="id" value="<?=$song->id;?>">
 				<div class="field">
-					<label for="name">Название:</label>
+					<label for="name">Name:</label>
 					<input id="name" name="name" value="<?=$song->name;?>">
 				</div>
 				<div class="field">
-					<label for="description">Описание:</label>
+					<label for="description">Description:</label>
 					<textarea id="description" name="description"><?=$song->description;?></textarea>
 				</div>
 
 				<div class="field">
-					<label>Жанр</label>
+					<label>Genre</label>
 					<div class="ui fluid selection dropdown">
-						<div class="default text" >Выберите жанр</div>
+						<div class="default text" >Select genre</div>
 						<input type="hidden" name="genre_id" id="genre_id" value="<?=$song->genre_id;?>">
 						<div style="max-height: 150px;" class="menu">
 							<?
@@ -47,9 +47,9 @@ class page_admin_song_edit
 				</div>
 
 				<div class="field">
-					<label>Исполнитель</label>
+					<label>Author</label>
 					<div class="ui fluid selection dropdown">
-						<div class="default text" >Выберите исполнителя</div>
+						<div class="default text" >Select author</div>
 						<input type="hidden" name="author_id" id="author_id" value="<?=$song->author_id;?>">
 						<div style="max-height: 150px;" class="menu">
 							<?
@@ -63,7 +63,7 @@ class page_admin_song_edit
 					</div>
 				</div>
 				
-				<button type="submit" class="ui button green">Сохранить</button>
+				<button type="submit" class="ui button green">Save</button>
 			</form>
 			<script>
 				$('.ui.form')
@@ -119,12 +119,12 @@ class page_admin_song_edit
 			if (songs::update(get('id'),get('name'), get('description'), get('author_id'), get('genre_id'), null, null, null, null, null, $timestamp, 1))
 			{
 			?>
-				Композиция успешно изменена.
+				Track successfully changed.
 			<?
 			}
 			else
 			{
-				echo "Произошла ошибка, попробуйте еще раз.";
+				echo "An error has occurred, please try again.";
 			}
 		}
 	}

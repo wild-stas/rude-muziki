@@ -28,28 +28,50 @@ class page_admin_song_add
 			?>
 			<audio id="audio"></audio>
 
-			<form class="ui form error" method="post" enctype="multipart/form-data" action="http://localhost/rude-muziki/?page=admin&task=add_song&step=2">				
+			<form class="ui form error" method="post" enctype="multipart/form-data" action="http://localhost/rude-muziki/?page=admin&task=add_song&step=2">
+
 				<div class="field">
-					<label for="file">Аудио файл:</label>
-					<input id="file" name="audiofile" type="file" accept="audio/mp3,audio/mp4,audio/ogg,audio/opus,audio/wav"/>
+					<label>Song</label>
+					<label id="audiofile-label" for="audiofile" class="ui icon button basic"><i class="icon folder open"></i> Click and select the file</label>
+
+					<input id="audiofile" name="audiofile" type="file" style="display: none;" accept="audio/mp3,audio/mp4,audio/ogg,audio/opus,audio/wav">
+
+					<script>
+						$('#audiofile').change(function()
+						{
+							$('#audiofile-label').html('<i class="icon folder open"></i> ' + $('#audiofile').val().split('\\').pop());
+						});
+					</script>
 				</div>
+
 				<div class="field">
-					<label for="imagefile">Изображение:</label>
-					<input id="imagefile" name="imagefile" type="file" accept="image/*"/>
+					<label>Song cover</label>
+					<label id="imagefile-label" for="imagefile" class="ui icon button basic"><i class="icon folder open"></i> Click and select the file</label>
+
+					<input id="imagefile" name="imagefile" type="file" accept="image/*" style="display: none;">
+					<script>
+						$('#imagefile').change(function()
+						{
+							$('#imagefile-label').html('<i class="icon folder open"></i> ' + $('#imagefile').val().split('\\').pop());
+						});
+					</script>
 				</div>
+
+
+
 				<div class="field">
-					<label for="name">Название:</label>
+					<label for="name">Name:</label>
 					<input id="name" name="name" value="">
 				</div>
 				<div class="field">
-					<label for="description">Описание:</label>
+					<label for="description">Description:</label>
 					<textarea id="description" name="description"></textarea>
 				</div>
 
 				<div class="field">
-					<label>Жанр</label>
+					<label>Genre</label>
 					<div class="ui fluid selection dropdown">
-						<div class="default text" >Выберите жанр</div>
+						<div class="default text" >Select genre</div>
 						<input type="hidden" name="genre_id" id="genre_id">
 						<div style="max-height: 150px;" class="menu">
 							<?
@@ -64,9 +86,9 @@ class page_admin_song_add
 				</div>
 
 				<div class="field">
-					<label>Исполнитель</label>
+					<label>Author</label>
 					<div class="ui fluid selection dropdown">
-						<div class="default text" >Выберите исполнителя</div>
+						<div class="default text" >Select author</div>
 						<input type="hidden" name="author_id" id="author_id">
 						<div style="max-height: 150px;" class="menu">
 							<?
@@ -84,7 +106,7 @@ class page_admin_song_add
 					<label for="duration">duration:</label>
 					<input id="duration" name="duration" value="">
 				</div>
-				<button type="submit" class="ui button green">Загрузить</button>
+				<button type="submit" class="ui button green">Add</button>
 			</form>
 			<script>
 				$('.ui.form')
@@ -128,16 +150,7 @@ class page_admin_song_add
 									type   : 'empty'
 								}
 							]
-						},
-						imagefile: {
-							identifier : 'imagefile',
-							rules: [
-								{
-									type   : 'empty'
-								}
-							]
 						}
-
 					},
 					{
 						onSuccess: function()
@@ -184,13 +197,13 @@ class page_admin_song_add
 				{
 					songs::add(get('name'), get('description'), get('author_id'), get('genre_id'), get('duration'), $file_audio, $file_audio_size, $file_image, $file_image_size, $timestamp);
 					?>
-						Композиция успешно добавлена.
+						Song succesfully added.
 					<?
 				}				
 			}
 			else
 			{
-				echo "Произошла ошибка, попробуйте еще раз.";
+				echo "An error has occurred, please try again.";
 			}
 		}
 	}

@@ -17,10 +17,10 @@ class page_admin_genre_add
 			?>
 			<form class="ui form error" method="post" enctype="multipart/form-data" action="http://localhost/rude-muziki/?page=admin&task=add_genre&step=2">				
 				<div class="field">
-					<label for="name">Название:</label>
+					<label for="name">Name:</label>
 					<input id="name" name="name" value="">
 				</div>				
-				<button type="submit" class="ui button green">Добавить</button>
+				<button type="submit" class="ui button green">Add</button>
 			</form>
 			<script>
 				$('.ui.form')
@@ -47,12 +47,12 @@ class page_admin_genre_add
 		if (get('step')=='2'){
 			if (song_genres::add(get('name'))){
 					?>
-						Жанр успешно добавлен.
+				Genre successfully added.
 					<?								
 			}
 			else
 			{
-				echo "Произошла ошибка, попробуйте еще раз.";
+				echo "An error has occurred, please try again.";
 			}
 		}
 	}

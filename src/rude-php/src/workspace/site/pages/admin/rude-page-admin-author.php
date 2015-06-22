@@ -22,9 +22,9 @@ class page_admin_author
 			<table class="ui table segment square-corners celled">
 				<thead>
 				<tr class="header">
-					<th>Название</th>					
-					<th>Кол-во композиций</th>					
-					<th colspan="2" class="right icon-add"><a href="?page=admin&task=add_author"><i class="icon add sign pointer" title="Добавить"></i></a></th>
+					<th>Name</th>
+					<th>Count of songs</th>
+					<th colspan="2" class="right icon-add"><a href="?page=admin&task=add_author"><i class="icon add sign pointer" title="Add"></i></a></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -37,12 +37,12 @@ class page_admin_author
 						<td><?= count(songs::get_by_author_id($song_author->id)); ?></td>						
 						<td class="icon first no-border">
 							<a href="?page=admin&task=edit_author&id=<?=$song_author->id?>">
-								<i class="icon edit" title="Редактировать"></i>
+								<i class="icon edit" title="Edit"></i>
 							</a>
 						</td>
 						<td class="icon last no-border">
 							<a href="#" >
-								<i class="icon remove circle" title="Удалить"></i>
+								<i class="icon remove circle" title="Delete"></i>
 							</a>
 						</td>
 					</tr>

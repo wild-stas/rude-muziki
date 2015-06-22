@@ -46,6 +46,7 @@ class page_admin
 								case 'author':      $page = new page_admin_author();      break;
 								case 'add_author':  $page = new page_admin_author_add();  break;
 								case 'edit_author': $page = new page_admin_author_edit(); break;
+								case 'playlist':    $page = new page_admin_playlist();    break;
 
 								default:
 									$page = new page_admin_dashboard();
@@ -72,16 +73,17 @@ class page_admin
 		?>
 		<div id="sidebar" class="ui left vertical inverted labeled icon sidebar menu overlay visible">
 			<?
-				static::sidebar_item_global('Главная', 'home', RUDE_SITE_URL);
+				static::sidebar_item_global('Home', 'home', RUDE_SITE_URL);
 
-				static::sidebar_item_admin('Сводка',       'browser');
-				static::sidebar_item_admin('Пользователи', 'users',     'users');
-				static::sidebar_item_admin('Треки',        'configure', 'song');
-				static::sidebar_item_admin('Жанры',        'configure', 'genre');
-				static::sidebar_item_admin('Исполнители',  'configure', 'author');
-				static::sidebar_item_admin('Настройки',    'settings',  'settings');
+				//static::sidebar_item_admin('Сводка',       'browser');
+				static::sidebar_item_admin('Users', 'users',     'users');
+				static::sidebar_item_admin('Songs',        'configure', 'song');
+				static::sidebar_item_admin('Genres',        'configure', 'genre');
+				static::sidebar_item_admin('Authors',  'configure', 'author');
+				static::sidebar_item_admin('Playlists',    'configure', 'playlist');
+				static::sidebar_item_admin('Settings',    'settings',  'settings');
 
-				static::sidebar_item_global('Выход', 'sign out', site::url('logout'));
+				static::sidebar_item_global('Exit', 'sign out', site::url('logout'));
 			?>
 		</div>
 		<?
