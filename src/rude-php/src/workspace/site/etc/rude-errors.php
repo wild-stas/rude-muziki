@@ -2,25 +2,33 @@
 
 namespace rude;
 
-$_errors = [];
-
 class errors
 {
 	public static function add($message)
 	{
-		global $_errors;
+		$errors = static::get();
+		$errors[] = $message;
+		$errors = array_unique($errors);
 
-		$_errors[] = $message;
-
-		$_errors = array_unique($_errors);
-
-		return false;
+		session::set('errors', $errors);
 	}
 
 	public static function get()
 	{
-		global $_errors;
+		if (!session::is_exists('errors'))
+		{
+			return [];
+		}
 
-		return $_errors;
+		$errors = session::get('errors');
+
+		session::remove('errors');
+
+		return $errors;
+	}
+
+	public static function is_exists()
+	{
+		return session::is_exists('errors');
 	}
 }

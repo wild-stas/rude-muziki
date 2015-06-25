@@ -14,7 +14,25 @@ class page_song
 		$this->song_id = (int) get('id');
 		$this->song = songs::get($this->song_id);
 
-		$this->comments = comments::get_by_song_id($this->song_id);
+
+		$database = database();
+		$database->query
+		('
+			SELECT
+				comments.*,
+
+				users.name AS user_name
+			FROM
+				comments
+			LEFT JOIN
+				users ON users.id = comments.user_id
+			WHERE
+				comments.song_id = ' . (int) $this->song_id . '
+		');
+
+		$this->comments = $database->get_object_list();
+
+		static::validate();
 	}
 
 	public function init()
@@ -166,16 +184,16 @@ class page_song
 			if (current::user_is_logged())
 			{
 				?>
-				<form class="ui reply error form" method="post">
+				<form id="comment-form" class="ui reply error form" method="post">
 
 					<? site::error('При попытке добавления нового комментария возникли некоторые сложности:') ?>
 
 					<input type="hidden" name="action" value="comment-add">
 
 					<div class="field">
-						<textarea id="message" name="message" placeholder="Оставьте свой комментарий"><?= get('message') ?></textarea>
+						<textarea id="message" name="message" placeholder="Your comment..."><?= get('message') ?></textarea>
 					</div>
-					<button type="submit" class="ui primary submit labeled icon button">
+					<button type="reset" class="ui primary submit labeled icon button" onclick="rude.comment.add('<?= site::url('song', null, $this->song_id) ?>')">
 						<i class="icon edit"></i> Submit Comment
 					</button>
 				</form>

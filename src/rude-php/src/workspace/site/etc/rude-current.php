@@ -33,7 +33,7 @@ class current
 		$page = get('page');
 
 		     if (url::current() == RUDE_SITE_URL or $page == 'homepage') { $_current->page = 'homepage';  }
-		else                                                             { $_current->page = $page; }
+		else                                                             { $_current->page = $page;       }
 
 		$_current->settings = null;
 
@@ -58,8 +58,8 @@ class current
 	public static function user()     { return static::get()->user;     }
 	public static function settings() { return static::get()->settings; }
 
-	public static function visitor_is_admin()   { return static::user_is(RUDE_ROLE_ADMIN);   }
-	public static function visitor_is_user()    { return static::user_is(RUDE_ROLE_USER);    }
+	public static function visitor_is_admin() { return static::user_is(RUDE_ROLE_ADMIN); }
+	public static function visitor_is_user()  { return static::user_is(RUDE_ROLE_USER);  }
 
 	private static function user_is($role_id)
 	{

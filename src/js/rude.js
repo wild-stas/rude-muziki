@@ -349,6 +349,25 @@ var rude =
 		}
 	},
 
+	comment:
+	{
+		add: function(url)
+		{
+			$.ajax
+			({
+				type: 'POST',
+				url: url,
+				data: $('#comment-form').serialize(), // serializes the form's elements.
+
+				success: function()
+				{
+					rude.crawler.open(url);
+				}
+			});
+
+			return false; // avoid to execute the actual submit of the form.
+		}
+	},
 
 	time:
 	{
@@ -488,38 +507,42 @@ var rude =
 						url = parts.search;
 					}
 
-					$.ajax
-					({
-						url: 'index.php' + url,
+					rude.crawler.open(url);
 
-						type: 'GET',
-
-						data: { ajax: 1 },
-
-						success: function (data)
-						{
-							$('#content').html(data);
-
-							console.log('success!');
-						},
-
-						error: function (request, status, error)
-						{
-							$('#content').html(request.responseText);
-
-							console.log('fail!');
-						}
-					});
-
-
-					if (url != window.location) // change current url
-					{
-						window.history.pushState(null, null, url);
-					}
-
-					return false; // ignore default event
+					return false;
 				});
 			});
+		},
+
+		open: function(url)
+		{
+			$.ajax
+			({
+				url: 'index.php' + url,
+
+				type: 'GET',
+
+				data: { ajax: 1 },
+
+				success: function (data)
+				{
+					$('#content').html(data);
+
+					console.log('success!');
+				},
+
+				error: function (request, status, error)
+				{
+					$('#content').html(request.responseText);
+
+					console.log('fail!');
+				}
+			});
+
+			if (url != window.location) // change current url
+			{
+				window.history.pushState(null, null, url);
+			}
 		}
 	}
 };

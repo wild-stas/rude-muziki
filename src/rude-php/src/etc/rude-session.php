@@ -27,25 +27,21 @@ class session
 
 	public static function remove($key)
 	{
-		if (static::is_set($key))
+		if (static::is_exists($key))
 		{
 			unset ($_SESSION[$key]);
 		}
 	}
 
-	public static function is_set($key)
+	public static function is_exists($key, $value = null)
 	{
-		if (empty($_SESSION[$key]))
+		if ($value === null)
 		{
-			return false;
+			     if (get($key, $_SESSION) === null) { return false; }
+			else                                    { return true;  }
 		}
 
-		return true;
-	}
-
-	public static function is_equals($key, $value)
-	{
-		if (session::is_set($key) and $_SESSION[$key] == $value)
+		if (session::is_exists($key) and get($key, $_SESSION) == $value)
 		{
 			return true;
 		}
@@ -67,7 +63,8 @@ class session
 		{
 			$params = session_get_cookie_params();
 
-			setcookie(
+			setcookie
+			(
 				session_name(),
 				'',
 				time() - 42000,
