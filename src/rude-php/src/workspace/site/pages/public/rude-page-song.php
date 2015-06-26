@@ -201,7 +201,7 @@ class page_song
 			}
 			else
 			{
-				?><p>You must be <a href="<?= site::url('login') ?>">logged in</a> to leave a comment.<p><?
+				?><div class="ui divider"></div><p>You must be <a href="<?= site::url('login') ?>">logged in</a> to leave a comment.<p><?
 			}
 		?>
 		</div>
