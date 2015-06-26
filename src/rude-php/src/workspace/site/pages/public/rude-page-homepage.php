@@ -8,12 +8,41 @@ class page_homepage
 
 	public function __construct()
 	{
+        $uid = get('uid');
+        $app_id = '4972706';
+        $secret_key = 'sG4dvFBbeHKkCC6QVki9';
+        $hash = get('hash');
+        $email = get('email');
+        $social = get('social');
+
+        if (md5($app_id.$uid.$secret_key)==$hash){
+           if( users::is_exists_uid($uid)){
+               site::auth_social('vk',$uid);
+           }else
+           {
+               users::add('2',null,null,null,null,null,'vk',$uid);
+               site::auth_social('vk',$uid);
+           }
+        }
+
+        if ($social=='fb'){
+            if( users::is_exists_uid($uid)){
+                site::auth_social('fb',$uid);
+            }else
+            {
+                users::add('2',null,$email,null,null,null,'fb',$uid);
+                site::auth_social('fb',$uid);
+            }
+        }
+
+
+
 		$q =
 		'
 			SELECT
 				songs.*,
 
-				song_authors.name AS author_name,
+				song_authors.author_name AS author_name,
 				song_genres.name  AS genre_name
 			FROM
 				songs
@@ -24,7 +53,6 @@ class page_homepage
 			WHERE
 				1 = 1
 		';
-
 
 		$genre_id = (int) get('genre_id');
 

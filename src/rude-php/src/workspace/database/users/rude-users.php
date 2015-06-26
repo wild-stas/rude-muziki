@@ -45,7 +45,7 @@ class users
 		return $q->get_object_list();
 	}
 
-	public static function add($role_id = null, $name = null, $email = null, $hash = null, $salt = null, $registered = null)
+	public static function add($role_id = null, $name = null, $email = null, $hash = null, $salt = null, $registered = null, $social = null, $uid = null)
 	{
 		$q = new query_insert(RUDE_DATABASE_TABLE_USERS);
 
@@ -54,14 +54,16 @@ class users
 		if ($email      !== null) { $q->add('email',      $email     ); }
 		if ($hash       !== null) { $q->add('hash',       $hash      ); }
 		if ($salt       !== null) { $q->add('salt',       $salt      ); }
-		if ($registered !== null) { $q->add('registered', $registered); }
+		if ($registered !== null) { $q->add('registered', $registered); }
+		if ($social     !== null) { $q->add('social',     $social    ); }
+		if ($uid        !== null) { $q->add('uid',        $uid       ); }
 
 		$q->query();
 
 		return $q->get_id();
 	}
 
-	public static function update($id, $role_id = null, $name = null, $email = null, $hash = null, $salt = null, $registered = null, $limit = null, $offset = null)
+	public static function update($id, $role_id = null, $name = null, $email = null, $hash = null, $salt = null, $registered = null, $social = null, $uid = null, $limit = null, $offset = null)
 	{
 		$q = new query_update(RUDE_DATABASE_TABLE_USERS);
 
@@ -70,7 +72,9 @@ class users
 		if ($email      !== null) { $q->update('email',      $email     ); }
 		if ($hash       !== null) { $q->update('hash',       $hash      ); }
 		if ($salt       !== null) { $q->update('salt',       $salt      ); }
-		if ($registered !== null) { $q->update('registered', $registered); }
+		if ($registered !== null) { $q->update('registered', $registered); }
+		if ($social     !== null) { $q->update('social',     $social    ); }
+		if ($uid        !== null) { $q->update('uid',        $uid       ); }
 
 		$q->where(RUDE_DATABASE_TABLE_USERS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -205,6 +209,34 @@ class users
 		return $q->get_object_list();
 	}
 
+	public static function get_by_social($social, $only_first = false)
+	{
+		$q = new query_select(RUDE_DATABASE_TABLE_USERS);
+		$q->where('social', $social);
+		$q->query();
+
+		if ($only_first)
+		{
+			return $q->get_object();
+		}
+
+		return $q->get_object_list();
+	}
+
+	public static function get_by_uid($uid, $only_first = false)
+	{
+		$q = new query_select(RUDE_DATABASE_TABLE_USERS);
+		$q->where('uid', $uid);
+		$q->query();
+
+		if ($only_first)
+		{
+			return $q->get_object();
+		}
+
+		return $q->get_object_list();
+	}
+
 	public static function remove_by_id($id)
 	{
 		$q = new query_delete(RUDE_DATABASE_TABLE_USERS);
@@ -268,6 +300,24 @@ class users
 		return $q->affected();
 	}
 
+	public static function remove_by_social($social)
+	{
+		$q = new query_delete(RUDE_DATABASE_TABLE_USERS);
+		$q->where('social', $social);
+		$q->query();
+
+		return $q->affected();
+	}
+
+	public static function remove_by_uid($uid)
+	{
+		$q = new query_delete(RUDE_DATABASE_TABLE_USERS);
+		$q->where('uid', $uid);
+		$q->query();
+
+		return $q->affected();
+	}
+
 	public static function is_exists_id($id)
 	{
 		return static::get_by_id($id) == true;
@@ -301,5 +351,15 @@ class users
 	public static function is_exists_registered($registered)
 	{
 		return static::get_by_registered($registered) == true;
+	}
+
+	public static function is_exists_social($social)
+	{
+		return static::get_by_social($social) == true;
+	}
+
+	public static function is_exists_uid($uid)
+	{
+		return static::get_by_uid($uid) == true;
 	}
 }

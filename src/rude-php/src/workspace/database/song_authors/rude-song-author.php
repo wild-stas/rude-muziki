@@ -7,8 +7,8 @@ if (!defined('RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY')) { define('RUDE_DAT
 
 class song_author
 {
-	public $id   = null;
-	public $name = null;
+	public $id          = null;
+	public $author_name = null;
 
 
 	public function __construct($id = null)

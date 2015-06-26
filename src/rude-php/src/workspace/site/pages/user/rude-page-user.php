@@ -6,7 +6,7 @@ class page_user
 {
 	public function __construct()
 	{
-		if (!current::user_is_logged() or !current::user_is_company())
+		if (!current::user_is_logged())
 		{
 			page_403::init(); die;
 		}
@@ -38,11 +38,7 @@ class page_user
 						<?
 							switch (current::task())
 							{
-								case 'services': $page = new page_company_services(); break;
-								case 'service':  $page = new page_company_service();  break;
-								case 'orders':   $page = new page_company_orders();   break;
-								case 'jobs':     $page = new page_company_jobs();     break;
-								case 'settings': $page = new page_company_settings(); break;
+								case 'settings': $page = new page_user_settings(); break;
 
 								default:
 									$page = new page_user_dashboard();
@@ -71,9 +67,9 @@ class page_user
 			<?
 				static::sidebar_item_global('Главная', 'home', RUDE_SITE_URL);
 
-				static::sidebar_item_admin('Сводка',    'browser');
-				static::sidebar_item_admin('Сервисы',   'configure', 'services');
-				static::sidebar_item_admin('Заказы',    'money',     'orders');
+//				static::sidebar_item_admin('',    'browser');
+				static::sidebar_item_admin('Настройки',   'configure', 'settings');
+//				static::sidebar_item_admin('Заказы',    'money',     'orders');
 //				static::sidebar_item_admin('Настройки', 'settings',  'settings');
 
 				static::sidebar_item_global('Выход', 'sign out', site::url('logout'));

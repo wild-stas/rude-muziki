@@ -14,6 +14,8 @@ class user
 	public $hash       = null;
 	public $salt       = null;
 	public $registered = null;
+	public $social     = null;
+	public $uid        = null;
 
 
 	public function __construct($id = null)

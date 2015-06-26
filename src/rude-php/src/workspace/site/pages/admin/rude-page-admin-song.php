@@ -7,9 +7,42 @@ class page_admin_song
 	private $songs = null;
 
 	public function __construct()
-	{
-		$this->songs = static::get_songs();
-	}
+    {
+        $this->songs = static::get_songs();
+
+        $action = get('action');
+        switch ($action) {
+            case 'remove':
+
+                $id = get('song-id');
+
+                if ($id) {
+
+                    songs::remove_by_id($id);
+                    ?>
+                    <div class="ui divider"></div>
+
+                    <div class="ui icon message orange">
+                        <i class="icon remove"></i>
+
+                        <div class="content">
+                            <div class="header">
+                                Success
+                            </div>
+                            <p>Selected song have been successfully removed</p>
+                        </div>
+                    </div>
+
+
+                    <div class="ui divider"></div>
+                <?
+                }
+
+
+                break;
+        }
+    }
+
 
 	public static function get_songs()
 	{
@@ -27,12 +60,13 @@ class page_admin_song
 					*
 				FROM
 					songs
+					JOIN song_authors on songs.author_id = song_authors.id
 				WHERE 1
 			';
 
 		if ($search_name)   { $q .= 'AND name      LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
 		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
-		if ($search_author) { $q .= 'AND author_id LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
+		if ($search_author) { $q .= 'AND author_name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
 
 		$q .=
 			'
@@ -104,23 +138,11 @@ class page_admin_song
 					</div>
 				</div>
 
-				<div class="field">
-					<label for="search-author">Search by Author</label>
-					<div class="ui fluid selection dropdown">
-						<div class="default text" >Select Author</div>
-						<input type="hidden" id="search-author" name="search-author" value="<?= $search_author ?>">
-						<div style="max-height: 150px;" class="menu">
-							<?
-							$song_authors = song_authors::get();
-							foreach ($song_authors as $author)
-							{
-								?>
-								<div class="item" data-value="<?= $author->id  ?>"><?= $author->name  ?></div>
-							<?
-							}?>
-						</div>
-					</div>
-				</div>
+                <div class="field">
+                    <label for="search-author">Search by Author</label>
+
+                    <input id="search-author" name="search-author" value="<?= $search_author ?>">
+                </div>
 
 				<button type="submit" class="ui orange button icon labeled">
 					<i class="icon search"></i>
@@ -149,28 +171,55 @@ class page_admin_song
 				<?
 				foreach ($this->songs as $song)
 				{
+
 					?>
 					<tr>
 						<td><?= $song->name ?></td>
 						<td><?= $song->description ?></td>
 						<td><?= song_genres::get_by_id($song->genre_id,true)->name; ?></td>
-						<td><?= song_authors::get_by_id($song->author_id,true)->name; ?></td>
+						<td><?= song_authors::get_by_id($song->author_id,true)->author_name; ?></td>
 						<td class="icon first no-border">
 							<a href="?page=admin&task=edit_song&id=<?=$song->id?>">
 								<i class="icon edit" title="Edit"></i>
 							</a>
 						</td>
-						<td class="icon last no-border">
-							<a href="#" >
-								<i class="icon remove circle" title="Delete"></i>
-							</a>
-						</td>
+                        <td class="icon last no-border">
+                            <i class="icon remove red popup init" onclick="$('#song-id').val(<?= $song->id ?>); $('#modal-remove').modal('show');" data-content="Remove song"></i>
+                        </td>
 					</tr>
 				<?
 				}
 				?>
 				</tbody>
 			</table>
+            <form id="modal-remove" class="ui small modal transition" method="post" xmlns="http://www.w3.org/1999/html">
+                <i class="close icon"></i>
+                <div class="header">
+                    Interrupted
+                </div>
+                <div class="content">
+                    <div class="ui form">
+                        <input type="hidden" name="action" value="remove">
+
+                        <input type="hidden" id="song-id" name="song-id" value="">
+
+                        <p>Are you REALLY sure that you want to delete this song?</p>
+                    </div>
+                </div>
+                <div class="actions-fixed">
+                    <div class="ui negative right labeled icon button" onclick="$('#modal-remove').modal('hide')">
+                        <i class="remove icon"></i>
+
+                        Calcel
+                    </div>
+
+                    <button class="ui positive right labeled icon button" type="submit">
+                        <i class="checkmark icon"></i>
+
+                        Do it
+                    </button>
+                </div>
+            </form>
 			<?
 			if (!$search_name and !$search_genre and !$search_author)
 				pagination::html(songs::count(),get('num_page'),100,6,'p');

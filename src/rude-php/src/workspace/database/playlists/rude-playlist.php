@@ -11,7 +11,7 @@ class playlist
 	public $name            = null;
 	public $title           = null;
 	public $description     = null;
-	public $flle_image      = null;
+	public $file_image      = null;
 	public $file_image_size = null;
 	public $timestamp       = null;
 

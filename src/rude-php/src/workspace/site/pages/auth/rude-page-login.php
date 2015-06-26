@@ -7,6 +7,7 @@ class page_login
 	public function __construct()
 	{
 		static::validate();
+
 	}
 
 	public function init()
@@ -64,6 +65,27 @@ class page_login
 
 				<input class="ui button green fluid" type="submit" value="Sign In">
 			</form>
+
+            <script type="text/javascript">
+                VK.init({apiId: 4972706});
+            </script>
+
+            <!-- Put this div tag to the place, where Auth block will be -->
+            <div id="vk_auth"></div>
+            <script type="text/javascript">
+                VK.Widgets.Auth("vk_auth", {width: "50px", authUrl: '?page=homepage'});
+            </script>
+
+
+            <script>
+                fbAsyncInit();
+            </script>
+
+            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+            </fb:login-button>
+
+            <div id="status">
+            </div>
 		</div>
 
 		<script>

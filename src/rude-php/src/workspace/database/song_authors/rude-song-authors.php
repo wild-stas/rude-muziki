@@ -45,22 +45,22 @@ class song_authors
 		return $q->get_object_list();
 	}
 
-	public static function add($name = null)
+	public static function add($author_name = null)
 	{
 		$q = new query_insert(RUDE_DATABASE_TABLE_SONG_AUTHORS);
 
-		if ($name !== null) { $q->add('name', $name); }
+		if ($author_name !== null) { $q->add('author_name', $author_name); }
 
 		$q->query();
 
 		return $q->get_id();
 	}
 
-	public static function update($id, $name = null, $limit = null, $offset = null)
+	public static function update($id, $author_name = null, $limit = null, $offset = null)
 	{
 		$q = new query_update(RUDE_DATABASE_TABLE_SONG_AUTHORS);
 
-		if ($name !== null) { $q->update('name', $name); }
+		if ($author_name !== null) { $q->update('author_name', $author_name); }
 
 		$q->where(RUDE_DATABASE_TABLE_SONG_AUTHORS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -111,10 +111,10 @@ class song_authors
 		return $q->get_object_list();
 	}
 
-	public static function get_by_name($name, $only_first = false)
+	public static function get_by_author_name($author_name, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_SONG_AUTHORS);
-		$q->where('name', $name);
+		$q->where('author_name', $author_name);
 		$q->query();
 
 		if ($only_first)
@@ -134,10 +134,10 @@ class song_authors
 		return $q->affected();
 	}
 
-	public static function remove_by_name($name)
+	public static function remove_by_author_name($author_name)
 	{
 		$q = new query_delete(RUDE_DATABASE_TABLE_SONG_AUTHORS);
-		$q->where('name', $name);
+		$q->where('author_name', $author_name);
 		$q->query();
 
 		return $q->affected();
@@ -148,8 +148,8 @@ class song_authors
 		return static::get_by_id($id) == true;
 	}
 
-	public static function is_exists_name($name)
+	public static function is_exists_author_name($author_name)
 	{
-		return static::get_by_name($name) == true;
+		return static::get_by_author_name($author_name) == true;
 	}
 }
