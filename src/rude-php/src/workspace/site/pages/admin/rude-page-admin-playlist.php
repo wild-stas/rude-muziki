@@ -175,7 +175,7 @@ class page_admin_playlist
 
 		if ($search_name)   { $q .= 'AND name   LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
 		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
-		if ($search_author) { $q .= 'AND author_name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
+		if ($search_author) { $q .= 'AND song_authors.name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
 
 		$q .=
 			'
@@ -358,7 +358,7 @@ class page_admin_playlist
 										</td>
 										<td><a href="#" target="_blank"><?= static::highlight($song->name, $search_name) ?></a></td>
 										<td><?= song_genres::get_by_id($song->genre_id,true)->name; ?></td>
-										<td><?= song_authors::get_by_id($song->author_id,true)->author_name ?></td>
+										<td><?= song_authors::get_by_id($song->author_id,true)->name ?></td>
 										<td class="center"><?= date::date('.', strtotime($song->timestamp)) ?></td>
 									</tr>
 								<?

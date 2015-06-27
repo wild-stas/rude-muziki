@@ -123,7 +123,7 @@ class page_admin_author
 				{
 					?>
 					<tr>
-						<td><?= $song_author->author_name ?></td>
+						<td><?= $song_author->name ?></td>
 						<td><?= count(songs::get_by_author_id($song_author->id)); ?></td>						
 						<td class="icon first no-border">
 							<a href="?page=admin&task=edit_author&id=<?=$song_author->id?>">

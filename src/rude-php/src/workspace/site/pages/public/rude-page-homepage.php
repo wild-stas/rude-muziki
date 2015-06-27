@@ -8,22 +8,10 @@ class page_homepage
 
 	public function __construct()
 	{
-        $uid = get('uid');
-        $app_id = '4972706';
-        $secret_key = 'sG4dvFBbeHKkCC6QVki9';
-        $hash = get('hash');
         $email = get('email');
         $social = get('social');
 
-        if (md5($app_id.$uid.$secret_key)==$hash){
-           if( users::is_exists_uid($uid)){
-               site::auth_social('vk',$uid);
-           }else
-           {
-               users::add('2',null,null,null,null,null,'vk',$uid);
-               site::auth_social('vk',$uid);
-           }
-        }
+
 
         if ($social=='fb'){
             if( users::is_exists_uid($uid)){
@@ -42,14 +30,20 @@ class page_homepage
 			SELECT
 				songs.*,
 
-				song_authors.author_name AS author_name,
-				song_genres.name  AS genre_name
+				song_authors.name AS author_name,
+				song_genres.name  AS genre_name,
+
+				(SELECT   SUM(value) FROM ratings WHERE song_id = songs.id) AS rating_value,
+				(SELECT COUNT(id)    FROM ratings WHERE song_id = songs.id) AS rating_votes
+
 			FROM
 				songs
 			LEFT JOIN
 				song_authors ON song_authors.id = songs.author_id
 			LEFT JOIN
 				song_genres ON song_genres.id = songs.genre_id
+			LEFT JOIN
+				ratings ON ratings.song_id = songs.id
 			WHERE
 				1 = 1
 		';
@@ -76,7 +70,7 @@ class page_homepage
 		if (get('ajax'))
 		{
 			static::main();
-
+			site::header();
 			return;
 		}
 
@@ -112,10 +106,25 @@ class page_homepage
 		<?
 	}
 
-
 	public function main()
 	{
 		?>
+		<div id="modal-vote-denied" class="ui small modal transition">
+			<i class="close icon"></i>
+			<div class="header">
+				Vote Denied
+			</div>
+			<div class="content">
+				<p>You must be <a href="<?= site::url('login') ?>" onclick="$('#modal-vote-denied').modal('hide')">logged in</a> to vote for songs.</p>
+			</div>
+			<div class="actions">
+				<div class="ui positive right labeled icon button">
+					OK
+					<i class="checkmark icon"></i>
+				</div>
+			</div>
+		</div>
+
 		<div id="main">
 			<div id="recent" class="ui double six doubling cards">
 				<?
@@ -136,7 +145,21 @@ class page_homepage
 											?><i class="icon music"></i><?
 										}
 									?>
+
+									<div class="rating box">
+										<?
+											$rating = 0;
+
+											if ($song->rating_votes)
+											{
+												$rating = $song->rating_value / $song->rating_votes;
+											}
+										?>
+
+										<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
+									</div>
 								</div>
+
 								<div class="content">
 									<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
 
@@ -160,8 +183,46 @@ class page_homepage
 
 		<script>
 			rude.semantic.init.rating();
-
 			rude.semantic.init.dropdown();
+
+			function vote(selector)
+			{
+				var is_logged = <?= (int) current::user_is_logged() ?>;
+
+				if (!is_logged)
+				{
+					$('#modal-vote-denied').modal('show');
+
+					return;
+				}
+
+
+				var song_id = $(selector).attr('data-song-id');
+
+				var value = $(selector).find('.icon.active').length;
+
+				debug(value);
+
+				$.ajax
+				({
+					url: 'index.php',
+
+					type: 'GET',
+
+					data:
+					{
+						page: 'ajax',
+						task: 'rating',
+						song_id: song_id,
+						value: value
+					},
+
+					success: function (data)
+					{
+						debug(data);
+					}
+				});
+			}
 		</script>
 		<?
 	}

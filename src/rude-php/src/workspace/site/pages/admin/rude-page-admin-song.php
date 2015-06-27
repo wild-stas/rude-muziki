@@ -57,7 +57,8 @@ class page_admin_song
 		$q =
 			'
 				SELECT
-					*
+					songs.*,
+					song_authors.name
 				FROM
 					songs
 					JOIN song_authors on songs.author_id = song_authors.id
@@ -66,7 +67,7 @@ class page_admin_song
 
 		if ($search_name)   { $q .= 'AND name      LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
 		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
-		if ($search_author) { $q .= 'AND author_name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
+		if ($search_author) { $q .= 'AND song_authors.name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
 
 		$q .=
 			'
@@ -177,7 +178,7 @@ class page_admin_song
 						<td><?= $song->name ?></td>
 						<td><?= $song->description ?></td>
 						<td><?= song_genres::get_by_id($song->genre_id,true)->name; ?></td>
-						<td><?= song_authors::get_by_id($song->author_id,true)->author_name; ?></td>
+						<td><?= song_authors::get_by_id($song->author_id,true)->name; ?></td>
 						<td class="icon first no-border">
 							<a href="?page=admin&task=edit_song&id=<?=$song->id?>">
 								<i class="icon edit" title="Edit"></i>

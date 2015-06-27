@@ -4,7 +4,8 @@
 
 #header { padding-bottom: 1em; }
 
-#recent.cards .card .image i { height: 149px; width: 149px; font-size: 4em; position: relative; padding-top: 40px; }
+#recent.cards .card .rating.box { position: absolute; right: 3px; bottom: 3px; }
+#recent.cards .card .image i.music { height: 149px; width: 149px; font-size: 4em; position: relative; padding-top: 40px; }
 #recent.cards .card .header { padding-bottom: 20px; }
 #recent.cards .card .description { position: absolute; bottom: 15px; }
 #recent.cards .card .description .button { position: relative; bottom: 0; }
@@ -55,7 +56,7 @@
 
 .bold { font-weight: bold; }
 
-.black { color: rgba(0,0,0,.8); }
+.black { color: rgba(0, 0, 0, .8); }
 
 .no-decoration { text-decoration: none!important; }
 
@@ -83,7 +84,8 @@
 
 .pointer { cursor: pointer!important; }
 
-.actions-fixed {
+.actions-fixed
+{
 	background: #efefef;
 	padding: 1rem 2rem;
 	border-top: 1px solid rgba(39,41,43,.15);

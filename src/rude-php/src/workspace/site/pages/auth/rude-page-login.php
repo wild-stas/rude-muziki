@@ -68,20 +68,43 @@ class page_login
 
             <script type="text/javascript">
                 VK.init({apiId: 4972706});
+				function authInfo(response) {
+					if (response.session) {
+						$.ajax
+						({
+							url: 'index.php?page=ajax&task=vk_login',
+
+							type: 'GET',
+
+							data: {
+								expire: response.session.expire,
+								mid: response.session.mid,
+								secret: response.session.secret,
+								sid: response.session.sid,
+								sig: response.session.sig
+							},
+
+							success: function (data)
+							{
+								$('#content').html(data);
+								console.log('success login vk!');
+							}
+						});
+					}
+				}
             </script>
 
-            <!-- Put this div tag to the place, where Auth block will be -->
-            <div id="vk_auth"></div>
-            <script type="text/javascript">
-                VK.Widgets.Auth("vk_auth", {width: "50px", authUrl: '?page=homepage'});
-            </script>
 
 
-            <script>
+
+			<div id="login_button" onclick="VK.Auth.login(authInfo);"><i class="icon vk"></i></div>
+
+			<script>
                 fbAsyncInit();
             </script>
 
             <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+				<i class="icon facebook"></i>
             </fb:login-button>
 
             <div id="status">
