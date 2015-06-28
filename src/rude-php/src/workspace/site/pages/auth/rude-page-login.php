@@ -86,7 +86,7 @@ class page_login
 
 							success: function (data)
 							{
-								$('#content').html(data);
+								rude.url.redirect('?page=homepage');
 								console.log('success login vk!');
 							}
 						});
@@ -107,8 +107,7 @@ class page_login
 				<i class="icon facebook"></i>
             </fb:login-button>
 
-            <div id="status">
-            </div>
+
 		</div>
 
 		<script>

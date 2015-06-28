@@ -70,7 +70,6 @@ class page_homepage
 		if (get('ajax'))
 		{
 			static::main();
-			site::header();
 			return;
 		}
 
