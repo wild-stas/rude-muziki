@@ -4,6 +4,8 @@ window.fbAsyncInit = function() {
         xfbml      : true,
         version    : 'v2.3'
     });
+
+	$(document).trigger('fbload');  //  <---- THIS RIGHT HERE TRIGGERS A CUSTOM EVENT CALLED 'fbload'
 };
 
 (function(d, s, id){
