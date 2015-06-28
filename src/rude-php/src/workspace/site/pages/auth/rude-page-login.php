@@ -93,9 +93,11 @@ class page_login
 					}
 				}
             </script>
-
+			<?= html::js('src/js/fb.js') ?>
 			<script>
-                fbAsyncInit();
+
+               // fbAsyncInit();
+
             </script>
 
 			<h4 class="ui header dividing">You can also login via social networks</h4>
