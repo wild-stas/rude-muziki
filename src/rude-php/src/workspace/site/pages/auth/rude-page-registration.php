@@ -96,18 +96,29 @@ class page_registration
 				}
 			</script>
 
-
-
-
-			<div id="login_button" onclick="VK.Auth.login(authInfo);"><i class="icon vk"></i></div>
-
 			<script>
 				fbAsyncInit();
 			</script>
 
-			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-				<i class="icon facebook"></i>
-			</fb:login-button>
+			<h4 class="ui header dividing">You can also login via social networks</h4>
+
+			<div class="ui form socials">
+				<div class="two fields">
+					<div class="field">
+						<div class="ui facebook button fluid mini" onclick="fb_login();">
+							<i class="facebook icon"></i>
+							Facebook
+						</div>
+					</div>
+
+					<div class="field">
+						<div class="ui vk button fluid mini" onclick="VK.Auth.login(authInfo);">
+							<i class="vk icon"></i>
+							VK
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<script>

@@ -22,6 +22,8 @@
 
 #page-login,
 #page-registration { max-width: 500px; display: table; margin: 15px auto 60px auto; }
+#page-login .ui.form.socials .fields .field,
+#page-registration .ui.form.socials .fields .field { margin: 0; }
 
 
 #comments { max-width: inherit; }
