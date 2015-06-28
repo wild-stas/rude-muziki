@@ -9,7 +9,7 @@ class pagination
 	}
 
 
-	public static function html($total_items, $current_page, $items_per_page, $max_buttons = 6, $param = 'p')
+	public static function html($total_items, $current_page, $items_per_page, $max_buttons = 6, $param = 'p',$url = '?page=admin&task=song')
 	{
 		$total_pages =floor($total_items / $items_per_page);
 		if ($total_pages <= $max_buttons)
@@ -85,7 +85,7 @@ class pagination
 
 		?>
 		<div class="ui pagination menu">
-			<a class="item<? if ($current_page < 2) { ?> disabled<? } ?>"<? if ($current_page > 1) { ?> href="?page=admin&task=song&num_page=<?=$current_page-1;?>"<? } ?>>
+			<a class="item<? if ($current_page < 2) { ?> disabled<? } ?>"<? if ($current_page > 1) { ?> href="<?=$url?>&num_page=<?=$current_page-1;?>"<? } ?>>
 				<i class="left arrow icon"></i> Previous
 			</a>
 
@@ -103,12 +103,12 @@ class pagination
 					if ($current_page == $page_id)           { $bold = true; }
 					else if ($current_page < 2 and $page_id == 1) { $bold = true; }
 
-					?><a class="item" href="?page=admin&task=song&num_page=<?=$page_id;?>"><? if ($bold) { ?><b><? } ?><?= $page_id ?><? if ($bold) { ?></b><? } ?></a><?
+					?><a class="item" href="<?=$url?>&num_page=<?=$page_id;?>"><? if ($bold) { ?><b><? } ?><?= $page_id ?><? if ($bold) { ?></b><? } ?></a><?
 				}
 			}
 			?>
 
-			<a class="item<? if ($current_page == $total_pages) { ?> disabled<? } ?>"<? if ($current_page < $total_pages) { ?> href="?page=admin&task=song&num_page=<?=$current_page+1;?>"<? } ?>>
+			<a class="item<? if ($current_page == $total_pages) { ?> disabled<? } ?>"<? if ($current_page < $total_pages) { ?> href="<?=$url?>&num_page=<?=$current_page+1;?>"<? } ?>>
 				Next <i class="icon right arrow"></i>
 			</a>
 		</div>

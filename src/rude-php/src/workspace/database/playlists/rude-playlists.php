@@ -45,14 +45,14 @@ class playlists
 		return $q->get_object_list();
 	}
 
-	public static function add($name = null, $title = null, $description = null, $flle_image = null, $file_image_size = null, $timestamp = null)
+	public static function add($name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null)
 	{
 		$q = new query_insert(RUDE_DATABASE_TABLE_PLAYLISTS);
 
 		if ($name            !== null) { $q->add('name',            $name           ); }
 		if ($title           !== null) { $q->add('title',           $title          ); }
 		if ($description     !== null) { $q->add('description',     $description    ); }
-		if ($flle_image      !== null) { $q->add('flle_image',      $flle_image     ); }
+		if ($file_image      !== null) { $q->add('file_image',      $file_image     ); }
 		if ($file_image_size !== null) { $q->add('file_image_size', $file_image_size); }
 		if ($timestamp       !== null) { $q->add('timestamp',       $timestamp      ); }
 
@@ -61,14 +61,14 @@ class playlists
 		return $q->get_id();
 	}
 
-	public static function update($id, $name = null, $title = null, $description = null, $flle_image = null, $file_image_size = null, $timestamp = null, $limit = null, $offset = null)
+	public static function update($id, $name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null, $limit = null, $offset = null)
 	{
 		$q = new query_update(RUDE_DATABASE_TABLE_PLAYLISTS);
 
 		if ($name            !== null) { $q->update('name',            $name           ); }
 		if ($title           !== null) { $q->update('title',           $title          ); }
 		if ($description     !== null) { $q->update('description',     $description    ); }
-		if ($flle_image      !== null) { $q->update('flle_image',      $flle_image     ); }
+		if ($file_image      !== null) { $q->update('file_image',      $file_image     ); }
 		if ($file_image_size !== null) { $q->update('file_image_size', $file_image_size); }
 		if ($timestamp       !== null) { $q->update('timestamp',       $timestamp      ); }
 
@@ -163,10 +163,10 @@ class playlists
 		return $q->get_object_list();
 	}
 
-	public static function get_by_flle_image($flle_image, $only_first = false)
+	public static function get_by_file_image($file_image, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_PLAYLISTS);
-		$q->where('flle_image', $flle_image);
+		$q->where('file_image', $file_image);
 		$q->query();
 
 		if ($only_first)
@@ -241,10 +241,10 @@ class playlists
 		return $q->affected();
 	}
 
-	public static function remove_by_flle_image($flle_image)
+	public static function remove_by_file_image($file_image)
 	{
 		$q = new query_delete(RUDE_DATABASE_TABLE_PLAYLISTS);
-		$q->where('flle_image', $flle_image);
+		$q->where('file_image', $file_image);
 		$q->query();
 
 		return $q->affected();
@@ -288,9 +288,9 @@ class playlists
 		return static::get_by_description($description) == true;
 	}
 
-	public static function is_exists_flle_image($flle_image)
+	public static function is_exists_file_image($file_image)
 	{
-		return static::get_by_flle_image($flle_image) == true;
+		return static::get_by_file_image($file_image) == true;
 	}
 
 	public static function is_exists_file_image_size($file_image_size)

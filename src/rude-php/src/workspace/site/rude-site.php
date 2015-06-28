@@ -52,8 +52,9 @@ class site
 
 <!--			--><?//= html::js('src/js/sound-manager/2.97a/soundmanager2.min.js') ?>
 			<?= html::js('src/js/sound-manager/2.97a/soundmanager2.js') ?>
-
+            <?= html::js('//vk.com/js/api/openapi.js?116') ?>
 			<?= html::js('src/js/rude.js') ?>
+			<?= html::js('src/js/fb.js') ?>
 			<?= html::js('src/js/rude-fixes.js') ?>
 
 			<?= html::css('src/css/style.css') ?>
@@ -157,7 +158,7 @@ class site
 					else if (current::visitor_is_user())
 					{
 						?>
-						<a class="ui item right bold" href="<?= site::url('company') ?>">
+						<a class="ui item right bold" href="<?= site::url('user') ?>">
 							<i class="icon configure"></i>
 							User Panel
 						</a>
@@ -373,6 +374,22 @@ class site
 
 		return false;
 	}
+
+    public static function auth_social($social, $uid)
+    {
+        $user = users::get_by_uid($uid, true);
+
+        if ($user and $user->social==$social)
+        {
+            session::set('user', $user);
+
+            current::reload();
+
+            return true;
+        }
+
+        return false;
+    }
 
 	public static function logout()
 	{

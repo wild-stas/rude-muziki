@@ -11,6 +11,25 @@ class page_ajax
 			case 'rating':
 				static::rating();
 				break;
+			case 'vk_login':
+				$expire = get('expire');
+				$mid = get('mid');
+				$secret = get('secret');
+				$sid = get('sid');
+				$sig = get('sig');
+				$secret_key = 'sG4dvFBbeHKkCC6QVki9';
+
+			//	if (md5($expire.$mid.$secret.$sid.$secret_key)==$sig){
+
+					if( users::is_exists_uid($mid)){
+						site::auth_social('vk',$mid);
+					}else
+					{
+						users::add('2',null,null,null,null,null,'vk',$mid);
+						site::auth_social('vk',$mid);
+					}
+				//}
+				break;
 		}
 	}
 

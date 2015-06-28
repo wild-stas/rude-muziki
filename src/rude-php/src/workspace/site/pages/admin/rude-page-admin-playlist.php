@@ -168,13 +168,14 @@ class page_admin_playlist
 					*
 				FROM
 					songs
+					JOIN song_authors on songs.author_id = song_authors.id
 				WHERE
-					id NOT IN (SELECT song_id FROM playlist_items WHERE playlist_id = ' . (int) $playlist_id . ')
+					songs.id NOT IN (SELECT song_id FROM playlist_items WHERE playlist_id = ' . (int) $playlist_id . ')
 		';
 
 		if ($search_name)   { $q .= 'AND name   LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
 		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
-		if ($search_author) { $q .= 'AND author_id LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
+		if ($search_author) { $q .= 'AND song_authors.name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
 
 		$q .=
 			'
@@ -266,20 +267,8 @@ class page_admin_playlist
 
 				<div class="field">
 					<label for="search-author">Search by Author</label>
-					<div class="ui fluid selection dropdown">
-						<div class="default text" >Select Author</div>
-						<input type="hidden" id="search-author" name="search-author" value="<?= $search_author ?>">
-						<div style="max-height: 150px;" class="menu">
-							<?
-							$song_authors = song_authors::get();
-							foreach ($song_authors as $author)
-							{
-								?>
-								<div class="item" data-value="<?= $author->id  ?>"><?= $author->name  ?></div>
-							<?
-							}?>
-						</div>
-					</div>
+
+					<input id="search-author" name="search-author" value="<?= $search_author ?>">
 				</div>
 
 				<button type="submit" class="ui orange button icon labeled">

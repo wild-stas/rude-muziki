@@ -8,6 +8,23 @@ class page_homepage
 
 	public function __construct()
 	{
+        $email = get('email');
+        $social = get('social');
+
+
+
+        if ($social=='fb'){
+            if( users::is_exists_uid($uid)){
+                site::auth_social('fb',$uid);
+            }else
+            {
+                users::add('2',null,$email,null,null,null,'fb',$uid);
+                site::auth_social('fb',$uid);
+            }
+        }
+
+
+
 		$q =
 		'
 			SELECT
@@ -18,6 +35,7 @@ class page_homepage
 
 				(SELECT   SUM(value) FROM ratings WHERE song_id = songs.id) AS rating_value,
 				(SELECT COUNT(id)    FROM ratings WHERE song_id = songs.id) AS rating_votes
+
 			FROM
 				songs
 			LEFT JOIN
@@ -29,7 +47,6 @@ class page_homepage
 			WHERE
 				1 = 1
 		';
-
 
 		$genre_id = (int) get('genre_id');
 
@@ -53,7 +70,7 @@ class page_homepage
 		if (get('ajax'))
 		{
 			static::main();
-
+			site::header();
 			return;
 		}
 
