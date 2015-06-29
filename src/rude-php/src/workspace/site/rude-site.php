@@ -71,6 +71,7 @@ class site
 
 		<script>
 			rude.crawler.init();
+			rude.lazy.init();
 		</script>
 		<?
 	}

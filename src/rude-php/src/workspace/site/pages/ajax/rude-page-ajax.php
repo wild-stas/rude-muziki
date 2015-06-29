@@ -11,6 +11,23 @@ class page_ajax
 			case 'rating':
 				static::rating();
 				break;
+
+			case 'lazy':
+
+				$songs = page_homepage::get_songs(get('genre_id'), get('offset'), get('limit'));
+
+				if (!$songs)
+				{
+					headers::not_found(); die;
+				}
+
+				foreach ($songs as $song)
+				{
+					page_homepage::html_song($song);
+				}
+
+				break;
+
 			case 'vk_login':
 				$expire = get('expire');
 				$mid = get('mid');

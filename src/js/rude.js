@@ -386,6 +386,77 @@ var rude =
 		}
 	},
 
+	lazy:
+	{
+		limit: 100,
+		offset: 100,
+
+		init: function()
+		{
+			$(window).unbind('scroll');
+
+			$(window).scroll(function()
+			{
+				if ($(window).scrollTop() + $(window).height() > rude.lazy.get.height() - 100)
+				{
+					$(window).unbind('scroll');
+
+					rude.lazy.load();
+				}
+			});
+		},
+
+		reset: function()
+		{
+			rude.lazy.limit = 100;
+			rude.lazy.offset = 100;
+		},
+
+		load: function()
+		{
+			var genre_id = rude.url.param.get('genre_id');
+
+			debug('lazy load [offset: ' + rude.lazy.offset + ', limit: ' + rude.lazy.limit + ']');
+
+			$.ajax
+			({
+				type: 'POST',
+
+				url: '?page=ajax&task=lazy',
+
+				data:
+				{
+					limit:  rude.lazy.limit,
+					offset: rude.lazy.offset,
+
+					genre_id: genre_id
+				},
+
+				success: function(html)
+				{
+					$('#recent').append(html);
+
+					rude.lazy.init();
+				}
+			});
+
+			rude.lazy.offset += 100;
+		},
+
+		get:
+		{
+			height: function()
+			{
+				return Math.max
+				(
+					document.body.scrollHeight, document.documentElement.scrollHeight,
+					document.body.offsetHeight, document.documentElement.offsetHeight,
+					document.body.clientHeight, document.documentElement.clientHeight
+				);
+			}
+		}
+	},
+
 	base64:
 	{
 		decode: function(s)
@@ -486,6 +557,11 @@ var rude =
 
 					document.location.search = kvp.join('&');
 				}
+			},
+
+			get: function(key)
+			{
+				return location.search.split(key + '=')[1] ? location.search.split(key + '=')[1] : '';
 			}
 		}
 	},
@@ -543,6 +619,9 @@ var rude =
 			{
 				window.history.pushState(null, null, url);
 			}
+
+			rude.lazy.reset();
+			rude.lazy.init();
 		}
 	}
 };
