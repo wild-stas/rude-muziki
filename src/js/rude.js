@@ -397,7 +397,7 @@ var rude =
 
 			$(window).scroll(function()
 			{
-				if ($(window).scrollTop() + $(window).height() > rude.lazy.get.height() - 100)
+				if ($(window).scrollTop() + $(window).height() > rude.lazy.get.height() - 500)
 				{
 					$(window).unbind('scroll');
 
