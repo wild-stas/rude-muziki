@@ -24,7 +24,13 @@ class page_homepage
         }
 
 
+		$genre_id = get('genre_id');
 
+		$this->songs = static::get_songs($genre_id);
+	}
+
+	public static function get_songs($genre_id = null, $offset = 0, $limit = 100)
+	{
 		$q =
 		'
 			SELECT
@@ -48,7 +54,7 @@ class page_homepage
 				1 = 1
 		';
 
-		$genre_id = (int) get('genre_id');
+
 
 		if ($genre_id)
 		{
@@ -56,13 +62,12 @@ class page_homepage
 		}
 
 
-		$q .= 'ORDER BY songs.id DESC LIMIT 100';
-
+		$q .= 'ORDER BY songs.id DESC LIMIT ' . (int) $offset . ',' . (int) $limit;
 
 		$database = database();
 		$database->query($q);
 
-		$this->songs = $database->get_object_list();
+		return $database->get_object_list();
 	}
 
 	public function init()
@@ -130,49 +135,7 @@ class page_homepage
 					{
 						foreach ($this->songs as $song)
 						{
-							?>
-							<div class="card">
-								<div class="image">
-									<?
-										if ($song->file_image)
-										{
-											?><img src="src/img/covers/<?= $song->file_image ?>"><?
-										}
-										else
-										{
-											?><i class="icon music"></i><?
-										}
-									?>
-
-									<div class="rating box">
-										<?
-											$rating = 0;
-
-											if ($song->rating_votes)
-											{
-												$rating = $song->rating_value / $song->rating_votes;
-											}
-										?>
-
-										<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
-									</div>
-								</div>
-
-								<div class="content">
-									<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
-
-									<div class="ui divider">
-
-									</div>
-
-									<div class="description">
-										<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.manager.play('<?= $song->file_audio ?>'); rude.player.manager.setVolume('<?= $song->file_audio ?>', 20);">
-											<i class="icon video play"></i> Listen
-										</div>
-									</div>
-								</div>
-							</div>
-							<?
+							static::html_song($song);
 						}
 					}
 				?>
@@ -225,22 +188,48 @@ class page_homepage
 		<?
 	}
 
-	public function card($service)
+	public static function html_song($song)
 	{
 		?>
-		<div class="black card">
-			<div class="content">
-				<a href="<?= site::url('service') ?>&id=<?= $service->id ?>" class="header"><?= html::escape(string::excerpt($service->name, 100)) ?></a>
+		<div class="card">
+			<div class="image">
+				<?
+					if ($song->file_image)
+					{
+						?><img src="src/img/covers/<?= $song->file_image ?>"><?
+					}
+					else
+					{
+						?><i class="icon music"></i><?
+					}
+				?>
 
-				<p class="address"><?= html::escape($service->address) ?></p>
+				<div class="rating box">
+					<?
+						$rating = 0;
 
-				<div class="">
-					<?= html::escape(string::excerpt($service->description, 160)) ?>
+						if ($song->rating_votes)
+						{
+							$rating = $song->rating_value / $song->rating_votes;
+						}
+					?>
+
+					<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
 				</div>
 			</div>
 
-			<div class="extra content">
-				Отзывов: <?= $service->comments_count ?>.
+			<div class="content">
+				<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
+
+				<div class="ui divider">
+
+				</div>
+
+				<div class="description">
+					<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.manager.play('<?= $song->file_audio ?>'); rude.player.manager.setVolume('<?= $song->file_audio ?>', 20);">
+						<i class="icon video play"></i> Listen
+					</div>
+				</div>
 			</div>
 		</div>
 		<?
