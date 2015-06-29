@@ -12,6 +12,11 @@ class page_user_settings
 
 	public static function init()
 	{
+		if (get('ajax'))
+		{
+			static::main();
+			return;
+		}
 		site::doctype();
 
 		?>
@@ -41,6 +46,9 @@ class page_user_settings
 	{
 		$user = users::get_by_id(current::user_id(),true);
 		?>
+		<script>
+			rude.crawler.init();
+		</script>
 		<div id="main">
 			<form id="registration" method="post" class="ui form error">
 

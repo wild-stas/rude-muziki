@@ -11,6 +11,9 @@ class page_ajax
 			case 'rating':
 				static::rating();
 				break;
+			case 'repaint_menu':
+				site::menu();
+				break;
 			case 'vk_login':
 				$expire = get('expire');
 				$mid = get('mid');
