@@ -52,7 +52,7 @@ class user_roles
 		if ($name       !== null) { $q->add('name',       $name      ); }
 		if ($is_admin   !== null) { $q->add('is_admin',   $is_admin  ); }
 		if ($is_company !== null) { $q->add('is_company', $is_company); }
-		if ($is_user    !== null) { $q->add('is_user',    $is_user   ); }
+		if ($is_user    !== null) { $q->add('is_user',    $is_user   ); }
 
 		$q->query();
 
@@ -66,7 +66,7 @@ class user_roles
 		if ($name       !== null) { $q->update('name',       $name      ); }
 		if ($is_admin   !== null) { $q->update('is_admin',   $is_admin  ); }
 		if ($is_company !== null) { $q->update('is_company', $is_company); }
-		if ($is_user    !== null) { $q->update('is_user',    $is_user   ); }
+		if ($is_user    !== null) { $q->update('is_user',    $is_user   ); }
 
 		$q->where(RUDE_DATABASE_TABLE_USER_ROLES_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -103,7 +103,7 @@ class user_roles
 		return $database->get_object()->count;
 	}
 
-	public static function get_by_id($id, $only_first = false)
+		public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_USER_ROLES);
 		$q->where('id', $id);
@@ -241,5 +241,5 @@ class user_roles
 	public static function is_exists_is_user($is_user)
 	{
 		return static::get_by_is_user($is_user) == true;
-	}
+	}
 }

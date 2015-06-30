@@ -14,6 +14,11 @@ class page_user
 	
 	public static function init()
 	{
+		if (get('ajax'))
+		{
+			static::main();
+			return;
+		}
 		site::doctype();
 
 		?>
@@ -22,7 +27,9 @@ class page_user
 		<? site::head() ?>
 
 		<body>
-
+		<script>
+			rude.crawler.init();
+		</script>
 		<div id="page-company">
 			<div id="container">
 				<div id="header">
@@ -39,6 +46,7 @@ class page_user
 							switch (current::task())
 							{
 								case 'settings': $page = new page_user_settings(); break;
+								case 'playlists': $page = new page_user_playlist(); break;
 
 								default:
 									$page = new page_user_dashboard();
@@ -65,14 +73,15 @@ class page_user
 		?>
 		<div id="sidebar" class="ui left vertical inverted labeled icon sidebar menu overlay visible">
 			<?
-				static::sidebar_item_global('Главная', 'home', RUDE_SITE_URL);
+				static::sidebar_item_global('Home', 'home', RUDE_SITE_URL);
 
 //				static::sidebar_item_admin('',    'browser');
-				static::sidebar_item_admin('Настройки',   'configure', 'settings');
+				static::sidebar_item_admin('Settings',   'configure', 'settings');
+				static::sidebar_item_admin('Playlists',   'music', 'playlists');
 //				static::sidebar_item_admin('Заказы',    'money',     'orders');
 //				static::sidebar_item_admin('Настройки', 'settings',  'settings');
 
-				static::sidebar_item_global('Выход', 'sign out', site::url('logout'));
+				static::sidebar_item_global('Logout', 'sign out', site::url('logout'));
 			?>
 		</div>
 		<?

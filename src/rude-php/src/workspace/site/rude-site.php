@@ -54,7 +54,6 @@ class site
 			<?= html::js('src/js/sound-manager/2.97a/soundmanager2.js') ?>
             <?= html::js('//vk.com/js/api/openapi.js?116') ?>
 			<?= html::js('src/js/rude.js') ?>
-			<?= html::js('src/js/fb.js') ?>
 			<?= html::js('src/js/rude-fixes.js') ?>
 
 			<?= html::css('src/css/style.css') ?>
