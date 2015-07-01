@@ -603,4 +603,9 @@ class filesystem
 	{
 		return realpath($path);
 	}
+
+	public static function mime($path)
+	{
+		return mime_content_type($path);
+	}
 }

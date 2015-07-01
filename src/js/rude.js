@@ -103,7 +103,7 @@ var rude =
 
 			add: function()
 			{
-
+				rude.player
 			}
 		},
 
