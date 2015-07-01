@@ -12,6 +12,9 @@ class page_ajax
 				static::rating();
 				break;
 
+			case 'repaint_menu':
+				site::menu();
+				break;
 			case 'lazy':
 
 				$songs = page_homepage::get_songs(get('genre_id'), get('offset'), get('limit'));

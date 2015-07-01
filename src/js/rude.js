@@ -572,8 +572,11 @@ var rude =
 		{
 			$(function()
 			{
+				$('a').unbind('click');
+
 				$('a').click(function ()
 				{
+					$('#content').html('load');
 					var url = $(this).attr('href');
 
 					if (rude.string.starts_with(url, 'http'))
@@ -619,6 +622,27 @@ var rude =
 			{
 				window.history.pushState(null, null, url);
 			}
+
+		},
+
+		repaint_site_menu: function()
+		{
+			$.ajax
+			({
+				url: '?page=ajax&task=repaint_menu',
+
+				type: 'GET',
+
+				data: { ajax: 1 },
+
+				success: function (data)
+				{
+					$('#menu').html(data);
+
+					console.log('success update menu!');
+				}
+			});
+
 
 			rude.lazy.reset();
 			rude.lazy.init();

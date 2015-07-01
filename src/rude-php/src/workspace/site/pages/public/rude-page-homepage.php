@@ -78,7 +78,6 @@ class page_homepage
 			return;
 		}
 
-
 		site::doctype();
 
 		?>
@@ -146,7 +145,7 @@ class page_homepage
 		<script>
 			rude.semantic.init.rating();
 			rude.semantic.init.dropdown();
-
+			rude.crawler.init();
 			function vote(selector)
 			{
 				var is_logged = <?= (int) current::user_is_logged() ?>;

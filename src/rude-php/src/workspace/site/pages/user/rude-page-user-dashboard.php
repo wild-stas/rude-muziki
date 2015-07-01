@@ -3,30 +3,19 @@
 namespace rude;
 
 class page_user_dashboard
-{
-	private $services = null;
-	private $orders = null;
+{	
 
 	public function __construct()
 	{
-		$this->services = services::get_by_user_id(current::user_id());
-
-		if ($this->services)
-		{
-			$service_ids = [];
-
-			foreach ($this->services as $service)
-			{
-				$service_ids[] = $service->id;
-			}
-
-			$this->orders = orders::get_by_service_id($service_ids);
-		}
+		
 	}
 
 	public function init()
 	{
 		?>
+		<script>
+			rude.crawler.init();
+		</script>
 		<div id="dashboard" class="ui grid">
 			<div class="four wide column">
 				<h4 class="ui header dividing">Сводная информация</h4>
