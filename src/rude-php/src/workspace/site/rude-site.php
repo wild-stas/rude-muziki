@@ -135,7 +135,6 @@ class site
 				</a>
 			</div>
 
-
 			<?
 				if (current::user_is_logged())
 				{
@@ -199,27 +198,9 @@ class site
 			<div class="header">
 				Playlist
 			</div>
-			<div class="content">
-				<table class="ui table striped celled small compact">
-					<tbody>
-						<?
-							$songs = songs::get_first(14);
 
-							foreach ($songs as $song)
-							{
-								?>
-								<tr>
-									<td class="width-2"><i class="icon video play"></i></td>
-									<td><?= $song->name ?></td>
-									<td class="width-2"><i class="icon remove"></i></td>
-								</tr>
-								<?
-							}
-						?>
-					</tbody>
-				</table>
+			<div class="content"></table></div>
 
-			</div>
 			<div class="actions">
 				<div class="ui positive button">
 					Hide
@@ -230,26 +211,24 @@ class site
 		<div id="player" class="ui bottom inverted labeled icon sidebar menu visible">
 			<div class="item">
 				<div class="button group">
-					<i class="icon backward"></i>
+					<i class="icon backward" onclick="rude.player.song.previous();"></i>
 
-					<i id="player-button-play" class="icon play" onclick="rude.player.song.play();"></i>
-					<i id="player-button-stop" class="icon stop" onclick="rude.player.song.stop();" style="display: none;"></i>
+					<i id="player-button-play" class="icon play" onclick="rude.player.song.resume();"></i>
+					<i id="player-button-stop" class="icon stop" onclick="rude.player.song.pause();" style="display: none;"></i>
 
-					<i class="icon forward"></i>
+					<i class="icon forward" onclick="rude.player.song.next();"></i>
 				</div>
 			</div>
 
 			<div class="item">
 				<div class="button group">
-					<i class="icon repeat"></i>
-					<i class="icon random"></i>
+					<i id="player-button-repeat" class="icon repeat" onclick="$(this).toggleClass('active')"></i>
+					<i id="player-button-shuffle" class="icon random"></i>
 				</div>
 			</div>
 
 			<div class="item">
-				<marquee id="player-song-title" class="song title" scrollamount="4" behavior="scroll">
-					&nbsp;
-				</marquee>
+				<marquee id="player-song-title" class="song title" scrollamount="4" behavior="scroll"></marquee>
 
 				<div class="song slider">
 					<input id="player-song-current" type="hidden">
@@ -271,7 +250,7 @@ class site
 			</div>
 
 			<div class="item">
-				<div class="button group pointer" onclick="$('#playlist').modal('show')">
+				<div class="button group pointer" onclick="$('#playlist').modal({ closable: false }).modal('show')">
 					<i class="icon list"></i>
 
 					<span id="playlist-size">0</span>

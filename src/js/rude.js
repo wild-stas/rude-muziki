@@ -53,6 +53,22 @@ var rude =
 		}
 	},
 
+	jquery:
+	{
+		escape:
+		{
+			selector: function(selector)
+			{
+				if (selector)
+				{
+					return selector.replace(/([ #;?%&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1');
+				}
+
+				return selector;
+			}
+		}
+	},
+
 	player:
 	{
 		manager: null,
@@ -68,8 +84,10 @@ var rude =
 			{
 				buttons:
 				{
-					play: '#player-button-play',
-					stop: '#player-button-stop'
+					play:    '#player-button-play',
+					stop:    '#player-button-stop',
+					repeat:  '#player-button-repeat',
+					shuffle: '#player-button-shuffle'
 				},
 
 				slider:
@@ -101,9 +119,131 @@ var rude =
 		{
 			database: [],
 
-			add: function()
+			add: function(song_id, name, author)
 			{
-				rude.player
+				var item = {song_id: song_id, name: name, author: author};
+
+				rude.player.playlist.database.push(item);
+
+				rude.player.playlist.ui.update();
+			},
+
+			get: function(song_id)
+			{
+				var database = rude.player.playlist.database;
+
+				for (var index = 0; index < database.length; ++index)
+				{
+					var item = database[index];
+
+					if (item.song_id == song_id)
+					{
+						return item;
+					}
+				}
+
+				return null;
+			},
+
+			size: function()
+			{
+				return rude.player.playlist.database.length;
+			},
+
+			reindex: function()
+			{
+				rude.player.playlist.database = rude.player.playlist.database.filter(function (item) { return item != undefined }).join();
+			},
+
+			remove: function(song_id)
+			{
+				var database = rude.player.playlist.database;
+
+				for (var index = 0; index < database.length; index++)
+				{
+					var item = database[index];
+
+					if (item.song_id == song_id)
+					{
+						if (rude.player.song.is.playing(item.song_id))
+						{
+							rude.player.song.stop(item.song_id);
+						}
+
+						database.splice(database.indexOf(item), 1);
+
+						break;
+					}
+				}
+
+				rude.player.playlist.ui.update();
+			},
+
+			is:
+			{
+				empty: function()
+				{
+					return rude.player.playlist.database.length > 0;
+				},
+
+				exists: function(song_id)
+				{
+					var database = rude.player.playlist.database;
+
+					for (var index = 0; index < database.length; ++index)
+					{
+						var item = database[index];
+
+						if (item.song_id == song_id)
+						{
+							return true;
+						}
+					}
+
+					return false;
+				}
+			},
+
+			ui:
+			{
+				update: function()
+				{
+					var html = '<table class="ui table striped celled small compact"><tbody>';
+
+
+					var database = rude.player.playlist.database;
+
+					for (var index = 0; index < database.length; ++index)
+					{
+						var item = database[index];
+
+						html += '<tr class="song ' + item.song_id + '"><td class="width-2"><i class="icon video play" onclick="rude.player.song.play(\'' + item.song_id + '\')"></i></td><td>' + item.author + ' - ' + item.name + '</td><td class="width-2"><i class="icon remove" onclick="rude.player.playlist.remove(\'' + item.song_id + '\')"></i></td></tr>';
+					}
+
+					html += '</tbody></table>';
+
+					$('#playlist').find('.content').html(html);
+
+					rude.player.playlist.ui.activate();
+
+					$('#playlist-size').html(rude.player.playlist.size());
+				},
+
+				activate: function(song_id)
+				{
+					if (typeof song_id === 'undefined')
+					{
+						song_id = rude.player.song.id();
+					}
+
+					if (!song_id)
+					{
+						return;
+					}
+
+					$('#playlist tr.song').removeClass('active');
+					$('#playlist tr.song.' + rude.jquery.escape.selector(song_id)).addClass('active');
+				}
 			}
 		},
 
@@ -169,6 +309,9 @@ var rude =
 
 				update: function(value)
 				{
+					debug('sound volume changed to: ' + value + '%');
+
+
 					var icon = $(rude.player.settings.selector.slider.volume_icon);
 
 					icon.removeClass('up').removeClass('down').removeClass('off');
@@ -180,9 +323,11 @@ var rude =
 					$(rude.player.settings.selector.slider.volume_level).html(value + '%');
 
 
-					if (rude.player.song.id())
+					var song_id = rude.player.song.id();
+
+					if (song_id)
 					{
-						var song = rude.player.song.get();
+						var song = rude.player.song.get(song_id);
 
 						song.setVolume(value);
 					}
@@ -250,46 +395,79 @@ var rude =
 
 		song:
 		{
-			id: function(id)
+			id: function(song_id)
 			{
-				if (typeof id === 'undefined')
+				if (typeof song_id === 'undefined')
 				{
 					return $(rude.player.settings.selector.slider.song_current).val();
 				}
 
-				return $(rude.player.settings.selector.slider.song_current).val(id);
+				return $(rude.player.settings.selector.slider.song_current).val(song_id);
 			},
 
-			get: function(id)
+			get: function(song_id)
 			{
-				if (typeof id === 'undefined')
+				if (typeof song_id === 'undefined')
 				{
-					id = rude.player.song.id();
+					song_id = rude.player.song.id();
 				}
 
-				return rude.player.manager.getSoundById(id);
+				return rude.player.manager.getSoundById(song_id);
 			},
 
-			add: function(file, name, author)
+			title: function(name, author)
 			{
-				rude.player.song.unload(); // unload previous song from player
-				rude.player.song.id(file); // reassign song id (we will use file name as an song identificator)
+				if (typeof name === 'undefined' && typeof author === 'undefined')
+				{
+					return $(rude.player.settings.selector.slider.song_title).html();
+				}
 
-				$(rude.player.settings.selector.slider.song_title).html(name + ' - ' + author);
+				if (name && author)
+				{
+					return $(rude.player.settings.selector.slider.song_title).html(name + ' - ' + author);
+				}
 
-				rude.player.buttons.set.playing();
+				return $(rude.player.settings.selector.slider.song_title).html('');
+			},
+
+			length: function(position, duration)
+			{
+				$(rude.player.settings.selector.slider.song_length).html(rude.time.to.string(position) + '/' + rude.time.to.string(duration));
+			},
+
+			reset: function()
+			{
+				rude.player.song.title('', '');
+				rude.player.song.id(0);
+				rude.player.song.length(0, 0);
+				rude.player.slider.song.value(0);
+				rude.player.slider.song.update();
+			},
+
+			add: function(song_id, name, author)
+			{
+				if (rude.player.playlist.is.exists(song_id))
+				{
+					return false;
+				}
+
+				rude.player.playlist.add(song_id, name, author);
+
 
 				rude.player.manager.createSound
 				({
-					id: file,
+					id: song_id,
 
-					url: rude.player.settings.directory.audio + file,
+					url: rude.player.settings.directory.audio + song_id,
 
+					autoPlay: false,
 					autoLoad: true,
 
 					onfinish: function()
 					{
 						console.log('playing finished');
+
+						rude.player.song.next();
 					},
 
 					onload: function()
@@ -303,14 +481,27 @@ var rude =
 
 						rude.player.slider.song.value(complete);
 
-						$(rude.player.settings.selector.slider.song_length).html(rude.time.to.string(this.position) + '/' + rude.time.to.string(this.duration));
+						rude.player.song.length(this.position, this.duration);
 					}
 				});
+
+
+				var song_previous = rude.player.song.id();
+
+				if (!rude.player.song.is.playing(song_previous))
+				{
+					rude.player.song.play(song_id);
+				}
+
+				return true;
 			},
 
-			stop: function()
+			pause: function(song_id)
 			{
-				var song_id = rude.player.song.id();
+				if (typeof song_id === 'undefined')
+				{
+					song_id = rude.player.song.id();
+				}
 
 				if (!song_id)
 				{
@@ -318,13 +509,15 @@ var rude =
 				}
 
 				rude.player.manager.pause(song_id);
-
 				rude.player.buttons.set.pausing();
 			},
 
-			play: function()
+			resume: function(song_id)
 			{
-				var song_id = rude.player.song.id();
+				if (typeof song_id === 'undefined')
+				{
+					song_id = rude.player.song.id();
+				}
 
 				if (!song_id)
 				{
@@ -332,18 +525,199 @@ var rude =
 				}
 
 				rude.player.manager.resume(song_id);
+				rude.player.buttons.set.playing();
+			},
+
+			stop: function(song_id)
+			{
+				if (typeof song_id === 'undefined')
+				{
+					song_id = rude.player.song.id();
+				}
+
+				if (!song_id)
+				{
+					return;
+				}
+
+				var song = rude.player.song.get(song_id);
+
+				song.setVolume(rude.player.slider.volume.value());
+				song.stop();
+
+				rude.player.buttons.set.pausing();
+			},
+
+			stop_all: function()
+			{
+				var database = rude.player.playlist.database;
+
+				for (var index = 0; index < database.length; index++)
+				{
+					var item = database[index];
+
+					if (rude.player.song.is.playing(item.song_id))
+					{
+						rude.player.song.stop(item.song_id);
+					}
+				}
+			},
+
+			play: function(song_id)
+			{
+				if (typeof song_id === 'undefined')
+				{
+					song_id = rude.player.song.id();
+				}
+
+				if (!song_id)
+				{
+					return;
+				}
+
+
+				rude.player.song.stop_all();
+				rude.player.song.reset();
+
+				rude.player.song.id(song_id);
+
+				rude.player.playlist.ui.activate(song_id);
+
+				if (!rude.player.song.title())
+				{
+					var item = rude.player.playlist.get(song_id);
+
+					rude.player.song.title(item.name, item.author);
+				}
+
+				var song = rude.player.song.get(song_id);
+
+				song.setVolume(rude.player.slider.volume.value());
+				song.play();
 
 				rude.player.buttons.set.playing();
 			},
 
-			unload: function()
+			previous: function()
 			{
 				var song_id = rude.player.song.id();
+
+				if (rude.player.song.is.playing(song_id))
+				{
+					rude.player.song.stop(song_id);
+				}
+
+				var database = rude.player.playlist.database;
+
+				for (var index = 0; index < database.length; index++)
+				{
+					var item = database[index];
+
+					if (item.song_id != song_id)
+					{
+						continue;
+					}
+
+					var last = database[database.length - 1];
+					var previous  = database[index - 1];
+
+					if (!previous && rude.player.song.is.enabled.repeat())
+					{
+						return rude.player.song.play(last.song_id);
+					}
+					else if (previous)
+					{
+						return rude.player.song.play(previous.song_id);
+					}
+				}
+
+				rude.player.song.reset();
+
+				return false;
+			},
+
+			next: function()
+			{
+				var song_id = rude.player.song.id();
+
+				if (rude.player.song.is.playing(song_id))
+				{
+					rude.player.song.stop(song_id);
+				}
+
+				var database = rude.player.playlist.database;
+
+				for (var index = 0; index < database.length; index++)
+				{
+					var item = database[index];
+
+					if (item.song_id != song_id)
+					{
+						continue;
+					}
+
+					var first = database[0];
+					var next  = database[index + 1];
+
+					if (!next && rude.player.song.is.enabled.repeat())
+					{
+						return rude.player.song.play(first.song_id);
+					}
+					else if (next)
+					{
+						return rude.player.song.play(next.song_id);
+					}
+				}
+
+				rude.player.song.reset();
+
+				return false;
+			},
+
+			unload: function(song_id)
+			{
+				if (typeof song_id === 'undefined')
+				{
+					song_id = rude.player.song.id();
+				}
 
 				if (song_id)
 				{
 					soundManager.unload(song_id);
 					soundManager.destroySound(song_id);
+				}
+			},
+
+			is:
+			{
+				playing: function(song_id)
+				{
+					if (typeof song_id === 'undefined')
+					{
+						song_id = rude.player.song.id();
+					}
+
+					if (!song_id)
+					{
+						return false;
+					}
+
+					var song = rude.player.song.get(song_id);
+
+					if (!song)
+					{
+						return false;
+					}
+
+					return song.playState === 1;
+				},
+
+				enabled:
+				{
+					repeat: function()
+					{
+						return $(rude.player.settings.selector.buttons.repeat).hasClass('active');
+					}
 				}
 			}
 		}

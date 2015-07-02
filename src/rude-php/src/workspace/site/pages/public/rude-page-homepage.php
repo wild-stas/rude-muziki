@@ -146,6 +146,7 @@ class page_homepage
 			rude.semantic.init.rating();
 			rude.semantic.init.dropdown();
 			rude.crawler.init();
+
 			function vote(selector)
 			{
 				var is_logged = <?= (int) current::user_is_logged() ?>;
@@ -226,7 +227,7 @@ class page_homepage
 				</div>
 
 				<div class="description">
-					<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.manager.play('<?= $song->file_audio ?>'); rude.player.manager.setVolume('<?= $song->file_audio ?>', 20);">
+					<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>');">
 						<i class="icon video play"></i> Listen
 					</div>
 				</div>

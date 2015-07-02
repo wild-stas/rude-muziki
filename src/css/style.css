@@ -45,10 +45,13 @@
 #player .song.title { font-family: monospace; font-size: 12px; top: -4px; padding-left: 9px; position: relative; text-align: left; }
 #player .ui-slider-range-min { background: orange; }
 #player #playlist-size { bottom: 17px; left: 14px; position: absolute; background: rgb(245, 156, 52); color: black; padding: 1px 2px 0 1px; font-family: monospace; font-size: 11px; }
+#player #player-button-repeat.icon.active { color: orange; }
 
 #playlist .content { background: #F7F7F8; }
 #playlist table { border: none; }
 #playlist table .icon { margin: 0!important; }
+#playlist tr.song .icon { cursor: pointer; }
+#playlist tr.song.active td { background: rgba(255, 165, 0, 0.55)!important; }
 
 #menu .item:hover,
 #menu .item a:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }
