@@ -367,7 +367,7 @@ class site
 		{
 			session::set('user', $user);
 
-			current::reload();
+			//current::reload();
 
 			return true;
 		}

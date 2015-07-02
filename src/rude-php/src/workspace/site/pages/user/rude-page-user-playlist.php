@@ -6,15 +6,7 @@ class page_user_playlist
 {
 	public static function init()
 	{
-		if (get('ajax'))
-		{
-			static::main();
-			return;
-		}
 		?>
-		<script>
-			rude.crawler.init();
-		</script>
 		<div id="container">
 
 
@@ -567,7 +559,7 @@ class page_user_playlist
 				$playlist = new playlist($playlist_id);
 				$playlist->delete();
 
-				user_playlist_items::remove_by_playlist_id($playlist_id);
+				playlist_items::remove_by_playlist_id($playlist_id);
 
 				headers::refresh();
 
@@ -773,13 +765,13 @@ class page_user_playlist
 			<tbody>
 
 			<?
-			$playlists = user_playlists::get();
+			$playlists = playlists::get();
 
 			if ($playlists)
 			{
 				foreach ($playlists as $playlist)
 				{
-					$playlist_items = user_playlist_items::get_by_playlist_id($playlist->id);
+					$playlist_items = playlist_items::get_by_playlist_id($playlist->id);
 
 					?>
 					<tr>
