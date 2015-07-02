@@ -143,7 +143,7 @@ class page_homepage
 		</div>
 
 		<script>
-			rude.semantic.init.rating();
+//			rude.semantic.init.rating();
 			rude.semantic.init.dropdown();
 			rude.crawler.init();
 
