@@ -6,12 +6,23 @@ class page_login
 {
 	public function __construct()
 	{
-		static::validate();
-
+		//static::validate();
 	}
 
 	public function init()
 	{
+		if (get('ajax')){
+			?>
+			<div id="page-login">
+			<?
+			static::main();
+			?>
+			</div>
+			<?
+			return;
+		}
+
+
 		site::doctype();
 
 		?>
@@ -24,10 +35,11 @@ class page_login
 
 				<? site::header() ?>
 
-				<div id="page-login">
+
 					<? site::menu() ?>
 
-					<div id="content" class="ui segment">
+					<div id="content">
+						<div id="page-login">
 						<? static::main() ?>
 					</div>
 				</div>
@@ -47,26 +59,144 @@ class page_login
 		?>
 		<div id="main">
 
-			<form id="login" method="post" class="ui form error">
+			<form id="login" method="POST" action="javascript:void(null)" class="ui form error">
 
 				<h4 class="ui header dividing">Authorization</h4>
 
-				<input type="hidden" name="action" value="authorization">
+				<input type="hidden" name="action" id="action" value="authorization">
 
-				<? site::error('Auth aborted') ?>
+				<?
+				$errors = [];
+				if (get('action') == 'authorization')
+				{
+				$username = get('username');
+				$password = get('password');
+
+				if ($password and string::length($password) < 4)
+				{
+					array_push($errors,'Fill the username field.');
+				}
+
+				if ($username and string::length($username) < 4)
+				{
+					array_push($errors,'Username should be longer than 3 characters.');
+				}
+
+				if ($username and string::length($username) > 32)
+				{
+					array_push($errors,'Username should be shorter than 32 characters.');
+				}
+
+				if (!site::is_username_valid($username))
+				{
+					array_push($errors,'Username should only contain letters, numbers, space, dash and underscore characters.');
+				}
+
+				if (!users::get_by_name($username))
+				{
+					array_push($errors,'We don\'t have such user.');
+				}
+
+				if (!$errors)
+				{
+					if (site::auth($username, $password))
+					{
+						?>
+							<script>
+								rude.crawler.repaint_site_menu();
+								rude.crawler.open('?page=homepage');
+								rude.crawler.init();
+							</script>
+						<?
+
+					}
+					else
+					{
+						array_push($errors,'Wrong password.');
+					}
+				}
+				}
+
+				if ($errors){?>
+			<div class="ui error message">
+			<div class="ui header dividing">Auth aborted</div>
+
+		<div class="ui list">
+			<?
+			foreach ($errors as $error)
+			{
+				?><span class="item black"><i class="icon bug"></i><?= $error ?></span><?
+			}
+			?>
+		</div>
+		</div>
+
+<? } ?>
 
 				<div class="field">
-					<input name="username" type="text" placeholder="Username" value="<?= get('username') ?>">
+					<input name="username" id="username" type="text" placeholder="Username" value="<?= get('username') ?>">
 				</div>
 
 				<div class="field">
-					<input name="password" type="password" placeholder="Password" value="<?= get('password') ?>">
+					<input name="password" id="password" type="password" placeholder="Password" value="<?= get('password') ?>">
 				</div>
 
 				<input class="ui button green fluid" type="submit" value="Sign In">
 			</form>
 
             <script type="text/javascript">
+				$('.ui.form')
+					.form({
+						username: {
+							identifier : 'username',
+							rules: [
+								{
+									type   : 'empty'
+								}
+							]
+						},
+						password: {
+							identifier : 'password',
+							rules: [
+								{
+									type   : 'empty'
+								}
+							]
+						}
+					},
+					{
+						onSuccess: function()
+						{
+							login_ajax();
+						}
+					})
+				;
+				function login_ajax(){
+
+					var username = $('#username').val();
+					var password = $('#password').val();
+					var action =   $('#action').val();
+					$.ajax({
+
+						type:'POST',
+						url:'index.php?page=login',
+						data: {
+
+							username : username,
+							password : password,
+							action : action,
+							ajax : 1
+						},
+						success: function(data){
+							$('#content').html(data);
+						},
+						error: function ()
+						{
+
+							console.log('fail!');
+						}
+					});
+				}
                 VK.init({apiId: 4972706});
 				function authInfo(response) {
 					if (response.session) {
@@ -86,7 +216,8 @@ class page_login
 
 							success: function (data)
 							{
-								rude.url.redirect('?page=homepage');
+								rude.crawler.open('?page=homepage');
+								rude.crawler.repaint_site_menu();
 								console.log('success login vk!');
 							}
 						});
@@ -127,62 +258,5 @@ class page_login
 		<?
 	}
 
-	public function validate()
-	{
-		if (get('action') != 'authorization')
-		{
-			return;
-		}
-
-
-		$username = get('username');
-		$password = get('password');
-
-		if (!$username)
-		{
-			errors::add('Fill the username field.');
-		}
-
-		if (!$password)
-		{
-			errors::add('Fill the password field.');
-		}
-
-		if ($password and string::length($password) < 4)
-		{
-			errors::add('Password should be longer than 3 characters.');
-		}
-
-		if ($username and string::length($username) < 4)
-		{
-			errors::add('Username should be longer than 3 characters.');
-		}
-
-		if ($username and string::length($username) > 32)
-		{
-			errors::add('Username should be shorter than 32 characters.');
-		}
-
-		if (!site::is_username_valid($username))
-		{
-			errors::add('Username should only contain letters, numbers, space, dash and underscore characters.');
-		}
-
-		if (!users::get_by_name($username))
-		{
-			errors::add('We don\'t have such user.');
-		}
-
-		if (!errors::get())
-		{
-			if (site::auth($username, $password))
-			{
-				headers::redirect(RUDE_SITE_URL);
-			}
-			else
-			{
-				errors::add('Wrong password.');
-			}
-		}
-	}
 }
+

@@ -24,35 +24,51 @@ class page_user
 		?>
 		<html>
 
-		<? site::head() ?>
+		<?
+		site::head();
+		site::header();
+		site::menu();
+		?>
 
 		<body>
+		<?
+		static::main();
+		site::player();
+		?>
+
+		</body>
+		</html>
+		<?
+	}
+
+	public static function main()
+	{
+		?>
+
 		<script>
 			rude.crawler.init();
 		</script>
 		<div id="page-company">
 			<div id="container">
-				<div id="header">
-					<h1 class="ui header dividing"><?= current::title() ?></h1>
-				</div>
 
-				<? static::sidebar() ?>
+
+
 
 				<div id="content">
-
+					<? static::sidebar() ?>
 					<div id="main">
 
 						<?
-							switch (current::task())
-							{
-								case 'settings': $page = new page_user_settings(); break;
-								case 'playlists': $page = new page_user_playlist(); break;
+						switch (current::task())
+						{
+							case 'settings': $page = new page_user_settings(); break;
+							case 'playlists': $page = new page_user_playlist(); break;
 
-								default:
-									$page = new page_user_dashboard();
-							}
+							default:
+								$page = new page_user_dashboard();
+						}
 
-							$page->init();
+						$page->init();
 						?>
 
 					</div>
@@ -61,19 +77,16 @@ class page_user
 				<? site::footer() ?>
 			</div>
 		</div>
-
-		</body>
-		</html>
-		<?
-	}
-
+	<?
+		}
 
 	public static function sidebar()
 	{
 		?>
-		<div id="sidebar" class="ui left vertical inverted labeled icon sidebar menu overlay visible">
+		<div id="sidebar" class="ui left vertical inverted labeled icon sidebar menu overlay visible" style="top:40px">
+
 			<?
-				static::sidebar_item_global('Home', 'home', RUDE_SITE_URL);
+				//static::sidebar_item_global('Home', 'home', RUDE_SITE_URL);
 
 //				static::sidebar_item_admin('',    'browser');
 				static::sidebar_item_admin('Settings',   'configure', 'settings');

@@ -55,7 +55,8 @@ function getInfo() {
             success: function ()
             {
                 console.log('success login!');
-                rude.url.redirect('?page=homepage');
+                rude.crawler.open('?page=homepage');
+				rude.crawler.repaint_site_menu();
             }
         });
     });

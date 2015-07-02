@@ -10,8 +10,9 @@ class page_logout
 		?>
 			<script>
 				rude.crawler.repaint_site_menu();
+				rude.crawler.open('?page=homepage');
 			</script>
 		<?
-		headers::redirect(RUDE_SITE_URL . site::url('homepage') . '&ajax=1');
+		//headers::redirect(RUDE_SITE_URL . site::url('homepage') . '&ajax=1');
 	}
 }

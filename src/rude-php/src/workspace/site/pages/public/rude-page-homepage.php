@@ -9,7 +9,8 @@ class page_homepage
 	public function __construct()
 	{
         $email = get('email');
-        $social = get('social');
+		$social = get('social');
+		$uid = get('uid');
 
 
 
