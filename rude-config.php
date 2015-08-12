@@ -23,6 +23,9 @@ define('RUDE_ROLE_USER',  2);
 # directories
 
 define('RUDE_DIR',                    __DIR__);
+define('RUDE_DIR_IMPORT',             RUDE_DIR           . DIRECTORY_SEPARATOR . 'import');
+define('RUDE_DIR_GETID3',             RUDE_DIR           . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'getid3');
+define('RUDE_DIR_AUDIO',              RUDE_DIR           . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'audio');
 define('RUDE_DIR_IMG',                RUDE_DIR           . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'img');
 define('RUDE_DIR_SRC',                RUDE_DIR           . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'rude-php' . DIRECTORY_SEPARATOR . 'src');
 define('RUDE_DIR_WORKSPACE',          RUDE_DIR_SRC       . DIRECTORY_SEPARATOR . 'workspace');
