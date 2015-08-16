@@ -75,7 +75,7 @@ class page_admin_import
 									<td><?= get('title', $info) ?></td>
 									<td class="center"><?= get('artist', $info) ?></td>
 									<td class="center"><?= get('genre', $info) ?></td>
-									<td><?= (string) get('comment', $info) ?></td>
+									<td><? if (!is_object(get('comment', $info))) { echo get('comment', $info); } else { echo 'N/A'; } ?></td>
 								</tr>
 								<?
 							}
@@ -100,7 +100,7 @@ class page_admin_import
 		{
 			$info = static::parse($file);
 
-			if (!get('comment', $info))
+			if (is_object(get('comment', $info)))
 			{
 				$info->comment = '';
 			}
