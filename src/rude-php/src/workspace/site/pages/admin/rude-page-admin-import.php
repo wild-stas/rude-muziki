@@ -72,10 +72,10 @@ class page_admin_import
 								<tr>
 									<td class="center"><?= $index + 1 ?></td>
 									<td><?= filesystem::file_basename($file) ?></td>
-									<td><?= $info->title ?></td>
-									<td class="center"><?= $info->artist ?></td>
-									<td class="center"><?= $info->genre ?></td>
-									<td><?= $info->comment ?></td>
+									<td><?= get('title', $info) ?></td>
+									<td class="center"><?= get('artist', $info) ?></td>
+									<td class="center"><?= get('genre', $info) ?></td>
+									<td><?= get('comment', $info) ?></td>
 								</tr>
 								<?
 							}
@@ -99,6 +99,11 @@ class page_admin_import
 		foreach ($files as $index => $file)
 		{
 			$info = static::parse($file);
+
+			if (!get('comment', $info))
+			{
+				$info->comment = '';
+			}
 
 
 			$genre = song_genres::get_by_name($info->genre, true);
