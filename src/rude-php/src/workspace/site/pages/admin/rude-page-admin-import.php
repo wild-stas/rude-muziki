@@ -75,7 +75,7 @@ class page_admin_import
 									<td><?= get('title', $info) ?></td>
 									<td class="center"><?= get('artist', $info) ?></td>
 									<td class="center"><?= get('genre', $info) ?></td>
-									<td><?= get('comment', $info) ?></td>
+									<td><?= (string) get('comment', $info) ?></td>
 								</tr>
 								<?
 							}
