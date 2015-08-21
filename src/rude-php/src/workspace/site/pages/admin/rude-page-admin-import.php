@@ -173,8 +173,6 @@ class page_admin_import
 
 		$ID3 = $getID3->analyze($file_path);
 
-		debug($ID3);
-
 		if (isset($ID3['tags']['id3v2']))
 		{
 			$info = $ID3['tags']['id3v2'];
