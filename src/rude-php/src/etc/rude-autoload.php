@@ -40,7 +40,7 @@ spl_autoload_register('rude\autoload');
 
 
 
-if (!defined(RUDE_STRING_ENCODING))
+if (!defined('RUDE_STRING_ENCODING'))
 {
 	define('RUDE_STRING_ENCODING', 'UTF-8');
 }
