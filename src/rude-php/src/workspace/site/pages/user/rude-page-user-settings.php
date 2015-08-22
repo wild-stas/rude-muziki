@@ -216,6 +216,9 @@ class page_user_settings
 		<script>
 			rude.semantic.init.dropdown();
 		</script>
+
+
+
 	<?
 	}
 

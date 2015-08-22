@@ -231,12 +231,14 @@ class page_song
 		<?
 			if ($this->comments)
 			{
+
 				foreach ($this->comments as $comment)
 				{
+					$user_avatar = users::get_by_id($comment->user_id,true)->avatar;
 					?>
 					<div class="comment">
 						<a class="avatar">
-							<img src="src/img/avatar.png">
+							<img src="<? if ($user_avatar) { echo $user_avatar;}else{ echo 'src/img/avatar.png'; }?>">
 						</a>
 						<div class="content">
 							<a name="comment-<?= $comment->id ?>" class="author"><?= $comment->user_name ?></a>
