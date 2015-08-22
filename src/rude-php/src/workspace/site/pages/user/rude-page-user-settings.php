@@ -50,7 +50,7 @@ class page_user_settings
 			rude.crawler.init();
 		</script>
 		<div id="main">
-			<form id="registration" method="post" action="javascript:void(null)" class="ui form error">
+			<form id="registration" method="post" enctype="multipart/form-data" action="javascript:void(null)" class="ui form error">
 
 				<h4 class="ui header dividing">Change user settings</h4>
 
@@ -105,7 +105,7 @@ class page_user_settings
 						array_push($errors,'Username should only contain letters, numbers, space, dash and underscore characters.');
 					}
 
-					if (users::is_exists_name($username))
+					if (users::is_exists_name($username) && $username!=$user->name)
 					{
 						array_push($errors,'User with such username already exist.');
 					}
@@ -120,8 +120,6 @@ class page_user_settings
 							list($hash, $salt) = crypt::password($password);
 						}
 						if (users::update(current::user_id(),2, $username, $email, $hash, $salt)){
-
-
 							?>
 							<script>
 
@@ -133,7 +131,7 @@ class page_user_settings
 						else
 						{
 							array_push($errors,'Some error. Please report us about this.');
-							return false;
+
 						}
 					}
 				}
@@ -153,20 +151,23 @@ class page_user_settings
 
 				<? } ?>
 
-
 				<div class="field">
+					<label>Username</label>
 					<input name="username" type="text" placeholder="Username" value="<?= $user->name; ?>">
 				</div>
 
 				<div class="field">
+					<label>E-mail</label>
 					<input name="email" type="email" placeholder="E-mail" value="<?= $user->email; ?>">
 				</div>
 
 				<div class="field">
+					<label>Password</label>
 					<input name="password" type="password" placeholder="Password" value="">
 				</div>
 
 				<div class="field">
+					<label>Password (confirm)</label>
 					<input name="password_repeat" type="password" placeholder="Password (confirm)" value="">
 				</div>
 
@@ -198,6 +199,7 @@ class page_user_settings
 						},
 						success: function(data){
 							$('#content').html(data);
+
 						},
 						error: function ()
 						{
@@ -214,6 +216,9 @@ class page_user_settings
 		<script>
 			rude.semantic.init.dropdown();
 		</script>
+
+
+
 	<?
 	}
 

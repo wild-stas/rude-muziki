@@ -16,6 +16,10 @@ class user
 	public $registered = null;
 	public $social     = null;
 	public $uid        = null;
+	public $avatar     = null;
+	public $lastname   = null;
+	public $firstname  = null;
+	public $birthdate  = null;
 
 
 	public function __construct($id = null)

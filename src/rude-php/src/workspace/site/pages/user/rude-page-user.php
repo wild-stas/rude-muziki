@@ -86,7 +86,7 @@ class page_user
 		<div id="sidebar" class="ui left vertical inverted labeled icon sidebar menu overlay visible" style="top:40px">
 
 			<?
-				//static::sidebar_item_global('Home', 'home', RUDE_SITE_URL);
+				static::sidebar_item_global('User panel', 'home', site::url('user') );
 
 //				static::sidebar_item_admin('',    'browser');
 				static::sidebar_item_admin('Settings',   'configure', 'settings');

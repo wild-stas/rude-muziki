@@ -6,6 +6,8 @@ class page_song
 {
 	private $song    = null;
 	private $song_id = null;
+	private $song_author = null;
+	private $song_genre = null;
 
 	private $comments = null;
 
@@ -13,7 +15,8 @@ class page_song
 	{
 		$this->song_id = (int) get('id');
 		$this->song = songs::get($this->song_id);
-
+		$this->song_author = song_authors::get_by_id($this->song->author_id,true);
+		$this->song_genre = song_genres::get_by_id($this->song->genre_id,true);
 
 		$database = database();
 		$database->query
@@ -118,7 +121,7 @@ class page_song
 			<div id="song" class="ui segment">
 
 				<div class="title">
-					<h3 class="ui header dividing"><?= $this->song->name ?></h3>
+					<h3 class="ui header dividing"><?=$this->song_author->name;?> - <?= $this->song->name ?></h3>
 
 <!--					<div class="ui heart rating" data-rating="4" data-max-rating="5"></div>-->
 
@@ -127,19 +130,94 @@ class page_song
 					</script>
 				</div>
 
-				<div class="image">
-<!--					--><?//
-//						if ($this->song->file_image)
-//						{
-//							?><!--<img src="src/img/covers/--><?//= $this->song->file_image ?><!--">--><?//
-//						}
-//						else
-//						{
-//							?><!--<i class="icon music"></i>--><?//
-//						}
-//					?>
+				<div class="card">
+					<div class="image">
+						<?
+						if ($this->song->file_image)
+						{
+							?><img src="src/img/covers/<?= $this->song->file_image ?>"><?
+						}
+						else
+						{
+							?><i class="icon music"></i><?
+						}
+						?>
+
+<!--						<div class="rating box">-->
+<!--							--><?//
+//							$rating = 0;
+//
+//							if ($this->song->rating_votes)
+//							{
+//								$rating = $this->song->rating_value / $this->song->rating_votes;
+//							}
+//							?>
+<!---->
+<!--							<div class="ui star tiny rating" data-song-id="--><?//= $this->song->id ?><!--" data-rating="--><?//= $rating ?><!--" data-max-rating="5" onclick="vote(this)"></div>-->
+<!--						</div>-->
+					</div>
+					<div>Name: <?= $this->song->name ?></div>
+					<div>Genre: <?=$this->song_genre->name;?></div>
+					<div>Author: <?=$this->song_author->name;?></div>
+					<div></div>
+					<div class="content">
+
+						<div class="ui divider">
+
+						</div>
+
+						<div class="description">
+							<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $this->song->file_audio ?>', '<?= $this->song->name ?>', '<?= $this->song_author->name ?>');">
+								<i class="icon video play"></i> Listen
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
+			<script>
+				//			rude.semantic.init.rating();
+				rude.semantic.init.dropdown();
+				rude.crawler.init();
+
+				function vote(selector)
+				{
+					var is_logged = <?= (int) current::user_is_logged() ?>;
+
+					if (!is_logged)
+					{
+						$('#modal-vote-denied').modal('show');
+
+						return;
+					}
+
+
+					var song_id = $(selector).attr('data-song-id');
+
+					var value = $(selector).find('.icon.active').length;
+
+					debug(value);
+
+					$.ajax
+					({
+						url: 'index.php',
+
+						type: 'GET',
+
+						data:
+						{
+							page: 'ajax',
+							task: 'rating',
+							song_id: song_id,
+							value: value
+						},
+
+						success: function (data)
+						{
+							debug(data);
+						}
+					});
+				}
+			</script>
 
 			<? static::comments() ?>
 		</div>
@@ -153,12 +231,14 @@ class page_song
 		<?
 			if ($this->comments)
 			{
+
 				foreach ($this->comments as $comment)
 				{
+					$user_avatar = users::get_by_id($comment->user_id,true)->avatar;
 					?>
 					<div class="comment">
 						<a class="avatar">
-							<img src="src/img/avatar.png">
+							<img src="<? if ($user_avatar) { echo $user_avatar;}else{ echo 'src/img/avatar.png'; }?>">
 						</a>
 						<div class="content">
 							<a name="comment-<?= $comment->id ?>" class="author"><?= $comment->user_name ?></a>
