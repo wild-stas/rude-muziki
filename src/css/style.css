@@ -100,3 +100,10 @@
 .auth_widget_head, .userDonation{
     display: none;
 }
+.avatar{
+	display: block;
+	max-width: 9.5em;
+	height: auto;
+	float: left;
+	margin: .2em 15px 20px 0;
+}
