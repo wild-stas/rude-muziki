@@ -173,7 +173,6 @@ class page_admin_import
 
 		$ID3 = $getID3->analyze($file_path);
 
-
 		if (isset($ID3['tags']['id3v2']))
 		{
 			$info = $ID3['tags']['id3v2'];
@@ -189,9 +188,9 @@ class page_admin_import
 
 		foreach ($info as $key => $val)
 		{
-			if (isset($val[0]))
+			if (count($val) > 0 and items::first($val))
 			{
-				$info[$key] = $val[0];
+				$info[$key] = items::first($val);
 			}
 		}
 

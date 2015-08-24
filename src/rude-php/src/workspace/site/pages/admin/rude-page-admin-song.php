@@ -58,16 +58,16 @@ class page_admin_song
 			'
 				SELECT
 					songs.*,
-					song_authors.name
+					song_authors.name AS author_name
 				FROM
 					songs
 					JOIN song_authors on songs.author_id = song_authors.id
 				WHERE 1
 			';
 
-		if ($search_name)   { $q .= 'AND name      LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
-		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
-		if ($search_author) { $q .= 'AND song_authors.name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
+		if ($search_name)   { $q .= 'AND songs.name      LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
+		if ($search_genre)  { $q .= 'AND songs.genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
+		if ($search_author) { $q .= 'AND author_name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
 
 		$q .=
 			'
@@ -97,11 +97,6 @@ class page_admin_song
 
 	public function init()
 	{
-		if (!$this->songs)
-		{
-			return;
-		}
-
 		$search_name     = get('search-name');
 		$search_genre    = get('search-genre');
 		$search_author   = get('search-author');

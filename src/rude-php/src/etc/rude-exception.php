@@ -11,6 +11,8 @@ class exception
 
 	private static function trigger($error_message, $error_type)
 	{
-		return trigger_error($error_message, $error_type);
+		$caller = items::get(debug_backtrace(), 3);
+
+		return trigger_error($error_message . ' in <b>' . $caller['class'] . $caller['type'] . $caller['function'] . '()</b> called from <b>' . $caller['file'] . '</b> on line <b>' . $caller['line'] . '</b>.' . PHP_EOL . '<br />Error handler called ', $error_type);
 	}
 }

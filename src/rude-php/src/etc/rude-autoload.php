@@ -39,6 +39,13 @@ function autoload($class_name)
 spl_autoload_register('rude\autoload');
 
 
+
+if (!defined('RUDE_STRING_ENCODING'))
+{
+	define('RUDE_STRING_ENCODING', 'UTF-8');
+}
+
+
 if (defined('RUDE_DEBUG') and RUDE_DEBUG)
 {
 	error_reporting(-1); # show all errors/warnings/stricts
