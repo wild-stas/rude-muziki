@@ -27,25 +27,23 @@ class page_user_dashboard
 		<script>
 			rude.crawler.init();
 		</script>
-		<div id="main" class="">
-			<div class=" ">
+		<div id="main">
+			<div >
 				<h4 class="ui header dividing">User profile</h4>
-				<div class="">
-					<img src="<? if ($user->avatar) { echo $user->avatar;}else{ echo 'src/img/avatar.png'; }?>"  onclick="$('#modal-add').modal({ closable: false }).modal('show')">
-				</div>
-				<div class="">
+
+					<img class="avatar" src="<? if ($user->avatar) { echo $user->avatar;}else{ echo 'src/img/avatar.png'; }?>"  onclick="$('#modal-add').modal({ closable: false }).modal('show')">
+
 					<p>Username: <?=$user->name;?></p>
 					<p>E-mail: <?=$user->email;?></p>
 					<a href="?page=user&task=settings">
-						<input class="ui button green fluid" type="submit" value="Change">
+						<input class="ui button green fluid" type="submit" value="Change your password or e-mail">
 					</a>
-				</div>
-				<div class="ui divider">
 
-				</div>
+
+				<h4 class="ui header dividing">Change user settings</h4>
+
 				<form id="registration" method="post" enctype="multipart/form-data" action="javascript:void(null)" class="ui form error">
 
-					<h4 class="ui header dividing">Change user settings</h4>
 
 					<input type="hidden" name="action" value="edit">
 
