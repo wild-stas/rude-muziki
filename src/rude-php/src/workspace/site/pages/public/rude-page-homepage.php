@@ -144,8 +144,9 @@ class page_homepage
 		</div>
 
 		<script>
-//			rude.semantic.init.rating();
+			rude.semantic.init.rating();
 			rude.semantic.init.dropdown();
+
 			rude.crawler.init();
 
 			function vote(selector)
@@ -212,7 +213,7 @@ class page_homepage
 
 						if ($song->rating_votes)
 						{
-							$rating = $song->rating_value / $song->rating_votes;
+							$rating = float::to_upper($song->rating_value / $song->rating_votes);
 						}
 					?>
 
@@ -223,9 +224,7 @@ class page_homepage
 			<div class="content">
 				<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
 
-				<div class="ui divider">
-
-				</div>
+				<div class="ui divider"></div>
 
 				<div class="description">
 					<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>');">

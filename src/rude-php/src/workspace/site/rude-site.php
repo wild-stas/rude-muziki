@@ -42,7 +42,7 @@ class site
 
 			<meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1" />
 
-			<?= html::js('src/js/jquery/1.11.2/jquery-1.11.2.min.js') ?>
+			<?= html::js('src/js/jquery/1.11.3/jquery-1.11.3.min.js') ?>
 
 			<?= html::js('src/js/jquery-ui/1.11.4/jquery-ui.js') ?>
 			<?= html::css('src/js/jquery-ui/1.11.4/jquery-ui.css') ?>
