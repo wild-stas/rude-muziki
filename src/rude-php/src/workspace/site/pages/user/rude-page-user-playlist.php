@@ -493,8 +493,9 @@ class page_user_playlist
 
 					if (mime::is_image($cover->type))
 					{
-						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR . $playlist_id;
-
+						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR .'playlist_covers'. DIRECTORY_SEPARATOR . $playlist_id;
+						var_dump($cover_dir);
+						var_dump($cover);
 						if (!filesystem::is_exists($cover_dir))
 						{
 							filesystem::create_directory($cover_dir, 0755, true);
@@ -504,12 +505,16 @@ class page_user_playlist
 
 						filesystem::move($cover->tmp_name, $cover_dir . DIRECTORY_SEPARATOR . $cover_name);
 
-						$playlist = new playlist($playlist_id);
+						$playlist = new user_playlist($playlist_id);
 						$playlist->file_image = $cover_name;
 						$playlist->update();
 					}
 
-					headers::refresh();
+					?>
+					<script>
+						rude.crawler.open('?page=user&task=playlists');
+					</script>
+					<?
 				}
 
 				break;
@@ -531,7 +536,7 @@ class page_user_playlist
 
 					if (mime::is_image($cover->type))
 					{
-						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR . $playlist_id;
+						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR .'playlist_covers'. DIRECTORY_SEPARATOR . $playlist_id;
 
 						if (!filesystem::is_exists($cover_dir))
 						{
@@ -542,12 +547,16 @@ class page_user_playlist
 
 						filesystem::move($cover->tmp_name, $cover_dir . DIRECTORY_SEPARATOR . $cover_name);
 
-						$playlist = new playlist($playlist_id);
-						$playlist->image = $cover_name;
+						$playlist = new user_playlist($playlist_id);
+						$playlist->file_image = $cover_name;
 						$playlist->update();
 					}
 
-					headers::refresh();
+					?>
+					<script>
+						rude.crawler.open('?page=user&task=playlists');
+					</script>
+					<?
 				}
 
 				break;
@@ -561,8 +570,11 @@ class page_user_playlist
 
 				playlist_items::remove_by_playlist_id($playlist_id);
 
-				headers::refresh();
-
+				?>
+					<script>
+						rude.crawler.open('?page=user&task=playlists');
+					</script>
+					<?
 				break;
 		}
 
@@ -765,13 +777,13 @@ class page_user_playlist
 			<tbody>
 
 			<?
-			$playlists = playlists::get();
+			$playlists = user_playlists::get_by_user_id(current::user_id());
 
 			if ($playlists)
 			{
 				foreach ($playlists as $playlist)
 				{
-					$playlist_items = playlist_items::get_by_playlist_id($playlist->id);
+					$playlist_items = user_playlist_items::get_by_playlist_id($playlist->id);
 
 					?>
 					<tr>
@@ -788,7 +800,8 @@ class page_user_playlist
 
 							<i class="icon configure black popup init" onclick="$('#playlist-update-id').val(<?= $playlist->id ?>); $('#playlist-update-name').val('<?= static::escape_js($playlist->name) ?>'); $('#playlist-update-title').val('<?= static::escape_js($playlist->title) ?>'); $('#playlist-update-description').val('<?= static::escape_js($playlist->description) ?>'); $('#modal-update').modal({ closable: false }).modal('show');" data-content="Change playlist meta information"></i>
 
-							<a class="inline-block" target="_blank" href="<?= url::host(true) ?>/admin/plugins/playlist/src/img/<?= $playlist->id ?>/<?= $playlist->image ?>">
+							<a class="inline-block" target="_blank" href="#">
+							<img style="display:none" src="<?= url::host(true) ?>/src/img/playlist_covers/<?= $playlist->id ?>/<?= $playlist->file_image ?>">
 								<i class="icon search popup blue init" data-content="Show cover"></i>
 							</a>
 
