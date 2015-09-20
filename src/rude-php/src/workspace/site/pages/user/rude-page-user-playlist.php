@@ -567,10 +567,10 @@ class page_user_playlist
 
 				$playlist_id = get('playlist-id');
 
-				$playlist = new playlist($playlist_id);
+				$playlist = new user_playlist($playlist_id);
 				$playlist->delete();
 
-				playlist_items::remove_by_playlist_id($playlist_id);
+				user_playlist_items::remove_by_playlist_id($playlist_id);
 
 				?>
 					<script>
