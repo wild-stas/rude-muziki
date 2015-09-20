@@ -163,13 +163,14 @@ class page_user_playlist
 		$q =
 			'
 				SELECT
-					*
+					*,
+					songs.id   AS song_id,
+					songs.name   AS song_name
 				FROM
 					songs
 					JOIN song_authors on songs.author_id = song_authors.id
 				WHERE
-					songs.id NOT IN (SELECT song_id FROM playlist_items WHERE playlist_id = ' . (int) $playlist_id . ')
-		';
+					1';
 
 		if ($search_name)   { $q .= 'AND name   LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
 		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
@@ -229,6 +230,7 @@ class page_user_playlist
 		$search_name     = get('search-name');
 		$search_genre    = get('search-genre');
 		$search_author   = get('search-author');
+
 		?>
 
 		<div class="ui segment inverted teal">
@@ -339,7 +341,7 @@ class page_user_playlist
 									{
 										foreach ($playlist_items as $playlist_item)
 										{
-											if ($playlist_item->song_id == $song->id)
+											if ($playlist_item->song_id == $song->song_id)
 											{
 												$is_checked = true;
 											}
@@ -351,10 +353,10 @@ class page_user_playlist
 									<tr>
 										<td class="center">
 											<div class="ui checkbox">
-												<input type="checkbox" name="song-ids[]" value="<?= $song->id ?>" placeholder="" <? if ($is_checked) { ?>checked="checked"<? } ?>>
+												<input type="checkbox" name="song-ids[]" value="<?= $song->song_id ?>" placeholder="" <? if ($is_checked) { ?>checked="checked"<? } ?>>
 											</div>
 										</td>
-										<td><a href="#" target="_blank"><?= static::highlight($song->name, $search_name) ?></a></td>
+										<td><a href="#" target="_blank"><?= static::highlight($song->song_name, $search_name) ?></a></td>
 										<td><?= song_genres::get_by_id($song->genre_id,true)->name; ?></td>
 										<td><?= song_authors::get_by_id($song->author_id,true)->name ?></td>
 										<td class="center"><?= date::date('.', strtotime($song->timestamp)) ?></td>
@@ -800,10 +802,10 @@ class page_user_playlist
 
 							<i class="icon configure black popup init" onclick="$('#playlist-update-id').val(<?= $playlist->id ?>); $('#playlist-update-name').val('<?= static::escape_js($playlist->name) ?>'); $('#playlist-update-title').val('<?= static::escape_js($playlist->title) ?>'); $('#playlist-update-description').val('<?= static::escape_js($playlist->description) ?>'); $('#modal-update').modal({ closable: false }).modal('show');" data-content="Change playlist meta information"></i>
 
-							<a class="inline-block" target="_blank" href="#">
-							<img style="display:none" src="<?= url::host(true) ?>/src/img/playlist_covers/<?= $playlist->id ?>/<?= $playlist->file_image ?>">
-								<i class="icon search popup blue init" data-content="Show cover"></i>
-							</a>
+							<span class="inline-block" style="position: relative">
+								<img style="display:none; position: absolute;max-width: 150px;right: 10px;top: 15px;padding: 3px;background-color: black;border-radius: 5px;" src="<?= url::host(true) ?>/rude-muziki/src/img/playlist_covers/<?= $playlist->id ?>/<?= $playlist->file_image ?>">
+								<i class="icon search popup blue init" data-content="Show cover" onmouseover="$(this).parent().find('img').show();" onmouseout="$(this).parent().find('img').hide();" ></i>
+							</span>
 
 							<?
 							if ($playlist->id != 3 and $playlist->id != 4)
