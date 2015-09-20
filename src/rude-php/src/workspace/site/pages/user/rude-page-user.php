@@ -11,7 +11,7 @@ class page_user
 			page_403::init(); die;
 		}
 	}
-	
+
 	public static function init()
 	{
 		if (get('ajax'))
