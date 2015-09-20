@@ -107,3 +107,32 @@
 	float: left;
 	margin: .2em 15px 20px 0;
 }
+
+.playlist_card{
+	width: 100%;
+	background: #fff;
+	padding: 0;
+	border: none;
+	border-radius: .2857rem;
+	box-shadow: 0 3px 0 0 #d4d4d5,0 0 0 1px #d4d4d5;
+	-webkit-transition: box-shadow .2s ease;
+	transition: box-shadow .2s ease;
+	z-index: '';
+	margin-top: 20px;
+}
+
+.playlist_card .image  {
+	display: inline-block;
+	width: 20%;
+	vertical-align: middle;
+	padding: 8px;
+}
+.playlist_card .image img {
+	width: 100%;
+}
+
+.playlist_card .content {
+	display: inline-block;
+	vertical-align: middle;
+	width: 79%;
+}

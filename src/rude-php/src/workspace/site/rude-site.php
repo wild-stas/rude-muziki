@@ -12,6 +12,7 @@ class site
 		{
 			case 'homepage':        $page = new page_homepage();        break;
 			case 'song':            $page = new page_song();            break;
+			case 'playlists':       $page = new page_playlists();            break;
 
 			case 'admin':           $page = new page_admin();           break;
 			case 'user':            $page = new page_user();            break;
@@ -132,6 +133,12 @@ class site
 			<div class="item">
 				<a href="#">
 					<i class="icon announcement"></i> New
+				</a>
+			</div>
+
+			<div class="item">
+				<a href="<?= site::url('playlists') ?>">
+					<i class="icon list"></i> Playlists
 				</a>
 			</div>
 
