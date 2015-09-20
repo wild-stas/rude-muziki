@@ -130,21 +130,12 @@ class page_homepage
 		</div>
 
 		<div id="main">
-			<div id="recent" class="ui double six doubling cards">
-				<?
-					if ($this->songs)
-					{
-						foreach ($this->songs as $song)
-						{
-							static::html_song($song);
-						}
-					}
-				?>
+			<div id="recent">
+				<? static::html_songs($this->songs, true); ?>
 			</div>
 		</div>
 
 		<script>
-			rude.semantic.init.rating();
 			rude.semantic.init.dropdown();
 
 			rude.crawler.init();
@@ -191,48 +182,85 @@ class page_homepage
 		<?
 	}
 
-	public static function html_song($song)
+	public static function html_songs($songs, $include_head = false)
 	{
+		if (!$songs)
+		{
+			return;
+		}
+
 		?>
-		<div class="card">
-			<div class="image">
-				<?
-					if ($song->file_image)
-					{
-						?><img src="src/img/covers/<?= $song->file_image ?>"><?
-					}
-					else
-					{
-						?><i class="icon music"></i><?
-					}
-				?>
+		<table class="ui celled table striped">
 
-				<div class="rating box">
-					<?
-						$rating = 0;
-
-						if ($song->rating_votes)
-						{
-							$rating = float::to_upper($song->rating_value / $song->rating_votes);
-						}
+			<?
+				if ($include_head)
+				{
 					?>
+					<thead>
+						<tr>
+							<th>Listen</th>
+							<th>Author</th>
+							<th>Song Name</th>
+							<th>Rating</th>
+						</tr>
+					</thead>
+					<?
+				}
+			?>
 
-					<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
-				</div>
-			</div>
+			<tbody>
+			<?
+				foreach ($songs as $song)
+				{
+					?>
+					<tr>
+						<td>
+							<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>');">
+								<i class="icon video play"></i>
+							</div>
+						</td>
 
-			<div class="content">
-				<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
+						<td>
+							<?
+								if ($song->file_image)
+								{
+									?><a href="src/img/covers/<?= $song->file_image ?>"><?= $song->author_name ?></a><?
+								}
+								else
+								{
+									echo $song->author_name;
+								}
+							?>
+						</td>
 
-				<div class="ui divider"></div>
+						<td>
+							<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
+						</td>
 
-				<div class="description">
-					<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>');">
-						<i class="icon video play"></i> Listen
-					</div>
-				</div>
-			</div>
-		</div>
+						<td>
+							<div class="rating box">
+								<?
+									$rating = 0;
+
+									if ($song->rating_votes)
+									{
+										$rating = float::to_upper($song->rating_value / $song->rating_votes);
+									}
+								?>
+
+								<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
+							</div>
+						</td>
+					</tr>
+					<?
+				}
+			?>
+			</tbody>
+		</table>
+
+		<script>
+			rude.semantic.init.rating();
+		</script>
 		<?
 	}
 }

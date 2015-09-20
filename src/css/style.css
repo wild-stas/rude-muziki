@@ -4,11 +4,17 @@
 
 #header { padding-bottom: 1em; }
 
-#recent.cards .card .rating.box { position: absolute; right: 3px; bottom: 3px; }
-#recent.cards .card .image i.music { height: 149px; width: 149px; font-size: 4em; position: relative; padding-top: 40px; }
-#recent.cards .card .header { padding-bottom: 20px; }
-#recent.cards .card .description { position: absolute; bottom: 15px; }
-#recent.cards .card .description .button { position: relative; bottom: 0; }
+/*#recent.cards .card .rating.box { position: absolute; right: 3px; bottom: 3px; }*/
+/*#recent.cards .card .image i.music { height: 149px; width: 149px; font-size: 4em; position: relative; padding-top: 40px; }*/
+/*#recent.cards .card .header { padding-bottom: 20px; }*/
+/*#recent.cards .card .description { position: absolute; bottom: 15px; }*/
+/*#recent.cards .card .description .button { position: relative; bottom: 0; }*/
+
+
+#recent table.ui tr td:nth-child(1) { width: 40px; }
+#recent table.ui tr td:nth-child(2) { width: 142px; }
+#recent table.ui tr td:nth-child(3) {  }
+#recent table.ui tr td:nth-child(4) { width: 88px; }
 
 #page-admin { padding-left: 120px; }
 #page-admin #sidebar { width: 120px; }
@@ -28,7 +34,7 @@
 
 #comments { max-width: inherit; }
 
-
+#player { background: #4C5162; }
 #player .icon { cursor: pointer; font-size: 1.2em; }
 #player .icon:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }
 #player .button.group { display: inline-block; }
@@ -53,10 +59,14 @@
 #playlist tr.song .icon { cursor: pointer; }
 #playlist tr.song.active td { background: rgba(255, 165, 0, 0.55)!important; }
 
+#menu { background: #4C5162; }
 #menu .item:hover,
 #menu .item a:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }
 #menu .ui.dropdown .item.active { background-color: rgba(255, 165, 0, 0.38)!important; }
 #menu .ui.dropdown .icon.caret.down { position: relative; top: 2px; }
+
+
+.ui.positive { background-color: #4C5162!important; }
 
 
 .bold { font-weight: bold; }

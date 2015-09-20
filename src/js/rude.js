@@ -49,6 +49,13 @@ var rude =
 				$(function() {
 					$('.ui.rating').rating();
 				});
+			},
+
+			sticky: function()
+			{
+				$(function() {
+					$('.ui.sticky').sticky();
+				});
 			}
 		}
 	},
