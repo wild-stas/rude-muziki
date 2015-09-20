@@ -163,13 +163,14 @@ class page_user_playlist
 		$q =
 			'
 				SELECT
-					*
+					*,
+					songs.id   AS song_id,
+					songs.name   AS song_name
 				FROM
 					songs
 					JOIN song_authors on songs.author_id = song_authors.id
 				WHERE
-					songs.id NOT IN (SELECT song_id FROM playlist_items WHERE playlist_id = ' . (int) $playlist_id . ')
-		';
+					1';
 
 		if ($search_name)   { $q .= 'AND name   LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
 		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
@@ -229,6 +230,7 @@ class page_user_playlist
 		$search_name     = get('search-name');
 		$search_genre    = get('search-genre');
 		$search_author   = get('search-author');
+
 		?>
 
 		<div class="ui segment inverted teal">
@@ -339,7 +341,7 @@ class page_user_playlist
 									{
 										foreach ($playlist_items as $playlist_item)
 										{
-											if ($playlist_item->song_id == $song->id)
+											if ($playlist_item->song_id == $song->song_id)
 											{
 												$is_checked = true;
 											}
@@ -351,10 +353,10 @@ class page_user_playlist
 									<tr>
 										<td class="center">
 											<div class="ui checkbox">
-												<input type="checkbox" name="song-ids[]" value="<?= $song->id ?>" placeholder="" <? if ($is_checked) { ?>checked="checked"<? } ?>>
+												<input type="checkbox" name="song-ids[]" value="<?= $song->song_id ?>" placeholder="" <? if ($is_checked) { ?>checked="checked"<? } ?>>
 											</div>
 										</td>
-										<td><a href="#" target="_blank"><?= static::highlight($song->name, $search_name) ?></a></td>
+										<td><a href="#" target="_blank"><?= static::highlight($song->song_name, $search_name) ?></a></td>
 										<td><?= song_genres::get_by_id($song->genre_id,true)->name; ?></td>
 										<td><?= song_authors::get_by_id($song->author_id,true)->name ?></td>
 										<td class="center"><?= date::date('.', strtotime($song->timestamp)) ?></td>
@@ -493,8 +495,9 @@ class page_user_playlist
 
 					if (mime::is_image($cover->type))
 					{
-						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR . $playlist_id;
-
+						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR .'playlist_covers'. DIRECTORY_SEPARATOR . $playlist_id;
+						var_dump($cover_dir);
+						var_dump($cover);
 						if (!filesystem::is_exists($cover_dir))
 						{
 							filesystem::create_directory($cover_dir, 0755, true);
@@ -504,12 +507,16 @@ class page_user_playlist
 
 						filesystem::move($cover->tmp_name, $cover_dir . DIRECTORY_SEPARATOR . $cover_name);
 
-						$playlist = new playlist($playlist_id);
+						$playlist = new user_playlist($playlist_id);
 						$playlist->file_image = $cover_name;
 						$playlist->update();
 					}
 
-					headers::refresh();
+					?>
+					<script>
+						rude.crawler.open('?page=user&task=playlists');
+					</script>
+					<?
 				}
 
 				break;
@@ -531,7 +538,7 @@ class page_user_playlist
 
 					if (mime::is_image($cover->type))
 					{
-						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR . $playlist_id;
+						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR .'playlist_covers'. DIRECTORY_SEPARATOR . $playlist_id;
 
 						if (!filesystem::is_exists($cover_dir))
 						{
@@ -542,12 +549,16 @@ class page_user_playlist
 
 						filesystem::move($cover->tmp_name, $cover_dir . DIRECTORY_SEPARATOR . $cover_name);
 
-						$playlist = new playlist($playlist_id);
-						$playlist->image = $cover_name;
+						$playlist = new user_playlist($playlist_id);
+						$playlist->file_image = $cover_name;
 						$playlist->update();
 					}
 
-					headers::refresh();
+					?>
+					<script>
+						rude.crawler.open('?page=user&task=playlists');
+					</script>
+					<?
 				}
 
 				break;
@@ -556,13 +567,16 @@ class page_user_playlist
 
 				$playlist_id = get('playlist-id');
 
-				$playlist = new playlist($playlist_id);
+				$playlist = new user_playlist($playlist_id);
 				$playlist->delete();
 
-				playlist_items::remove_by_playlist_id($playlist_id);
+				user_playlist_items::remove_by_playlist_id($playlist_id);
 
-				headers::refresh();
-
+				?>
+					<script>
+						rude.crawler.open('?page=user&task=playlists');
+					</script>
+					<?
 				break;
 		}
 
@@ -765,13 +779,13 @@ class page_user_playlist
 			<tbody>
 
 			<?
-			$playlists = playlists::get();
+			$playlists = user_playlists::get_by_user_id(current::user_id());
 
 			if ($playlists)
 			{
 				foreach ($playlists as $playlist)
 				{
-					$playlist_items = playlist_items::get_by_playlist_id($playlist->id);
+					$playlist_items = user_playlist_items::get_by_playlist_id($playlist->id);
 
 					?>
 					<tr>
@@ -788,9 +802,10 @@ class page_user_playlist
 
 							<i class="icon configure black popup init" onclick="$('#playlist-update-id').val(<?= $playlist->id ?>); $('#playlist-update-name').val('<?= static::escape_js($playlist->name) ?>'); $('#playlist-update-title').val('<?= static::escape_js($playlist->title) ?>'); $('#playlist-update-description').val('<?= static::escape_js($playlist->description) ?>'); $('#modal-update').modal({ closable: false }).modal('show');" data-content="Change playlist meta information"></i>
 
-							<a class="inline-block" target="_blank" href="<?= url::host(true) ?>/admin/plugins/playlist/src/img/<?= $playlist->id ?>/<?= $playlist->image ?>">
-								<i class="icon search popup blue init" data-content="Show cover"></i>
-							</a>
+							<span class="inline-block" style="position: relative">
+								<img style="display:none; position: absolute;max-width: 150px;right: 10px;top: 15px;padding: 3px;background-color: black;border-radius: 5px;" src="<?= url::host(true) ?>/rude-muziki/src/img/playlist_covers/<?= $playlist->id ?>/<?= $playlist->file_image ?>">
+								<i class="icon search popup blue init" data-content="Show cover" onmouseover="$(this).parent().find('img').show();" onmouseout="$(this).parent().find('img').hide();" ></i>
+							</span>
 
 							<?
 							if ($playlist->id != 3 and $playlist->id != 4)
