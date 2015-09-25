@@ -39,6 +39,8 @@ class page_song
 				ratings ON ratings.song_id = songs.id
 			WHERE
 				songs.id = ' . (int) $this->song_id . '
+			GROUP BY
+				songs.id
 		');
 
 		$this->song = $database->get_object();
@@ -195,7 +197,7 @@ class page_song
 
 						<div class="ui divider"></div>
 
-						<div class="ui icon labeled button" onclick="rude.player.song.add('<?= $this->song->file_audio ?>', '<?= $this->song->name ?>', '<?= $this->song->author_name ?>');">
+						<div class="ui icon labeled button" onclick="rude.player.song.add('<?= $this->song->file_audio ?>', '<?= $this->song->name ?>', '<?= $this->song->author_name ?>'); rude.player.song.play('<?= $this->song->file_audio ?>')">
 							<i class="icon video play"></i> Listen
 						</div>
 					</div>
