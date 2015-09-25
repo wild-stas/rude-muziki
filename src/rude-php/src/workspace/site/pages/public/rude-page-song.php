@@ -184,7 +184,7 @@ class page_song
 						<p>
 							<b>Author:</b> <?= $this->song_author->name ?>.<br>
 							<b>Name:</b> <?= $this->song->name ?>.<br>
-							<b>Genre:</b> <a href="<?= $this->song->genre_id ?>"><?= $this->song_genre->name ?></a>.<br>
+							<b>Genre:</b> <a href="?page=homepage&genre_id=<?= $this->song->genre_id ?>"><?= $this->song_genre->name ?></a>.<br>
 						</p>
 
 						<div class="ui divider"></div>
