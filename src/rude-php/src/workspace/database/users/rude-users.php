@@ -60,7 +60,7 @@ class users
 		if ($avatar     !== null) { $q->add('avatar',     $avatar    ); }
 		if ($lastname   !== null) { $q->add('lastname',   $lastname  ); }
 		if ($firstname  !== null) { $q->add('firstname',  $firstname ); }
-		if ($birthdate  !== null) { $q->add('birthdate',  $birthdate ); }
+		if ($birthdate  !== null) { $q->add('birthdate',  $birthdate ); }
 
 		$q->query();
 
@@ -82,7 +82,7 @@ class users
 		if ($avatar     !== null) { $q->update('avatar',     $avatar    ); }
 		if ($lastname   !== null) { $q->update('lastname',   $lastname  ); }
 		if ($firstname  !== null) { $q->update('firstname',  $firstname ); }
-		if ($birthdate  !== null) { $q->update('birthdate',  $birthdate ); }
+		if ($birthdate  !== null) { $q->update('birthdate',  $birthdate ); }
 
 		$q->where(RUDE_DATABASE_TABLE_USERS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -119,7 +119,7 @@ class users
 		return $database->get_object()->count;
 	}
 
-	public static function get_by_id($id, $only_first = false)
+		public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_USERS);
 		$q->where('id', $id);
@@ -481,5 +481,5 @@ class users
 	public static function is_exists_birthdate($birthdate)
 	{
 		return static::get_by_birthdate($birthdate) == true;
-	}
+	}
 }

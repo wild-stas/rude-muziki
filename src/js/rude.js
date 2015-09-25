@@ -451,8 +451,12 @@ var rude =
 				rude.player.slider.song.update();
 			},
 
-			add: function(song_id, name, author)
+			add: function(song_id, name, author, enable_autoload)
 			{
+				if(!enable_autoload) {
+					enable_autoload = true;
+				}
+
 				if (rude.player.playlist.is.exists(song_id))
 				{
 					return false;
@@ -468,7 +472,7 @@ var rude =
 					url: rude.player.settings.directory.audio + song_id,
 
 					autoPlay: false,
-					autoLoad: true,
+					autoLoad: enable_autoload,
 
 					onfinish: function()
 					{

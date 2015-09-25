@@ -192,7 +192,7 @@ class page_homepage
 		}
 
 		?>
-		<table class="ui celled table striped">
+		<table class="ui celled table striped ">
 
 			<?
 				if ($include_head)
