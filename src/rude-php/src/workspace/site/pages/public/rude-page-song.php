@@ -39,6 +39,8 @@ class page_song
 				ratings ON ratings.song_id = songs.id
 			WHERE
 				songs.id = ' . (int) $this->song_id . '
+			GROUP BY
+				songs.id
 		');
 
 		$this->song = $database->get_object();
