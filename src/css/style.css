@@ -37,7 +37,7 @@
 
 #comments { max-width: inherit; }
 
-#song img { max-width: 100%; }
+#song img { max-width: 100%; display: table; margin: 0 auto;}
 
 #player { background: #4C5162; }
 #player .icon { cursor: pointer; font-size: 1.2em; }
