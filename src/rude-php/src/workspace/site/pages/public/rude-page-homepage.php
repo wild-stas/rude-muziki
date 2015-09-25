@@ -53,6 +53,8 @@ class page_homepage
 				ratings ON ratings.song_id = songs.id
 			WHERE
 				1 = 1
+			GROUP BY
+				songs.id
 		';
 
 
