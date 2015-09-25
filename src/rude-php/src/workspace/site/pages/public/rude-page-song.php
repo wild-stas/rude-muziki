@@ -158,7 +158,7 @@ class page_song
 							}
 							else
 							{
-								?><img src="src/img/image.png"><?
+								?><img src="src/img/covers/image.png"><?
 							}
 						?>
 					</div>
