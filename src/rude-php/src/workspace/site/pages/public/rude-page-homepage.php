@@ -217,16 +217,16 @@ class page_homepage
 					<tr>
 						<td>
 							<?
-								$image = 'image_white.png';
+								$image = 'src/img/image_white.png';
 
 								if ($song->file_image)
 								{
-									$image = $song->file_image;
+									$image = 'src/img/covers/' . $song->file_image;
 								}
 							?>
 
 							<a class="header" href="<?= site::url('song', null, $song->id) ?>">
-								<img src="src/img/covers/<?= $image ?>">
+								<img src="<?= $image ?>">
 							</a>
 						</td>
 
