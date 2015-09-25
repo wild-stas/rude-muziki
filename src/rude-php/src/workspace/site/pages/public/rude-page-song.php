@@ -14,11 +14,40 @@ class page_song
 	public function __construct()
 	{
 		$this->song_id = (int) get('id');
-		$this->song = songs::get($this->song_id);
+
+
+		$database = database();
+
+		$database->query('
+			SELECT
+				songs.*,
+
+				song_authors.name AS author_name,
+				song_genres.name  AS genre_name,
+				song_genres.id    AS genre_id,
+
+				(SELECT   SUM(value) FROM ratings WHERE song_id = songs.id) AS rating_value,
+				(SELECT COUNT(id)    FROM ratings WHERE song_id = songs.id) AS rating_votes
+
+			FROM
+				songs
+			LEFT JOIN
+				song_authors ON song_authors.id = songs.author_id
+			LEFT JOIN
+				song_genres ON song_genres.id = songs.genre_id
+			LEFT JOIN
+				ratings ON ratings.song_id = songs.id
+			WHERE
+				songs.id = ' . (int) $this->song_id . '
+		');
+
+		$this->song = $database->get_object();
+
+
 		$this->song_author = song_authors::get_by_id($this->song->author_id,true);
 		$this->song_genre = song_genres::get_by_id($this->song->genre_id,true);
 
-		$database = database();
+
 		$database->query
 		('
 			SELECT
@@ -57,7 +86,7 @@ class page_song
 		?>
 		<html>
 
-			<? site::head(true) ?>
+			<? site::head() ?>
 
 			<body>
 				<div id="container">
@@ -118,65 +147,65 @@ class page_song
 	{
 		?>
 		<div id="main">
-			<div id="song" class="ui segment">
 
-				<div class="title">
-					<h3 class="ui header dividing"><?=$this->song_author->name;?> - <?= $this->song->name ?></h3>
-
-<!--					<div class="ui heart rating" data-rating="4" data-max-rating="5"></div>-->
-
-					<script>
-						rude.semantic.init.rating();
-					</script>
+			<div id="song" class="ui two column grid">
+				<div class="six wide column">
+					<div class="ui segment">
+						<?
+							if ($this->song->file_image)
+							{
+								?><img src="src/img/covers/<?= $this->song->file_image ?>"><?
+							}
+							else
+							{
+								?><img src="src/img/covers/image.png"><?
+							}
+						?>
+					</div>
 				</div>
 
-				<div class="card">
-					<div class="image">
+				<div class="ten wide column">
+					<div class="ui segment">
 						<?
-						if ($this->song->file_image)
-						{
-							?><img src="src/img/covers/<?= $this->song->file_image ?>"><?
-						}
-						else
-						{
-							?><i class="icon music"></i><?
-						}
+							$rating = 0;
+
+							if ($this->song->rating_votes)
+							{
+								$rating = $this->song->rating_value / $this->song->rating_votes;
+							}
 						?>
 
-<!--						<div class="rating box">-->
-<!--							--><?//
-//							$rating = 0;
-//
-//							if ($this->song->rating_votes)
-//							{
-//								$rating = $this->song->rating_value / $this->song->rating_votes;
-//							}
-//							?>
-<!---->
-<!--							<div class="ui star tiny rating" data-song-id="--><?//= $this->song->id ?><!--" data-rating="--><?//= $rating ?><!--" data-max-rating="5" onclick="vote(this)"></div>-->
-<!--						</div>-->
-					</div>
-					<div>Name: <?= $this->song->name ?></div>
-					<div>Genre: <?=$this->song_genre->name;?></div>
-					<div>Author: <?=$this->song_author->name;?></div>
-					<div></div>
-					<div class="content">
+						<h3 class="ui header dividing"><?= $this->song_author->name ?> - <?= $this->song->name ?></h3>
 
-						<div class="ui divider">
+						<div class="ui star tiny rating" data-song-id="<?= $this->song->id ?>" data-rating="<?= float::to_upper($rating) ?>" data-max-rating="5" onclick="vote(this)"></div>
 
-						</div>
+						<div class="ui divider"></div>
 
-						<div class="description">
-							<div class="ui icon labeled button bottom fluid" onclick="rude.player.song.add('<?= $this->song->file_audio ?>', '<?= $this->song->name ?>', '<?= $this->song_author->name ?>');">
-								<i class="icon video play"></i> Listen
-							</div>
+						<p>
+							<b>Author:</b> <?= $this->song_author->name ?>.<br>
+							<b>Name:</b> <?= $this->song->name ?>.<br>
+							<b>Genre:</b> <a href="<?= $this->song->genre_id ?>"><?= $this->song_genre->name ?></a>.<br>
+						</p>
+
+						<div class="ui divider"></div>
+
+						<p>
+							<b>Song rating:</b> <?= round($rating, 1) ?>
+						</p>
+
+						<div class="ui divider"></div>
+
+						<div class="ui icon labeled button" onclick="rude.player.song.add('<?= $this->song->file_audio ?>', '<?= $this->song->name ?>', '<?= $this->song->author_name ?>');">
+							<i class="icon video play"></i> Listen
 						</div>
 					</div>
+
 				</div>
 			</div>
+
 			<script>
-				//			rude.semantic.init.rating();
 				rude.semantic.init.dropdown();
+				rude.semantic.init.rating();
 				rude.crawler.init();
 
 				function vote(selector)

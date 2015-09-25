@@ -198,10 +198,11 @@ class page_homepage
 					?>
 					<thead>
 						<tr>
-							<th>Listen</th>
-							<th>Author</th>
+							<th>Image</th>
 							<th>Song Name</th>
+							<th>Author</th>
 							<th>Rating</th>
+							<th>Listen</th>
 						</tr>
 					</thead>
 					<?
@@ -215,27 +216,28 @@ class page_homepage
 					?>
 					<tr>
 						<td>
-							<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>');">
-								<i class="icon video play"></i>
-							</div>
-						</td>
-
-						<td>
 							<?
+								$image = 'image_white.png';
+
 								if ($song->file_image)
 								{
-									?><a href="src/img/covers/<?= $song->file_image ?>"><?= $song->author_name ?></a><?
-								}
-								else
-								{
-									echo $song->author_name;
+									$image = $song->file_image;
 								}
 							?>
+
+							<a class="header" href="<?= site::url('song', null, $song->id) ?>">
+								<img src="src/img/covers/<?= $image ?>">
+							</a>
 						</td>
 
 						<td>
 							<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
 						</td>
+
+						<td>
+							<?= $song->author_name ?>
+						</td>
+
 
 						<td>
 							<div class="rating box">
@@ -251,6 +253,13 @@ class page_homepage
 								<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
 							</div>
 						</td>
+
+						<td>
+							<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>');">
+								<i class="icon video play"></i>
+							</div>
+						</td>
+
 					</tr>
 					<?
 				}

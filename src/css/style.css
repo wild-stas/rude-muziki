@@ -11,10 +11,14 @@
 /*#recent.cards .card .description .button { position: relative; bottom: 0; }*/
 
 
-#recent table.ui tr td:nth-child(1) { width: 40px; }
-#recent table.ui tr td:nth-child(2) { width: 142px; }
-#recent table.ui tr td:nth-child(3) {  }
-#recent table.ui tr td:nth-child(4) { width: 88px; }
+#recent table.ui tr td:nth-child(1) { width: 40px; text-align: center; }
+#recent table.ui tr td:nth-child(2) {  }
+#recent table.ui tr td:nth-child(3) { width: 150px; }
+#recent table.ui tr td:nth-child(4) { width: 90px; text-align: center; }
+#recent table.ui tr td:nth-child(5) { width: 40px; text-align: center;  }
+#recent table.ui tr td:nth-child(5) .ui.icon.button { margin-right: 0; }
+
+#recent table.ui tr td img { max-width: 40px; max-height: 40px; }
 
 #page-admin { padding-left: 120px; }
 #page-admin #sidebar { width: 120px; }
@@ -31,8 +35,9 @@
 #page-login .ui.form.socials .fields .field,
 #page-registration .ui.form.socials .fields .field { margin: 0; }
 
-
 #comments { max-width: inherit; }
+
+#song img { max-width: 100%; }
 
 #player { background: #4C5162; }
 #player .icon { cursor: pointer; font-size: 1.2em; }
