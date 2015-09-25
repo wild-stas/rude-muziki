@@ -197,7 +197,7 @@ class page_song
 
 						<div class="ui divider"></div>
 
-						<div class="ui icon labeled button" onclick="rude.player.song.add('<?= $this->song->file_audio ?>', '<?= $this->song->name ?>', '<?= $this->song->author_name ?>');">
+						<div class="ui icon labeled button" onclick="rude.player.song.add('<?= $this->song->file_audio ?>', '<?= $this->song->name ?>', '<?= $this->song->author_name ?>'); rude.player.song.play('<?= $this->song->file_audio ?>')">
 							<i class="icon video play"></i> Listen
 						</div>
 					</div>
