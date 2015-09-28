@@ -172,9 +172,9 @@ class page_admin_playlist
 					songs
 					JOIN song_authors on songs.author_id = song_authors.id
 				WHERE
-					1';
+					1 = 1 ';
 
-		if ($search_name)   { $q .= 'AND name   LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
+		if ($search_name)   { $q .= 'AND songs.name   LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
 		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
 		if ($search_author) { $q .= 'AND song_authors.name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
 
@@ -511,8 +511,11 @@ class page_admin_playlist
 						$playlist->file_image = $cover_name;
 						$playlist->update();
 					}
-
-					headers::refresh();
+					?>
+					<script>
+						rude.crawler.open('?page=admin&task=playlists');
+					</script>
+				<?
 				}
 
 				break;
@@ -549,8 +552,11 @@ class page_admin_playlist
 						$playlist->file_image = $cover_name;
 						$playlist->update();
 					}
-
-					headers::refresh();
+					?>
+					<script>
+						rude.crawler.open('?page=admin&task=playlists');
+					</script>
+				<?
 				}
 
 				break;
@@ -564,7 +570,11 @@ class page_admin_playlist
 
 				playlist_items::remove_by_playlist_id($playlist_id);
 
-				headers::refresh();
+				?>
+				<script>
+					rude.crawler.open('?page=admin&task=playlists');
+				</script>
+				<?
 
 				break;
 		}
