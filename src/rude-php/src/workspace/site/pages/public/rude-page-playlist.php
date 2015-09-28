@@ -80,7 +80,7 @@ class page_playlist
 		</div>
 
 		<div id="main">
-			<div id="recent" class="ui double six doubling">
+			<div id="" class="ui double six doubling">
 				<div class="playlist_card_more">
 					<?
 					if (get('type')=='public')
@@ -107,7 +107,7 @@ class page_playlist
 								}
 								else
 								{
-									?><i class="icon music"></i><?
+									?><img src="src/img/covers/image.png"><?
 								}
 								?>
 								<div class="ui icon labeled button bottom fluid" onclick="listen_all(this)">

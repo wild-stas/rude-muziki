@@ -31,7 +31,7 @@ class page_user_dashboard
 			<div >
 				<h4 class="ui header dividing">User profile</h4>
 
-					<img class="avatar" src="<? if ($user->avatar) { echo $user->avatar;}else{ echo 'src/img/avatar.png'; }?>"  onclick="$('#modal-add').modal({ closable: false }).modal('show')">
+					<img class="avatar" src="<? if ($user->avatar) { echo $user->avatar;}else{ echo 'src/img/covers/image_white.png'; }?>"  onclick="$('#modal-add').modal({ closable: false }).modal('show')">
 
 					<p>Username: <?=$user->name;?></p>
 					<p>E-mail: <?=$user->email;?></p>
