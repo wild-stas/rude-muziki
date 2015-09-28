@@ -170,9 +170,9 @@ class page_user_playlist
 					songs
 					JOIN song_authors on songs.author_id = song_authors.id
 				WHERE
-					1';
+					1 = 1 ';
 
-		if ($search_name)   { $q .= 'AND name   LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
+		if ($search_name)   { $q .= 'AND songs.name   LIKE "%' . $database->escape($search_name)   . '%"' . PHP_EOL; }
 		if ($search_genre)  { $q .= 'AND genre_id  LIKE "%' . $database->escape($search_genre)  . '%"' . PHP_EOL; }
 		if ($search_author) { $q .= 'AND song_authors.name LIKE "%' . $database->escape($search_author) . '%"' . PHP_EOL; }
 

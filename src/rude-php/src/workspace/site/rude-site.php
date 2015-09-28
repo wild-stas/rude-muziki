@@ -12,7 +12,8 @@ class site
 		{
 			case 'homepage':        $page = new page_homepage();        break;
 			case 'song':            $page = new page_song();            break;
-			case 'playlists':       $page = new page_playlists();            break;
+			case 'playlists':       $page = new page_playlists();       break;
+			case 'playlist':       $page = new page_playlist();         break;
 
 			case 'admin':           $page = new page_admin();           break;
 			case 'user':            $page = new page_user();            break;
