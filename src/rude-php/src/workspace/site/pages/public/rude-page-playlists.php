@@ -63,7 +63,7 @@ class page_playlists
 		?>
 
 		<div id="main">
-			<div id="recent" class="ui double six doubling" style="font-size: 0;">
+			<div id="" class="ui double six doubling" style="font-size: 0;">
 				<?
 					if ($admin_playlists)
 					{
@@ -89,7 +89,7 @@ class page_playlists
 
 			function listen_all(selector){
 				rude.player.init();
-				var songs_cont = $(selector).parent().parent().find('.song_container');
+				var songs_cont = $(selector).parent().find('.song_container');
 				var all_songs = $(songs_cont).find('span');
 				$( all_songs ).each(function(  ) {
 					rude.player.song.add($(this).data('file_audio'), $(this).data('name'), $(this).data('author_name'),'false');
@@ -117,12 +117,12 @@ class page_playlists
 				}
 				else
 				{
-					?><i class="icon music"></i><?
+					?><img src="src/img/covers/image.png"><?
 				}
 				?>
-				<div class="ui icon labeled button bottom fluid" onclick="listen_all(this)">
-					<i class="icon video play"></i> Listen
-				</div>
+			</div>
+			<div class="ui icon labeled button bottom fluid" onclick="listen_all(this)">
+				<i class="icon video play"></i> Listen
 			</div>
 			<div class="content">
 				<a href="?page=playlist&type=public&id=<?= $admin_playlist->id ?>"><p class="header"><?= $admin_playlist->name ?></p></a>
@@ -167,12 +167,12 @@ class page_playlists
 				}
 				else
 				{
-					?><i class="icon music"></i><?
+					?><img src="src/img/covers/image.png"><?
 				}
 				?>
-				<div class="ui icon labeled button bottom fluid" onclick="listen_all(this)">
-					<i class="icon video play"></i> Listen
-				</div>
+			</div>
+			<div class="ui icon labeled button bottom fluid" onclick="listen_all(this)">
+				<i class="icon video play"></i> Listen
 			</div>
 			<div class="content">
 				<a href="?page=playlist&type=user&id=<?= $user_playlist->id ?>"><p class="header"><?= $user_playlist->name ?></p></a>
