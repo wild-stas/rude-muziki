@@ -13,12 +13,29 @@ class page_song
 
 	public function __construct()
 	{
-		$this->song_id = (int) get('id');
+		if (rewrite::is_enabled())
+		{
+			$song = songs::get_by_alias(rewrite::query(), true);
+
+			if ($song)
+			{
+				$this->song_id = (int) $song->id;
+			}
+		}
+		else
+		{
+			$this->song_id = (int) get('id');
+		}
+
+		if (!$this->song_id)
+		{
+			return;
+		}
 
 
 		$database = database();
-
-		$database->query('
+		$database->query(
+		'
 			SELECT
 				songs.*,
 
@@ -156,11 +173,11 @@ class page_song
 						<?
 							if ($this->song->file_image)
 							{
-								?><img src="src/img/covers/<?= $this->song->file_image ?>"><?
+								?><img src="<?= RUDE_SITE_URL ?>src/img/covers/<?= $this->song->file_image ?>"><?
 							}
 							else
 							{
-								?><img src="src/img/covers/image.png"><?
+								?><img src="<?= RUDE_SITE_URL ?>src/img/covers/image.png"><?
 							}
 						?>
 					</div>
@@ -186,7 +203,7 @@ class page_song
 						<p>
 							<b>Author:</b> <?= $this->song_author->name ?>.<br>
 							<b>Name:</b> <?= $this->song->name ?>.<br>
-							<b>Genre:</b> <a href="?page=homepage&genre_id=<?= $this->song->genre_id ?>"><?= $this->song_genre->name ?></a>.<br>
+							<b>Genre:</b> <a href="<?= RUDE_SITE_URL ?>?page=homepage&genre_id=<?= $this->song->genre_id ?>"><?= $this->song_genre->name ?></a>.<br>
 						</p>
 
 						<div class="ui divider"></div>
@@ -230,7 +247,7 @@ class page_song
 
 					$.ajax
 					({
-						url: 'index.php',
+						url: '/index.php',
 
 						type: 'GET',
 
@@ -269,7 +286,7 @@ class page_song
 					?>
 					<div class="comment">
 						<a class="avatar">
-							<img src="<? if ($user_avatar) { echo $user_avatar;}else{ echo 'src/img/avatar.png'; }?>">
+							<img src="<?= RUDE_SITE_URL ?><? if ($user_avatar) { echo $user_avatar;}else{ echo 'src/img/avatar.png'; }?>">
 						</a>
 						<div class="content">
 							<a name="comment-<?= $comment->id ?>" class="author"><?= $comment->user_name ?></a>

@@ -8,11 +8,13 @@ class site
 	{
 		session::start();
 
+		rewrite::update();
+
 		switch (current::page())
 		{
 			case 'homepage':        $page = new page_homepage();        break;
 			case 'song':            $page = new page_song();            break;
-			case 'playlists':       $page = new page_playlists();            break;
+			case 'playlists':       $page = new page_playlists();       break;
 
 			case 'admin':           $page = new page_admin();           break;
 			case 'user':            $page = new page_user();            break;
@@ -43,21 +45,21 @@ class site
 
 			<meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1" />
 
-			<?= html::js('src/js/jquery/1.11.3/jquery-1.11.3.min.js') ?>
+			<?= html::js(RUDE_SITE_URL . 'src/js/jquery/1.11.3/jquery-1.11.3.min.js') ?>
 
-			<?= html::js('src/js/jquery-ui/1.11.4/jquery-ui.js') ?>
-			<?= html::css('src/js/jquery-ui/1.11.4/jquery-ui.css') ?>
+			<?= html::js(RUDE_SITE_URL . 'src/js/jquery-ui/1.11.4/jquery-ui.js') ?>
+			<?= html::css(RUDE_SITE_URL . 'src/js/jquery-ui/1.11.4/jquery-ui.css') ?>
 
-			<?= html::js('src/js/semantic-ui/1.11.4/semantic.min.js') ?>
-			<?= html::css('src/js/semantic-ui/1.11.4/semantic.min.css') ?>
+			<?= html::js(RUDE_SITE_URL . 'src/js/semantic-ui/1.11.4/semantic.min.js') ?>
+			<?= html::css(RUDE_SITE_URL . 'src/js/semantic-ui/1.11.4/semantic.min.css') ?>
 
 <!--			--><?//= html::js('src/js/sound-manager/2.97a/soundmanager2.min.js') ?>
-			<?= html::js('src/js/sound-manager/2.97a/soundmanager2.js') ?>
+			<?= html::js(RUDE_SITE_URL . 'src/js/sound-manager/2.97a/soundmanager2.js') ?>
             <?= html::js('//vk.com/js/api/openapi.js?116') ?>
-			<?= html::js('src/js/rude.js') ?>
-			<?= html::js('src/js/rude-fixes.js') ?>
+			<?= html::js(RUDE_SITE_URL . 'src/js/rude.js') ?>
+			<?= html::js(RUDE_SITE_URL . 'src/js/rude-fixes.js') ?>
 
-			<?= html::css('src/css/style.css') ?>
+			<?= html::css(RUDE_SITE_URL . 'src/css/style.css') ?>
 		</head>
 		<?
 	}
@@ -296,9 +298,14 @@ class site
 		<?
 	}
 
+	public static function url_seo($page, $query)
+	{
+		return '/' . $page . '/' . $query;
+	}
+
 	public static function url($page, $task = null, $id = null)
 	{
-		$url = '?page=' . url::encode($page);
+		$url = RUDE_SITE_URL . '?page=' . url::encode($page);
 
 		if ($task !== null)
 		{

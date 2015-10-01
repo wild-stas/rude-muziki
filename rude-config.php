@@ -2,7 +2,7 @@
 
 # site url
 
-define('RUDE_SITE_URL', 'http://localhost/rude-muziki/'); # index (homepage) url
+define('RUDE_SITE_URL', 'http://muziki.me/'); # index (homepage) url
 
 
 # if you want to use database classes - you need to tell script connection settings

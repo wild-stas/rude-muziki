@@ -45,7 +45,7 @@ class songs
 		return $q->get_object_list();
 	}
 
-	public static function add($name = null, $description = null, $author_id = null, $genre_id = null, $length = null, $file_audio = null, $file_audio_size = null, $file_image = null, $file_image_size = null, $timestamp = null)
+	public static function add($name = null, $description = null, $author_id = null, $genre_id = null, $length = null, $file_audio = null, $file_audio_size = null, $file_image = null, $file_image_size = null, $timestamp = null, $alias = null)
 	{
 		$q = new query_insert(RUDE_DATABASE_TABLE_SONGS);
 
@@ -58,14 +58,15 @@ class songs
 		if ($file_audio_size !== null) { $q->add('file_audio_size', $file_audio_size); }
 		if ($file_image      !== null) { $q->add('file_image',      $file_image     ); }
 		if ($file_image_size !== null) { $q->add('file_image_size', $file_image_size); }
-		if ($timestamp       !== null) { $q->add('timestamp',       $timestamp      ); }
+		if ($timestamp       !== null) { $q->add('timestamp',       $timestamp      ); }
+		if ($alias           !== null) { $q->add('alias',           $alias          ); }
 
 		$q->query();
 
 		return $q->get_id();
 	}
 
-	public static function update($id, $name = null, $description = null, $author_id = null, $genre_id = null, $length = null, $file_audio = null, $file_audio_size = null, $file_image = null, $file_image_size = null, $timestamp = null, $limit = null, $offset = null)
+	public static function update($id, $name = null, $description = null, $author_id = null, $genre_id = null, $length = null, $file_audio = null, $file_audio_size = null, $file_image = null, $file_image_size = null, $timestamp = null, $alias = null, $limit = null, $offset = null)
 	{
 		$q = new query_update(RUDE_DATABASE_TABLE_SONGS);
 
@@ -78,7 +79,8 @@ class songs
 		if ($file_audio_size !== null) { $q->update('file_audio_size', $file_audio_size); }
 		if ($file_image      !== null) { $q->update('file_image',      $file_image     ); }
 		if ($file_image_size !== null) { $q->update('file_image_size', $file_image_size); }
-		if ($timestamp       !== null) { $q->update('timestamp',       $timestamp      ); }
+		if ($timestamp       !== null) { $q->update('timestamp',       $timestamp      ); }
+		if ($alias           !== null) { $q->update('alias',           $alias          ); }
 
 		$q->where(RUDE_DATABASE_TABLE_SONGS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -115,7 +117,7 @@ class songs
 		return $database->get_object()->count;
 	}
 
-		public static function get_by_id($id, $only_first = false)
+	public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_SONGS);
 		$q->where('id', $id);
@@ -269,6 +271,20 @@ class songs
 		return $q->get_object_list();
 	}
 
+	public static function get_by_alias($alias, $only_first = false)
+	{
+		$q = new query_select(RUDE_DATABASE_TABLE_SONGS);
+		$q->where('alias', $alias);
+		$q->query();
+
+		if ($only_first)
+		{
+			return $q->get_object();
+		}
+
+		return $q->get_object_list();
+	}
+
 	public static function remove_by_id($id)
 	{
 		$q = new query_delete(RUDE_DATABASE_TABLE_SONGS);
@@ -368,6 +384,15 @@ class songs
 		return $q->affected();
 	}
 
+	public static function remove_by_alias($alias)
+	{
+		$q = new query_delete(RUDE_DATABASE_TABLE_SONGS);
+		$q->where('alias', $alias);
+		$q->query();
+
+		return $q->affected();
+	}
+
 	public static function is_exists_id($id)
 	{
 		return static::get_by_id($id) == true;
@@ -421,5 +446,10 @@ class songs
 	public static function is_exists_timestamp($timestamp)
 	{
 		return static::get_by_timestamp($timestamp) == true;
-	}
+	}
+
+	public static function is_exists_alias($alias)
+	{
+		return static::get_by_alias($alias) == true;
+	}
 }

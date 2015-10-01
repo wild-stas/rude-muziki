@@ -23,6 +23,11 @@ var rude =
 		starts_with: function(string, substring)
 		{
 			return string.indexOf(substring) === 0;
+		},
+
+		contains: function(string, substring)
+		{
+			return string.indexOf(substring) > -1;
 		}
 	},
 
@@ -84,7 +89,7 @@ var rude =
 		{
 			directory:
 			{
-				audio: 'src/audio/'
+				audio: '/src/audio/'
 			},
 
 			selector:
@@ -980,9 +985,20 @@ var rude =
 
 		open: function(url)
 		{
+			console.log(url);
+
+			if (rude.string.contains(url, '/song/'))
+			{
+				//
+			}
+			else
+			{
+				url = '/index.php' + url;
+			}
+
 			$.ajax
 			({
-				url: 'index.php' + url,
+				url: url,
 
 				type: 'GET',
 
