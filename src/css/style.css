@@ -142,9 +142,17 @@
 	width: 100%;
 	vertical-align: middle;
 	padding: 8px;
+	height: 150px;
+	text-align: center;
+}
+
+.playlist_card .button  {
+	margin: 0 5%;
+	width: 90%!important;
 }
 .playlist_card .image img {
-	width: 100%;
+	max-width: 100%;
+	height: 100%;
 }
 
 .playlist_card .content {

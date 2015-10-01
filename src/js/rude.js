@@ -121,7 +121,11 @@ var rude =
 			{
 				rude.player.manager = soundManager;
 				rude.player.manager.debugMode = true;
-
+				rude.player.manager.debugFlash = true;
+				rude.player.manager.useHighPerformance = true;
+				rude.player.manager.autoLoad = false;
+				rude.player.manager.preferFlash = false;
+				rude.player.manager.noSWFCache = true;
 				rude.player.slider.song.init();
 				rude.player.slider.volume.init();
 			});
@@ -461,6 +465,9 @@ var rude =
 				if(!enable_autoload) {
 					enable_autoload = true;
 				}
+
+
+				enable_autoload = false;
 
 				if (rude.player.playlist.is.exists(song_id))
 				{
