@@ -89,6 +89,7 @@ class rewrite
 	{
 		$string = string::replace($string, ['/', '.', ',', '&', '?', ':', 'amp;', '#', '!'], '');
 		$string = string::replace($string, ['_', ' '], '-');
+		$string = string::replace($string, '--', '-');
 		$string = string::to_lowercase($string);
 		$string = char::first($string, 100);
 
