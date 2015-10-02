@@ -30,7 +30,14 @@ class current
 		$_current->task = get('task');
 		$_current->user = session::get('user');
 
-		$page = get('page');
+		if (rewrite::is_enabled())
+		{
+			$page = rewrite::page();
+		}
+		else
+		{
+			$page = get('page');
+		}
 
 		     if (url::current() == RUDE_SITE_URL or $page == 'homepage') { $_current->page = 'homepage';  }
 		else                                                             { $_current->page = $page;       }

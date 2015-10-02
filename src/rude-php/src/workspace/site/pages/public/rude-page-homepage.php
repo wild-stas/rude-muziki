@@ -53,8 +53,6 @@ class page_homepage
 				ratings ON ratings.song_id = songs.id
 			WHERE
 				1 = 1
-			GROUP BY
-				songs.id
 		';
 
 
@@ -64,8 +62,10 @@ class page_homepage
 			$q .= 'AND songs.genre_id = ' . (int) $genre_id . PHP_EOL;
 		}
 
+		$q .= 'GROUP BY	songs.id' . PHP_EOL;
 
-		$q .= 'ORDER BY songs.id DESC LIMIT ' . (int) $offset . ',' . (int) $limit;
+		$q .= 'ORDER BY songs.id DESC LIMIT ' . (int) $offset . ',' . (int) $limit . PHP_EOL;
+
 
 		$database = database();
 		$database->query($q);
@@ -227,13 +227,13 @@ class page_homepage
 								}
 							?>
 
-							<a class="header" href="<?= site::url('song', null, $song->id) ?>">
-								<img src="src/img/covers/<?= $image ?>">
+							<a class="header" href="<?= site::url_seo('song', $song->alias) ?>">
+								<img src="<?= RUDE_SITE_URL ?>src/img/covers/<?= $image ?>">
 							</a>
 						</td>
 
 						<td>
-							<a class="header" href="<?= site::url('song', null, $song->id) ?>"><?= $song->name ?></a>
+							<a class="header" href="<?= site::url_seo('song', $song->alias) ?>"><?= $song->name ?></a>
 						</td>
 
 						<td>
