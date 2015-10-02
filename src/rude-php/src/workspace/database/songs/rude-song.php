@@ -18,6 +18,7 @@ class song
 	public $file_image      = null;
 	public $file_image_size = null;
 	public $timestamp       = null;
+	public $alias           = null;
 
 
 	public function __construct($id = null)

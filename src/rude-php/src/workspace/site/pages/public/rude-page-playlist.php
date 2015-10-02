@@ -55,7 +55,7 @@ class page_playlist
 		{
 			$playlist = playlists::get_by_id(get('id'),true);
 		}
-		elseif (get('type')=='user' || current::user_id()){
+		elseif (get('type')=='user' && current::user_id()){
 			$playlist = user_playlists::get_by_id(get('id'),true);
 		}
 		else
@@ -87,7 +87,7 @@ class page_playlist
 					{
 						$song_ids = playlist_items::get_by_playlist_id($playlist->id);
 					}
-					elseif (get('type')=='user' || current::user_id()){
+					elseif (get('type')=='user' && current::user_id()){
 						$song_ids = user_playlist_items::get_by_playlist_id($playlist->id);
 					}
 					else
@@ -97,11 +97,11 @@ class page_playlist
 					?>
 							<div class="image">
 								<?
-								if ($playlist->file_image || get('type')=='public')
+								if ($playlist->file_image && get('type')=='public')
 								{
 									?><img src="src/img/<?= $playlist->id ?>/<?= $playlist->file_image ?>"><?
 								}
-								elseif (get('type')=='user' || current::user_id())
+								elseif (get('type')=='user' && current::user_id())
 								{
 									?><img src="src/img/playlist_covers/<?= $playlist->id ?>/<?= $playlist->file_image ?>"><?
 								}
