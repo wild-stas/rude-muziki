@@ -81,7 +81,7 @@ class page_playlist
 
 		<div id="main">
 			<div id="" class="ui double six doubling">
-				<div class="playlist_card_more">
+				<div class="playlist_card_more" data-id="<?=get('type').'_'.$playlist->id;?>">
 					<?
 					if (get('type')=='public')
 					{
@@ -191,6 +191,8 @@ class page_playlist
 			rude.semantic.init.rating();
 
 			function listen_all(selector){
+				rude.player.playlist.remove();
+				$('#current_playlist').val($(selector).parent().parent().data('id'));
 				var songs_cont = $(selector).parent().parent().find('.song');
 				var all_songs = $(songs_cont).find('.play');
 				$( all_songs ).each(function(  ) {
@@ -242,6 +244,12 @@ class page_playlist
 				});
 			}
 			rude.crawler.init();
+			$( document ).ready(function() {
+				if (rude.player.song.id())
+				{
+					$('.' + rude.jquery.escape.selector(rude.player.song.id())).addClass('active');
+				}
+			});
 		</script>
 
 		<?

@@ -51,9 +51,7 @@ class page_user_settings
 		</script>
 		<div id="main">
 			<form id="registration" method="post" enctype="multipart/form-data" action="javascript:void(null)" class="ui form error">
-
 				<h4 class="ui header dividing">Change user settings</h4>
-
 				<input type="hidden" name="action" value="edit">
 
 				<?
