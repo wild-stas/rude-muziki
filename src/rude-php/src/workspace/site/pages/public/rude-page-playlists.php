@@ -82,12 +82,34 @@ class page_playlists
 							static::user_playlist($user_playlist);
 						}
 					}
+				if (current::user_id()){
 				?>
+				<div class="playlist_card add_new_one">
+					<a href="/index.php?page=user&task=playlists"><span>
+							<span style="vertical-align: middle; display: table-cell">
+					<i class="icon add"></i><br>
+					Create a Playlist
+						</span></span></a>
+				</div>
+
+				<?}?>
 			</div>
 		</div>
 		<script>
+			$( document ).ready(function() {
+				$('.playlist_card.add_new_one').height($('.playlist_card').height());
 
+				$(".playlist_card").each(function() {
+					if ($( this ).data( "id" )==$('#current_playlist').val()){
+						$( this).addClass('active');
+					}
+				});
+			});
 			function listen_all(selector){
+				$('#current_playlist').val($(selector).parent().data('id'));
+				$('.playlist_card').removeClass('active');
+				$(selector).parent().addClass('active');
+				rude.player.playlist.remove();
 				rude.player.init();
 				var songs_cont = $(selector).parent().find('.song_container');
 				var all_songs = $(songs_cont).find('span');
@@ -108,7 +130,7 @@ class page_playlists
 		?>
 
 
-		<div class="playlist_card ">
+		<div class="playlist_card " data-id="public_<?= $admin_playlist->id ?>">
 			<div class="image">
 				<?
 				if ($admin_playlist->file_image)
@@ -158,7 +180,7 @@ class page_playlists
 	public static function user_playlist($user_playlist)
 	{
 		?>
-		<div class="playlist_card ">
+		<div class="playlist_card " data-id="user_<?= $user_playlist->id ?>">
 			<div class="image">
 				<?
 				if ($user_playlist->file_image)

@@ -51,7 +51,7 @@ class ratings
 
 		if ($user_id !== null) { $q->add('user_id', $user_id); }
 		if ($song_id !== null) { $q->add('song_id', $song_id); }
-		if ($value   !== null) { $q->add('value',   $value  ); }
+		if ($value   !== null) { $q->add('value',   $value  ); }
 
 		$q->query();
 
@@ -64,7 +64,7 @@ class ratings
 
 		if ($user_id !== null) { $q->update('user_id', $user_id); }
 		if ($song_id !== null) { $q->update('song_id', $song_id); }
-		if ($value   !== null) { $q->update('value',   $value  ); }
+		if ($value   !== null) { $q->update('value',   $value  ); }
 
 		$q->where(RUDE_DATABASE_TABLE_RATINGS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -101,7 +101,7 @@ class ratings
 		return $database->get_object()->count;
 	}
 
-	public static function get_by_id($id, $only_first = false)
+		public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_RATINGS);
 		$q->where('id', $id);
@@ -211,5 +211,5 @@ class ratings
 	public static function is_exists_value($value)
 	{
 		return static::get_by_value($value) == true;
-	}
+	}
 }

@@ -209,9 +209,8 @@ class page_user_playlist
 
 		?>
 
-		<a href="?page=admin" class="ui teal button icon labeled">
+		<a href="?page=user&task=playlists" class="ui teal button icon labeled">
 			<i class="icon arrow left"></i>
-
 			Return
 		</a>
 
@@ -234,11 +233,12 @@ class page_user_playlist
 		?>
 
 		<div class="ui segment inverted teal">
-			<form class="ui form inverted" method="post">
+			<form class="ui form inverted" method="post" action="javascript:void(null)" onsubmit="search_songs()">
 
 				<h2 class="ui header inverted white">Search Songs</h2>
 
 				<input type="hidden" name="action" value="search">
+				<input type="hidden" name="playlist_id" value="<?=$playlist->id?>">
 
 
 				<div class="field">
@@ -273,11 +273,86 @@ class page_user_playlist
 
 				<button type="submit" class="ui orange button icon labeled">
 					<i class="icon search"></i>
-
 					Search
 				</button>
 			</form>
 		</div>
+		<script type="text/javascript">
+			function search_songs(){
+				$.ajax({
+					type:'POST',
+					url:'index.php?page=user&task=playlists&task2=edit',
+					data: {
+						'playlist-id':$('input[name=playlist_id]').val(),
+						ajax: 1,
+						'search-name' : $('input[name=search-name]').val(),
+						'search-genre' : $('input[name=search-genre]').val(),
+						'search-author' : $('input[name=search-author]').val(),
+						action : 'search'
+					},
+					success: function(data){
+						$('#content').html(data);
+					},
+					error: function ()
+					{
+						console.log('fail!');
+					}
+				});
+			}
+
+			function add_songs(){
+				var ids = $('input:checkbox:checked.song-ids').map(function () {
+					return this.value;
+				}).get();
+				$.ajax({
+					type:'POST',
+					url:'index.php?page=user&task=playlists&task2=edit',
+					data: {
+						'playlist-id':$('input[name=playlist_id]').val(),
+						ajax: 1,
+						'search-name' : $('input[name=search-name]').val(),
+						'search-genre' : $('input[name=search-genre]').val(),
+						'search-author' : $('input[name=search-author]').val(),
+						action : 'add',
+						'song-ids[]' : ids
+					},
+					success: function(data){
+						$('#content').html(data);
+					},
+					error: function ()
+					{
+						console.log('fail!');
+					}
+				});
+			}
+
+			function remove_songs(){
+				var ids = $('input:checkbox:checked.song-ids-remove').map(function () {
+					return this.value;
+				}).get();
+				$.ajax({
+					type:'POST',
+					url:'index.php?page=user&task=playlists&task2=edit',
+					data: {
+						'playlist-id':$('input[name=playlist_id]').val(),
+						ajax: 1,
+						'search-name' : $('input[name=search-name]').val(),
+						'search-genre' : $('input[name=search-genre]').val(),
+						'search-author' : $('input[name=search-author]').val(),
+						action : 'remove',
+						'song-ids[]' : ids
+					},
+					success: function(data){
+						$('#content').html(data);
+					},
+					error: function ()
+					{
+						console.log('fail!');
+					}
+				});
+			}
+
+		</script>
 
 		<script>
 			rude.semantic.init.checkbox();
@@ -303,7 +378,7 @@ class page_user_playlist
 						<h4 class="ui header dividing">Search Results (<?= count($songs) ?> Songs Found)</h4>
 
 
-						<form method="post">
+						<form method="post" action="javascript:void(null)" onsubmit="add_songs()">
 							<button class="ui button green labeled icon">
 								<i class="icon save"></i>
 
@@ -311,6 +386,7 @@ class page_user_playlist
 							</button>
 
 							<input type="hidden" name="action" value="add">
+							<input type="hidden" name="playlist_id" value="<?=$playlist->id?>">
 
 							<input type="hidden" name="search-name" value="<?= $search_name ?>">
 							<input type="hidden" name="search-genre" value="<?= $search_genre ?>">
@@ -353,7 +429,7 @@ class page_user_playlist
 									<tr>
 										<td class="center">
 											<div class="ui checkbox">
-												<input type="checkbox" name="song-ids[]" value="<?= $song->song_id ?>" placeholder="" <? if ($is_checked) { ?>checked="checked"<? } ?>>
+												<input type="checkbox" class="song-ids" name="song-ids[]" value="<?= $song->song_id ?>" placeholder="" <? if ($is_checked) { ?>checked="checked"<? } ?>>
 											</div>
 										</td>
 										<td><a href="#" target="_blank"><?= static::highlight($song->song_name, $search_name) ?></a></td>
@@ -399,7 +475,7 @@ class page_user_playlist
 					<div class="playlist-songs">
 						<h4 class="ui header dividing">Songs in Playlist (<?= count($playlist_items) ?> Songs Total)</h4>
 
-						<form method="post">
+						<form method="post" action="javascript:void(null)" onsubmit="remove_songs()">
 
 							<button class="ui button red labeled icon">
 								<i class="icon remove"></i>
@@ -408,6 +484,7 @@ class page_user_playlist
 							</button>
 
 							<input type="hidden" name="action" value="remove">
+							<input type="hidden" name="playlist_id" value="<?=$playlist->id?>">
 
 							<input type="hidden" name="search-name"   value="<?= $search_name ?>">
 							<input type="hidden" name="search-genre"  value="<?= $search_genre ?>">
@@ -437,7 +514,7 @@ class page_user_playlist
 									<tr>
 										<td>
 											<div class="ui checkbox">
-												<input type="checkbox" name="song-ids[]" value="<?= $playlist_item->song_id ?>" placeholder="">
+												<input type="checkbox" class="song-ids-remove" name="song-ids" value="<?= $playlist_item->song_id ?>" placeholder="">
 											</div>
 										</td>
 
@@ -496,8 +573,7 @@ class page_user_playlist
 					if (mime::is_image($cover->type))
 					{
 						$cover_dir = RUDE_DIR_IMG . DIRECTORY_SEPARATOR .'playlist_covers'. DIRECTORY_SEPARATOR . $playlist_id;
-						var_dump($cover_dir);
-						var_dump($cover);
+
 						if (!filesystem::is_exists($cover_dir))
 						{
 							filesystem::create_directory($cover_dir, 0755, true);
@@ -581,7 +657,7 @@ class page_user_playlist
 		}
 
 		?>
-		<form id="modal-add" class="ui modal transition coupled" method="post" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" onsubmit="return rude.playlist.validate.add()">
+		<form id="modal-add" class="ui modal transition coupled" method="post" action="javascript:void(null)" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" onsubmit="return rude.playlist.validate.add()">
 			<i class="close icon"></i>
 			<div class="header">
 				Create New Playlist
@@ -634,8 +710,48 @@ class page_user_playlist
 				</button>
 			</div>
 		</form>
+		<script type="text/javascript">
+			$('#modal-add')
+				.form({
 
-		<form id="modal-update" class="ui modal transition coupled" method="post" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" onsubmit="return rude.playlist.validate.update()">
+				},
+				{
+					onSuccess: function()
+					{
+//
+						add_playlist();
+					}
+				})
+			;
+			function add_playlist(){
+				var fd = new FormData();
+				fd.append('ajax', '1');
+				fd.append('action', 'add');
+				fd.append('playlist-name', $('#playlist-name').val());
+				fd.append('playlist-title', $('#playlist-title').val());
+				fd.append('playlist-description', $('#playlist-description').val());
+				fd.append('playlist-logo', $('#playlist-logo')[0].files[0]);
+				$.ajax({
+					type: 'POST',
+					url:'index.php?page=user&task=playlists',
+					data: fd,
+					processData: false,
+					contentType: false,
+					success: function(data){
+
+						$('#content').html(data);
+						$('#modal-add').modal('hide');
+					},
+					error: function ()
+					{
+						console.log('fail!');
+					}
+				});
+			}
+
+		</script>
+
+		<form id="modal-update" class="ui modal transition coupled" action="javascript:void(null)" method="post" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" onsubmit="return rude.playlist.validate.update()">
 			<i class="close icon"></i>
 			<div class="header">
 				Update My Playlist
@@ -691,6 +807,46 @@ class page_user_playlist
 			</div>
 		</form>
 
+		<script type="text/javascript">
+			$('#modal-update')
+				.form({
+
+				},
+				{
+					onSuccess: function()
+					{
+						edit_playlist();
+					}
+				})
+			;
+			function edit_playlist(){
+				var fd = new FormData();
+				fd.append('ajax', '1');
+				fd.append('action', 'update');
+				fd.append('playlist-update-id', $('#playlist-update-id').val());
+				fd.append('playlist-update-name', $('#playlist-update-name').val());
+				fd.append('playlist-update-title', $('#playlist-update-title').val());
+				fd.append('playlist-update-description', $('#playlist-update-description').val());
+				fd.append('playlist-update-logo', $('#playlist-update-logo')[0].files[0]);
+				$.ajax({
+					type: 'POST',
+					url:'index.php?page=user&task=playlists',
+					data: fd,
+					processData: false,
+					contentType: false,
+					success: function(data){
+						$('#content').html(data);
+						$('#modal-update').modal('hide');
+					},
+					error: function ()
+					{
+						console.log('fail!');
+					}
+				});
+			}
+
+		</script>
+
 		<div id="modal-error" class="ui small modal transition coupled">
 			<i class="close icon"></i>
 			<div class="header">
@@ -715,7 +871,7 @@ class page_user_playlist
 			$('.coupled.modal').modal({ allowMultiple: true });
 		</script>
 
-		<form id="modal-remove" class="ui small modal transition" method="post" xmlns="http://www.w3.org/1999/html">
+		<form id="modal-remove"  action="javascript:void(null)" class="ui small modal transition" method="post" xmlns="http://www.w3.org/1999/html">
 			<i class="close icon"></i>
 			<div class="header">
 				Interrupted
@@ -743,17 +899,44 @@ class page_user_playlist
 				</button>
 			</div>
 		</form>
+		<script type="text/javascript">
+			$('#modal-remove')
+				.form({
+
+				},
+				{
+					onSuccess: function()
+					{
+						delete_playlist();
+					}
+				})
+			;
+			function delete_playlist(){
+				var fd = new FormData();
+				fd.append('ajax', '1');
+				fd.append('action', 'remove');
+				fd.append('playlist-id', $('#playlist-id').val());
+				$.ajax({
+					type: 'POST',
+					url:'index.php?page=user&task=playlists',
+					data: fd,
+					processData: false,
+					contentType: false,
+					success: function(data){
+						$('#content').html(data);
+						$('#modal-remove').modal('hide');
+					},
+					error: function ()
+					{
+						console.log('fail!');
+					}
+				});
+			}
+
+		</script>
 
 		<div class="menu">
 			<div class="ui grid">
-				<div class="ten wide column">
-					<a href="?page=admin" class="ui teal button icon labeled">
-						<i class="icon arrow left"></i>
-
-						Return
-					</a>
-				</div>
-
 				<div class="six wide column">
 					<div class="ui button green labeled icon float-right" onclick="$('#modal-add').modal({ closable: false }).modal('show')">
 						<i class="icon plus"></i>
@@ -803,7 +986,7 @@ class page_user_playlist
 							<i class="icon configure black popup init" onclick="$('#playlist-update-id').val(<?= $playlist->id ?>); $('#playlist-update-name').val('<?= static::escape_js($playlist->name) ?>'); $('#playlist-update-title').val('<?= static::escape_js($playlist->title) ?>'); $('#playlist-update-description').val('<?= static::escape_js($playlist->description) ?>'); $('#modal-update').modal({ closable: false }).modal('show');" data-content="Change playlist meta information"></i>
 
 							<span class="inline-block" style="position: relative">
-								<img style="display:none; position: absolute;max-width: 150px;right: 10px;top: 15px;padding: 3px;background-color: black;border-radius: 5px;" src="<?= url::host(true) ?>/rude-muziki/src/img/playlist_covers/<?= $playlist->id ?>/<?= $playlist->file_image ?>">
+								<img style="display:none; position: absolute;max-width: 150px;right: 10px;top: 15px;padding: 3px;background-color: black;border-radius: 5px;" src="<?= url::host(true) ?>/src/img/playlist_covers/<?= $playlist->id ?>/<?= $playlist->file_image ?>">
 								<i class="icon search popup blue init" data-content="Show cover" onmouseover="$(this).parent().find('img').show();" onmouseout="$(this).parent().find('img').hide();" ></i>
 							</span>
 
