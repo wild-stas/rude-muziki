@@ -166,7 +166,6 @@ class page_song
 	{
 		?>
 		<div id="main">
-
 			<div id="song" class="ui two column grid">
 				<div class="six wide column">
 					<div class="ui segment">

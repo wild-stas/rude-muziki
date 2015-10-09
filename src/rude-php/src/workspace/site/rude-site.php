@@ -235,6 +235,7 @@ class site
 	{
 		?>
 		<div id="playlist" class="ui modal small transition">
+			<input id="current_playlist" type="hidden">
 			<i class="close icon"></i>
 			<div class="header">
 				Playlist

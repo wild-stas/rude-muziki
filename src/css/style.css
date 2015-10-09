@@ -138,6 +138,7 @@
 	transition: box-shadow .2s ease;
 	margin: 0 1%;
 	margin-top: 20px;
+	vertical-align: top;
 }
 
 .playlist_card .image  {
@@ -186,4 +187,25 @@
 	width: 71%;
 	font-size: 14px;
 	padding-left: 16px;
+}
+
+.playlist_card.add_new_one {
+	font-size: 28px;
+	text-align: center;
+}
+
+.playlist_card.add_new_one span {
+	height: 100%;
+	width: 100%;
+	display: table;
+}
+
+.playlist_card.active {
+	background-color: #E8E7E7;
+}
+
+.playlist_card.active .header:after {
+	background-color: #E8E7E7;
+	content: " \f001";
+	font-family: Icons;
 }

@@ -226,6 +226,10 @@ var rude =
 						database.splice(database.indexOf(item), 1);
 
 						break;
+					}else{
+						rude.player.song.stop();
+						database.splice(database.indexOf(item), database.length);
+						break;
 					}
 				}
 
@@ -295,6 +299,8 @@ var rude =
 					}
 
 					$('#playlist tr.song').removeClass('active');
+					$('.song').removeClass('active');
+					$('.'+ rude.jquery.escape.selector(rude.player.song.id())).addClass('active');
 					$('#playlist tr.song.' + rude.jquery.escape.selector(song_id)).addClass('active');
 				}
 			}

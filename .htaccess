@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+  Options +FollowSymLinks
+  RewriteEngine On
+RewriteRule ^song.* /index.php?rewrite=on [L]
+</IfModule>
