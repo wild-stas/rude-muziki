@@ -81,6 +81,43 @@ var rude =
 		}
 	},
 
+	menu:
+	{
+		navigation:
+		{
+			title: function(title)
+			{
+				var text = 'Navigation';
+
+				if (title)
+				{
+					text += ' (' + title + ')';
+				}
+
+				$('#menu .navigation .title').html(text);
+			},
+
+			hide: function()
+			{
+				if ($('#menu .navigation').hasClass('active'))
+				{
+					$('#menu .navigation').click();
+				}
+			}
+		},
+
+		settings:
+		{
+			hide: function()
+			{
+				if ($('#menu .settings').hasClass('active'))
+				{
+					$('#menu .settings').click();
+				}
+			}
+		}
+	},
+
 	player:
 	{
 		manager: null,
@@ -973,7 +1010,7 @@ var rude =
 
 				$('a').click(function ()
 				{
-					$('#content').html('load');
+					$('#content').html('');
 					var url = $(this).attr('href');
 
 					if (rude.string.starts_with(url, 'http'))

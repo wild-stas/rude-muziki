@@ -471,6 +471,15 @@ class string
 		return $substring;
 	}
 
+	public static function reverse($string)
+	{
+		$chars = string::chars($string);
+
+		$chars = array_reverse($chars);
+
+		return implode($chars);
+	}
+
 	/**
 	 * @en Split a string by substring
 	 * @ru Разбивает строку с помощью подстрок
@@ -1301,6 +1310,16 @@ class string
 		}
 
 		return ucfirst($string);
+	}
+
+	public static function to_titlecase($string)
+	{
+		if (static::is_utf8($string))
+		{
+			return mb_convert_case($string, MB_CASE_TITLE, RUDE_STRING_ENCODING);
+		}
+
+		return mb_convert_case($string, MB_CASE_TITLE);
 	}
 
 	/***

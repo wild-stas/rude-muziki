@@ -58,6 +58,17 @@ class curl_task
 	{
 		return static::enable_post() and curl_setopt($this->handle, CURLOPT_POSTFIELDS, $post_fields);
 	}
+	public function set_put               ($data = '')
+	{
+		$file = tmpfile();
+
+		fwrite($file, $data);
+
+		fseek($file, 0);
+
+		return static::enable_put() and curl_setopt($this->handle, CURLOPT_INFILE, $data) and curl_setopt($this->handle, CURLOPT_INFILESIZE, string::size($data));
+	}
+
 
 	public function set_proxy_http($proxy)
 	{
@@ -77,19 +88,23 @@ class curl_task
 		       curl_setopt($this->handle, CURLOPT_PROXY, $proxy);
 	}
 
+	public function enable_delete()           { return curl_setopt($this->handle, CURLOPT_CUSTOMREQUEST, 'DELETE'); } # DELETE
+	public function enable_patch()            { return curl_setopt($this->handle, CURLOPT_CUSTOMREQUEST, 'PATCH');  } # PATCH
+	public function enable_put()              { return curl_setopt($this->handle, CURLOPT_PUT,            true);    } # PUT
+	public function enable_post()             { return curl_setopt($this->handle, CURLOPT_POST,           true);    } # POST
+	public function enable_redirects()        { return curl_setopt($this->handle, CURLOPT_FOLLOWLOCATION, true);    }
+	public function enable_return_headers()   { return curl_setopt($this->handle, CURLOPT_HEADER,         true);    }
+	public function enable_return_transfer()  { return curl_setopt($this->handle, CURLOPT_RETURNTRANSFER, true);    }
+	public function enable_binary_transfer()  { return curl_setopt($this->handle, CURLOPT_BINARYTRANSFER, true);    }
+	public function enable_ssl_verification() { return curl_setopt($this->handle, CURLOPT_SSL_VERIFYPEER, true);    }
 
-	public function enable_post()             { return curl_setopt($this->handle, CURLOPT_POST,           true); }
-	public function enable_redirects()        { return curl_setopt($this->handle, CURLOPT_FOLLOWLOCATION, true); }
-	public function enable_return_headers()   { return curl_setopt($this->handle, CURLOPT_HEADER,         true); }
-	public function enable_return_transfer()  { return curl_setopt($this->handle, CURLOPT_RETURNTRANSFER, true); }
-	public function enable_binary_transfer()  { return curl_setopt($this->handle, CURLOPT_BINARYTRANSFER, true); }
-	public function enable_ssl_verification() { return curl_setopt($this->handle, CURLOPT_SSL_VERIFYPEER, true); }
-
-
-	public function disable_post()             { return curl_setopt($this->handle, CURLOPT_POST,           false); }
-	public function disable_redirects()        { return curl_setopt($this->handle, CURLOPT_FOLLOWLOCATION, false); }
-	public function disable_return_headers()   { return curl_setopt($this->handle, CURLOPT_HEADER,         false); }
-	public function disable_return_transfer()  { return curl_setopt($this->handle, CURLOPT_RETURNTRANSFER, false); }
-	public function disable_binary_transfer()  { return curl_setopt($this->handle, CURLOPT_BINARYTRANSFER, false); }
-	public function disable_ssl_verification() { return curl_setopt($this->handle, CURLOPT_SSL_VERIFYPEER, false); }
+	public function disable_delete()           { return curl_setopt($this->handle, CURLOPT_CUSTOMREQUEST, 'DELETE'); } # DELETE
+	public function disable_patch()            { return curl_setopt($this->handle, CURLOPT_CUSTOMREQUEST, 'PATCH');  } # PATCH
+	public function disable_put()              { return curl_setopt($this->handle, CURLOPT_PUT,            false);   } # PUT
+	public function disable_post()             { return curl_setopt($this->handle, CURLOPT_POST,           false);   } # POST
+	public function disable_redirects()        { return curl_setopt($this->handle, CURLOPT_FOLLOWLOCATION, false);   }
+	public function disable_return_headers()   { return curl_setopt($this->handle, CURLOPT_HEADER,         false);   }
+	public function disable_return_transfer()  { return curl_setopt($this->handle, CURLOPT_RETURNTRANSFER, false);   }
+	public function disable_binary_transfer()  { return curl_setopt($this->handle, CURLOPT_BINARYTRANSFER, false);   }
+	public function disable_ssl_verification() { return curl_setopt($this->handle, CURLOPT_SSL_VERIFYPEER, false);   }
 }

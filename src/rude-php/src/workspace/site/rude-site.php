@@ -97,27 +97,56 @@ class site
 
 		?>
 		<div id="menu" class="ui top inverted sidebar menu visible">
-			<div class="item">
+			<div class="item" onclick="rude.menu.navigation.title('');">
 				<a href="<?= site::url('homepage') ?>">
 					<i class="icon home"></i> Homepage
 				</a>
 			</div>
 
-			<div class="ui dropdown item">
-				<i class="icon list"></i>
+			<div class="ui dropdown item navigation" tabindex="0">
+				<i class="icon sidebar"></i>
 
-				Genres <i class="icon caret down"></i>
+				<span class="title">Navigation</span>
 
-				<div class="menu">
-					<?
-						if ($genres)
-						{
-							foreach ($genres as $genre)
-							{
-								?><a class="item" href="<?= site::url('homepage') ?>&genre_id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
-							}
-						}
-					?>
+				<i class="dropdown icon"></i>
+				<div class="menu transition hidden" tabindex="-1">
+					<div class="item" onclick="rude.menu.navigation.title('Popular'); rude.menu.navigation.hide();">
+						<a href="#">
+							<i class="icon diamond"></i> Popular
+						</a>
+					</div>
+
+					<div class="item" onclick="rude.menu.navigation.title('New'); rude.menu.navigation.hide();">
+						<a href="#">
+							<i class="icon announcement"></i> New
+						</a>
+					</div>
+
+					<div class="item" onclick="rude.menu.navigation.title('Playlists'); rude.menu.navigation.hide();">
+						<a href="<?= site::url('playlists') ?>">
+							<i class="icon list"></i> Playlists
+						</a>
+					</div>
+
+
+					<div class="ui dropdown item">
+
+						Genres
+
+						<i class="dropdown icon"></i>
+
+						<div class="menu">
+							<?
+								if ($genres)
+								{
+									foreach ($genres as $genre)
+									{
+										?><a class="item" href="<?= site::url('homepage') ?>&genre_id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active'); rude.menu.navigation.title('Genre: <?= $genre->name ?>')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+									}
+								}
+							?>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -126,68 +155,71 @@ class site
 			</script>
 
 
-			<div class="item">
-				<a href="#">
-					<i class="icon diamond"></i> Popular
-				</a>
-			</div>
+			<div class="ui dropdown item right settings" tabindex="0">
+				<i class="icon settings"></i>
 
-			<div class="item">
-				<a href="#">
-					<i class="icon announcement"></i> New
-				</a>
-			</div>
+				Settings
 
-			<div class="item">
-				<a href="<?= site::url('playlists') ?>">
-					<i class="icon list"></i> Playlists
-				</a>
-			</div>
+				<i class="dropdown icon"></i>
+				<div class="menu transition hidden" tabindex="-1">
 
-			<?
-				if (current::user_is_logged())
-				{
-					?>
-					<a class="ui item right bold" href="<?= site::url('logout') ?>">
-						<i class="icon sign out"></i>
-						Logout
-					</a>
-					<?
-
-					if (current::visitor_is_admin())
+				<?
+					if (current::user_is_logged())
 					{
+						if (current::visitor_is_admin())
+						{
+							?>
+							<a class="ui item" href="<?= site::url('admin') ?>">
+								<i class="icon configure"></i>
+								Panel
+							</a>
+							<?
+						}
+						else if (current::visitor_is_user())
+						{
+							?>
+							<a class="ui item" href="<?= site::url('user') ?>">
+								<i class="icon user"></i>
+								Account
+							</a>
+
+							<a class="ui item" href="<?= site::url('user', 'playlists') ?>">
+								<i class="icon list"></i>
+								Playlists
+							</a>
+
+							<a class="ui item" href="<?= site::url('user', 'settings') ?>">
+								<i class="icon configure"></i>
+								Configure
+							</a>
+							<?
+						}
+
 						?>
-						<a class="ui item right bold" href="<?= site::url('admin') ?>">
-							<i class="icon configure"></i>
-							Admin Panel
+						<a class="ui item" href="<?= site::url('logout') ?>">
+							<i class="icon sign out"></i>
+							Logout
 						</a>
 						<?
 					}
-					else if (current::visitor_is_user())
+					else
 					{
 						?>
-						<a class="ui item right bold" href="<?= site::url('user') ?>">
-							<i class="icon configure"></i>
-							User Panel
+						<a class="ui item" href="<?= site::url('registration') ?>">
+							<i class="icon add user"></i>
+							Sign Up
+						</a>
+
+						<a class="ui item" href="<?= site::url('login') ?>">
+							<i class="icon sign in"></i>
+							Sign In
 						</a>
 						<?
 					}
-				}
-				else
-				{
-					?>
-					<a class="ui item right" href="<?= site::url('registration') ?>">
-						<i class="icon add user"></i>
-						Sign Up
-					</a>
+				?>
 
-					<a class="ui item right" href="<?= site::url('login') ?>">
-						<i class="icon sign in"></i>
-						Sign In
-					</a>
-					<?
-				}
-			?>
+				</div>
+			</div>
 		</div>
 		<?
 	}

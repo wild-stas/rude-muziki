@@ -66,10 +66,13 @@
 
 #menu { background: #4C5162; }
 #menu .item:hover,
+#menu .item .ui.dropdown.item a { color: black; }
 #menu .item a:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }
 #menu .ui.dropdown .item.active { background-color: rgba(255, 165, 0, 0.38)!important; }
 #menu .ui.dropdown .icon.caret.down { position: relative; top: 2px; }
-
+#menu .navigation:hover { color: orange; }
+#menu .navigation > .menu > .item a { color: rgba(0,0,0,.85)!important; }
+#menu .settings:hover { color: orange; }
 
 .ui.positive { background-color: #4C5162!important; }
 
