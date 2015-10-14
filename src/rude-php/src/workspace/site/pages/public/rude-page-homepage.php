@@ -118,7 +118,7 @@ class page_homepage
 		<div class="ui grid">
 			<div> <!--class="eleven wide column " -->
 				<?
-				$playlists = playlists::get(null,10);
+				$playlists = playlists::get_last(10);
 
 				if ($playlists)
 				{
