@@ -53,7 +53,7 @@ class page_playlists
 
 	public function main()
 	{
-		$admin_playlists = playlists::get();
+		$admin_playlists = playlists::get_last(playlists::count());
 		if (current::user_id()){
 			$user_playlists = user_playlists::get_by_user_id(current::user_id());
 		}else
