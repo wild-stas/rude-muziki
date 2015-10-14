@@ -115,6 +115,7 @@ class page_homepage
 	public function slider(){
 		?>
 
+
 		<div class="ui grid">
 			<div> <!--class="eleven wide column " -->
 				<?
@@ -184,6 +185,16 @@ class page_homepage
 
 						$(document).ready(function()
 						{
+
+							function color_navs(){
+								$('.flex-control-paging li a').css('background',$('.flexslider').find('.flex-active-slide').css('color'));
+								
+							}
+							setInterval(color_navs, 500);
+
+
+
+
 
 								$('.flexslider').flexslider({
 									animation: "fade",
