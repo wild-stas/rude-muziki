@@ -818,7 +818,7 @@ class page_admin_playlist
 			<tbody>
 
 			<?
-			$playlists = playlists::get();
+			$playlists = playlists::get_last(playlists::count());
 
 			if ($playlists)
 			{
