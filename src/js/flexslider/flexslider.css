@@ -43,7 +43,7 @@
 	padding: 10px;
 }
 .flexslider .slides img {
-	max-width: 40%;
+	max-width: 200px;
 	display: inline-block;
 	vertical-align: top;
 	max-height: 200px;
