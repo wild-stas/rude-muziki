@@ -43,10 +43,10 @@
 	padding: 10px;
 }
 .flexslider .slides img {
-	max-width: 200px;
+	max-width: 300px;
 	display: inline-block;
 	vertical-align: top;
-	max-height: 200px;
+	max-height: 300px;
 }
 .flex-caption .icon.labeled.button.bottom {
 	position: absolute;
