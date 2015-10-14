@@ -7,13 +7,15 @@ if (!defined('RUDE_DATABASE_TABLE_PLAYLISTS_PRIMARY_KEY')) { define('RUDE_DATABA
 
 class playlist
 {
-	public $id              = null;
-	public $name            = null;
-	public $title           = null;
-	public $description     = null;
-	public $file_image      = null;
-	public $file_image_size = null;
-	public $timestamp       = null;
+	public $id               = null;
+	public $name             = null;
+	public $title            = null;
+	public $description      = null;
+	public $file_image       = null;
+	public $file_image_size  = null;
+	public $timestamp        = null;
+	public $background_color = null;
+	public $font_color       = null;
 
 
 	public function __construct($id = null)

@@ -487,10 +487,12 @@ class page_admin_playlist
 				$name = get('playlist-name');
 				$title = get('playlist-title');
 				$description = get('playlist-description');
+				$background_color = get('playlist-background_color');
+				$font_color = get('playlist-font_color');
 
-				if ($name and $title and $description)
+				if ($name and $title and $description and $background_color and $font_color)
 				{
-					$playlist_id = playlists::add($name, $title, $description);
+					$playlist_id = playlists::add($name, $title, $description,null,null,null,$background_color,$font_color);
 
 					$cover = items::to_object(get('playlist-logo', $_FILES));
 
@@ -513,7 +515,7 @@ class page_admin_playlist
 					}
 					?>
 					<script>
-						rude.crawler.open('?page=admin&task=playlists');
+						rude.crawler.open('?page=admin&task=playlist');
 					</script>
 				<?
 				}
@@ -527,10 +529,12 @@ class page_admin_playlist
 				$name = get('playlist-update-name');
 				$title = get('playlist-update-title');
 				$description = get('playlist-update-description');
+				$background_color = get('playlist-update-background_color');
+				$font_color = get('playlist-update-font_color');
 
-				if ($name and $title and $description)
+				if ($name and $title and $description and $background_color and $font_color)
 				{
-					playlists::update($playlist_id, $name, $title, $description);
+					playlists::update($playlist_id, $name, $title, $description,null,null,null,$background_color,$font_color);
 
 
 					$cover = items::to_object(get('playlist-update-logo', $_FILES));
@@ -554,7 +558,7 @@ class page_admin_playlist
 					}
 					?>
 					<script>
-						rude.crawler.open('?page=admin&task=playlists');
+						rude.crawler.open('?page=admin&task=playlist');
 					</script>
 				<?
 				}
@@ -572,7 +576,7 @@ class page_admin_playlist
 
 				?>
 				<script>
-					rude.crawler.open('?page=admin&task=playlists');
+					rude.crawler.open('?page=admin&task=playlist');
 				</script>
 				<?
 
@@ -580,7 +584,7 @@ class page_admin_playlist
 		}
 
 		?>
-		<form id="modal-add" class="ui modal transition coupled" method="post" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" onsubmit="return rude.playlist.validate.add()">
+		<form id="modal-add" class="ui modal transition coupled" method="post" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" >
 			<i class="close icon"></i>
 			<div class="header">
 				Create New Playlist
@@ -591,11 +595,13 @@ class page_admin_playlist
 					<input type="hidden" name="action" value="add">
 
 					<div class="three fields">
+
 						<div class="field">
 							<label for="playlist-name">Playlist Name</label>
 
 							<input id="playlist-name" name="playlist-name">
 						</div>
+
 
 						<div class="field">
 							<label for="playlist-title">Playlist Title</label>
@@ -618,6 +624,22 @@ class page_admin_playlist
 						</div>
 					</div>
 
+					<div class="two fields">
+
+						<div class="field">
+							<label for="playlist-background_color">Playlist background color</label>
+
+							<input type="color" value="#ffffff" id="playlist-background_color" name="playlist-background_color">
+						</div>
+
+
+						<div class="field">
+							<label for="playlist-font_color">Playlist font color</label>
+
+							<input type="color" id="playlist-font_color" name="playlist-font_color">
+						</div>
+					</div>
+
 					<div class="field">
 						<label for="playlist-description">Playlist Description</label>
 
@@ -634,7 +656,7 @@ class page_admin_playlist
 			</div>
 		</form>
 
-		<form id="modal-update" class="ui modal transition coupled" method="post" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" onsubmit="return rude.playlist.validate.update()">
+		<form id="modal-update" class="ui modal transition coupled" method="post" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" >
 			<i class="close icon"></i>
 			<div class="header">
 				Update My Playlist
@@ -671,6 +693,22 @@ class page_admin_playlist
 									$('#playlist-update-logo-label').html('<i class="icon folder open"></i> ' + $('#playlist-update-logo').val().split('\\').pop());
 								});
 							</script>
+						</div>
+					</div>
+
+					<div class="two fields">
+
+						<div class="field">
+							<label for="playlist-update-background_color">Playlist background color</label>
+
+							<input type="color" value="" id="playlist-update-background_color" name="playlist-update-background_color">
+						</div>
+
+
+						<div class="field">
+							<label for="playlist-update-font_color">Playlist font color</label>
+
+							<input type="color" value=""  id="playlist-update-font_color" name="playlist-update-font_color">
 						</div>
 					</div>
 
@@ -801,7 +839,7 @@ class page_admin_playlist
 								<i class="icon music popup init" onclick="$(this).parent().submit()" data-content="Edit songs in playlist"></i>
 							</a>
 
-							<i class="icon configure black popup init" onclick="$('#playlist-update-id').val(<?= $playlist->id ?>); $('#playlist-update-name').val('<?= static::escape_js($playlist->name) ?>'); $('#playlist-update-title').val('<?= static::escape_js($playlist->title) ?>'); $('#playlist-update-description').val('<?= static::escape_js($playlist->description) ?>'); $('#modal-update').modal({ closable: false }).modal('show');" data-content="Change playlist meta information"></i>
+							<i class="icon configure black popup init" onclick="$('#playlist-update-background_color').val('<?= $playlist->background_color ?>'); $('#playlist-update-font_color').val('<?= $playlist->font_color ?>');$('#playlist-update-id').val(<?= $playlist->id ?>); $('#playlist-update-name').val('<?= static::escape_js($playlist->name) ?>'); $('#playlist-update-title').val('<?= static::escape_js($playlist->title) ?>'); $('#playlist-update-description').val('<?= static::escape_js($playlist->description) ?>'); $('#modal-update').modal({ closable: false }).modal('show');" data-content="Change playlist meta information"></i>
 
 							<span class="inline-block" style="position: relative">
 								<img style="display:none; position: absolute;max-width: 150px;right: 10px;top: 15px;padding: 3px;background-color: black;border-radius: 5px;" src="src/img/<?= $playlist->id ?>/<?= $playlist->file_image ?>">

@@ -7,10 +7,11 @@ if (!defined('RUDE_DATABASE_TABLE_RATINGS_PRIMARY_KEY')) { define('RUDE_DATABASE
 
 class rating
 {
-	public $id      = null;
-	public $user_id = null;
-	public $song_id = null;
-	public $value   = null;
+	public $id        = null;
+	public $user_id   = null;
+	public $song_id   = null;
+	public $value     = null;
+	public $timestamp = null;
 
 
 	public function __construct($id = null)
