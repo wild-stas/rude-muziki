@@ -45,32 +45,36 @@ class playlists
 		return $q->get_object_list();
 	}
 
-	public static function add($name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null)
+	public static function add($name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null, $background_color = null, $font_color = null)
 	{
 		$q = new query_insert(RUDE_DATABASE_TABLE_PLAYLISTS);
 
-		if ($name            !== null) { $q->add('name',            $name           ); }
-		if ($title           !== null) { $q->add('title',           $title          ); }
-		if ($description     !== null) { $q->add('description',     $description    ); }
-		if ($file_image      !== null) { $q->add('file_image',      $file_image     ); }
-		if ($file_image_size !== null) { $q->add('file_image_size', $file_image_size); }
-		if ($timestamp       !== null) { $q->add('timestamp',       $timestamp      ); }
+		if ($name             !== null) { $q->add('name',             $name            ); }
+		if ($title            !== null) { $q->add('title',            $title           ); }
+		if ($description      !== null) { $q->add('description',      $description     ); }
+		if ($file_image       !== null) { $q->add('file_image',       $file_image      ); }
+		if ($file_image_size  !== null) { $q->add('file_image_size',  $file_image_size ); }
+		if ($timestamp        !== null) { $q->add('timestamp',        $timestamp       ); }
+		if ($background_color !== null) { $q->add('background_color', $background_color); }
+		if ($font_color       !== null) { $q->add('font_color',       $font_color      ); }
 
 		$q->query();
 
 		return $q->get_id();
 	}
 
-	public static function update($id, $name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null, $limit = null, $offset = null)
+	public static function update($id, $name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null, $background_color = null, $font_color = null, $limit = null, $offset = null)
 	{
 		$q = new query_update(RUDE_DATABASE_TABLE_PLAYLISTS);
 
-		if ($name            !== null) { $q->update('name',            $name           ); }
-		if ($title           !== null) { $q->update('title',           $title          ); }
-		if ($description     !== null) { $q->update('description',     $description    ); }
-		if ($file_image      !== null) { $q->update('file_image',      $file_image     ); }
-		if ($file_image_size !== null) { $q->update('file_image_size', $file_image_size); }
-		if ($timestamp       !== null) { $q->update('timestamp',       $timestamp      ); }
+		if ($name             !== null) { $q->update('name',             $name            ); }
+		if ($title            !== null) { $q->update('title',            $title           ); }
+		if ($description      !== null) { $q->update('description',      $description     ); }
+		if ($file_image       !== null) { $q->update('file_image',       $file_image      ); }
+		if ($file_image_size  !== null) { $q->update('file_image_size',  $file_image_size ); }
+		if ($timestamp        !== null) { $q->update('timestamp',        $timestamp       ); }
+		if ($background_color !== null) { $q->update('background_color', $background_color); }
+		if ($font_color       !== null) { $q->update('font_color',       $font_color      ); }
 
 		$q->where(RUDE_DATABASE_TABLE_PLAYLISTS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -205,6 +209,34 @@ class playlists
 		return $q->get_object_list();
 	}
 
+	public static function get_by_background_color($background_color, $only_first = false)
+	{
+		$q = new query_select(RUDE_DATABASE_TABLE_PLAYLISTS);
+		$q->where('background_color', $background_color);
+		$q->query();
+
+		if ($only_first)
+		{
+			return $q->get_object();
+		}
+
+		return $q->get_object_list();
+	}
+
+	public static function get_by_font_color($font_color, $only_first = false)
+	{
+		$q = new query_select(RUDE_DATABASE_TABLE_PLAYLISTS);
+		$q->where('font_color', $font_color);
+		$q->query();
+
+		if ($only_first)
+		{
+			return $q->get_object();
+		}
+
+		return $q->get_object_list();
+	}
+
 	public static function remove_by_id($id)
 	{
 		$q = new query_delete(RUDE_DATABASE_TABLE_PLAYLISTS);
@@ -268,6 +300,24 @@ class playlists
 		return $q->affected();
 	}
 
+	public static function remove_by_background_color($background_color)
+	{
+		$q = new query_delete(RUDE_DATABASE_TABLE_PLAYLISTS);
+		$q->where('background_color', $background_color);
+		$q->query();
+
+		return $q->affected();
+	}
+
+	public static function remove_by_font_color($font_color)
+	{
+		$q = new query_delete(RUDE_DATABASE_TABLE_PLAYLISTS);
+		$q->where('font_color', $font_color);
+		$q->query();
+
+		return $q->affected();
+	}
+
 	public static function is_exists_id($id)
 	{
 		return static::get_by_id($id) == true;
@@ -301,5 +351,15 @@ class playlists
 	public static function is_exists_timestamp($timestamp)
 	{
 		return static::get_by_timestamp($timestamp) == true;
+	}
+
+	public static function is_exists_background_color($background_color)
+	{
+		return static::get_by_background_color($background_color) == true;
+	}
+
+	public static function is_exists_font_color($font_color)
+	{
+		return static::get_by_font_color($font_color) == true;
 	}
 }

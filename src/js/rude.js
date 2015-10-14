@@ -1012,9 +1012,9 @@ var rude =
 		{
 			$(function()
 			{
-				$('a').unbind('click');
+				$('a').not('.flex-control-nav li a').unbind('click');
 
-				$('a').click(function ()
+				$('a').not('.flex-control-nav li a').click(function ()
 				{
 					$('#content').html('');
 					var url = $(this).attr('href');

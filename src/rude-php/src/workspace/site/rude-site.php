@@ -55,6 +55,8 @@ class site
 
 <!--			--><?//= html::js('src/js/sound-manager/2.97a/soundmanager2.min.js') ?>
 			<?= html::js(RUDE_SITE_URL . 'src/js/sound-manager/2.97a/soundmanager2.js') ?>
+			<?= html::js(RUDE_SITE_URL . 'src/js/flexslider/jquery.flexslider.js') ?>
+			<?= html::css(RUDE_SITE_URL . 'src/js/flexslider/flexslider.css') ?>
             <?= html::js('//vk.com/js/api/openapi.js?116') ?>
 			<?= html::js(RUDE_SITE_URL . 'src/js/rude.js') ?>
 			<?= html::js(RUDE_SITE_URL . 'src/js/rude-fixes.js') ?>

@@ -656,7 +656,15 @@ class page_user_playlist
 				break;
 		}
 
-		?>
+
+		if (get('open_add')=='1'){?>
+		<script>
+			$( document ).ready(function()
+			{
+				$('#modal-add').modal({closable: false}).modal('show');
+			});
+		</script>
+		<?}?>
 		<form id="modal-add" class="ui modal transition coupled" method="post" action="javascript:void(null)" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html" onsubmit="return rude.playlist.validate.add()">
 			<i class="close icon"></i>
 			<div class="header">
