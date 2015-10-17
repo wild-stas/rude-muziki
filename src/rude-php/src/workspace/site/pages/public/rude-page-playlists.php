@@ -53,7 +53,7 @@ class page_playlists
 
 	public function main()
 	{
-		$admin_playlists = playlists::get();
+		$admin_playlists = playlists::get_last(playlists::count());
 		if (current::user_id()){
 			$user_playlists = user_playlists::get_by_user_id(current::user_id());
 		}else
@@ -85,7 +85,7 @@ class page_playlists
 				if (current::user_id()){
 				?>
 				<div class="playlist_card add_new_one">
-					<a href="/index.php?page=user&task=playlists"><span>
+					<a href="/index.php?page=user&task=playlists&open_add=1"><span>
 							<span style="vertical-align: middle; display: table-cell">
 					<i class="icon add"></i><br>
 					Create a Playlist

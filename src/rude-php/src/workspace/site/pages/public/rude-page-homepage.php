@@ -112,6 +112,196 @@ class page_homepage
 		<?
 	}
 
+	public function slider(){
+		?>
+
+
+		<div class="ui grid">
+			<div> <!--class="eleven wide column " -->
+				<?
+				$playlists = playlists::get_last(10);
+
+				if ($playlists)
+				{
+
+					?>
+
+						<div class="flexslider">
+							<ul class="slides">
+								<?
+							foreach ($playlists as $playlist)
+							{
+								if (!$playlist->file_image)
+								{
+									continue;
+								}
+
+
+								$playlist_items = playlist_items::get_by_playlist_id($playlist->id);
+
+								if (!$playlist_items)
+								{
+									continue;
+								}
+
+
+								$song_ids = [];
+
+								foreach ($playlist_items as $playlist_item)
+								{
+									$song_ids[] = $playlist_item->song_id;
+								}
+
+								$songs = songs::get_by_id($song_ids);
+
+								if (!$songs)
+								{
+									continue;
+								}
+
+
+								?>
+								<li style="background: <?= $playlist->background_color ?>; color: <?= $playlist->font_color ?>">
+									<img width="252" src="src/img/<?= $playlist->id ?>/<?= $playlist->file_image ?>" alt="">
+
+									<div class="flex-caption"><span>
+										<h4 class="ui white" onclick="rude.crawler.open('?page=playlist&type=public&id=<?= $playlist->id ?>');"><?= $playlist->title ?></h4>
+
+										<p ><?= $playlist->description ?></p>
+
+										<div class="ui icon labeled button bottom" onclick="<? static::songs_to_js($playlist_items,$playlist->id) ?>">
+											<i class="icon video play" ></i> Listen
+										</div>
+									</span>
+									</div>
+								</li>
+							<?
+							}
+							?>
+							</ul>
+						</div>
+
+					<script type="text/javascript">
+
+						$(document).ready(function()
+						{
+
+							function color_navs(){
+								$('.flex-control-paging li a').css('background',$('.flexslider').find('.flex-active-slide').css('color'));
+								
+							}
+							setInterval(color_navs, 500);
+
+
+
+
+
+								$('.flexslider').flexslider({
+									animation: "fade",
+									directionNav: false,
+									start: function(slider){
+										$('body').removeClass('loading');
+									}
+								});
+
+						});
+					</script>
+				<?
+				}
+				?>
+			</div>
+
+			<div class="eight wide column">
+				<div class="songs-top">
+
+					<h4 class="ui header">
+						TOP 20
+					</h4>
+
+					<?
+					$date = date('Y-m-d', strtotime('-7 days'));
+
+					$q =
+						'
+SELECT * FROM ratings WHERE value >= 4 AND timestamp >= \''.$date.'\'
+ ';
+
+
+					$q .= 'GROUP BY	song_id' . PHP_EOL;
+
+					$q .= 'ORDER BY value ASC LIMIT 20 '. PHP_EOL;
+
+
+					$database = database();
+					$database->query($q);
+
+					$songs_ids = $database->get_object_list();
+					?>
+
+					<p>Top songs of the week</p>
+
+					<div class="ui button" onclick="<? static::songs_to_js($songs_ids,null,0) ?>">
+						&nbsp;&nbsp;&nbsp;<i class="icon video play"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="eight wide column">
+				<div class="songs-new">
+					<h4 class="ui header">
+						New Songs
+					</h4>
+					<? $songs = songs::get_last(20);?>
+					<p>New songs of the week</p>
+
+					<div class="ui button" onclick="<? static::songs_to_js($songs,null,1) ?>">
+						&nbsp;&nbsp;&nbsp;<i class="icon video play"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		</div>
+		<?
+	}
+
+	public function songs_to_js($songs,$playlist_id=null,$is_song=0)
+	{
+		if ($songs)
+		{?>
+			rude.player.playlist.remove();
+			rude.player.init();
+			<?
+			if (!$is_song){
+				foreach ($songs as $song_id)
+				{
+					$song = songs::get_by_id($song_id->song_id, true);
+
+					?>
+					rude.player.song.add('<?= static::escape_js($song->file_audio) ?>', '<?= static::escape_js($song->name); ?>', '<?= static::escape_js(song_authors::get_by_id($song->author_id, true)->name); ?>','false');
+				<?
+				}
+			}
+			if ($is_song){
+				foreach ($songs as $song)
+				{
+
+					?>
+					rude.player.song.add('<?= static::escape_js($song->file_audio) ?>', '<?= static::escape_js($song->name); ?>', '<?= static::escape_js(song_authors::get_by_id($song->author_id, true)->name); ?>','false');
+				<?
+				}
+			}
+			if ($playlist_id!=null){?>
+			$('#current_playlist').val('public_<?=$playlist_id?>');
+			<?}
+		}
+		?>
+
+
+	<?
+	}
+
+
 	public function main()
 	{
 		?>
@@ -132,6 +322,7 @@ class page_homepage
 		</div>
 
 		<div id="main">
+			<? static::slider() ?>
 			<div id="recent">
 				<? static::html_songs($this->songs, true); ?>
 			</div>
@@ -273,5 +464,16 @@ class page_homepage
 			rude.semantic.init.rating();
 		</script>
 		<?
+	}
+
+	public static function escape_js($string)
+	{
+		$string = string::replace($string, '\\', '\\\\');
+		$string = string::replace($string, '"', "'");
+		$string = string::replace($string, "'", "\'");
+		$string = string::replace($string, PHP_EOL, '<br>');
+		$string = string::replace($string, "\r", '');
+
+		return $string;
 	}
 }

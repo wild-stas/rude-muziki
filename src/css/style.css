@@ -209,3 +209,60 @@
 	content: " \f001";
 	font-family: Icons;
 }
+
+#playlist-slider {     margin: 15px 0;	padding: 10px;background: #2a3e53; }
+
+.coin-slider { background: #2a3e53; overflow: visible; }
+.coin-slider .ui.button { bottom: 1px; position: absolute!important; font-size: 13px; }
+.coin-slider h4 { cursor: pointer; }
+.coin-slider h4:hover { color: orange!important; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: all 500ms ease; -moz-transition: all 500ms ease; -ms-transition: all 500ms ease; -o-transition: all 500ms ease; transition: all 500ms ease; }
+.cs-coin-slider {
+	background-size: cover!important;
+	background-position: 50% 50%!important;
+}
+.navbar-brand.new,
+.navbar-brand.popupar { padding-left: 25px; }
+
+.navbar-brand.new:hover,
+.navbar-brand.popupar:hover { color: orange; }
+
+.cs-title { width: 388px; padding: 20px; margin-left: 252px; top: 0!important; right: 0!important; background-color: #2a3e53; color: #FFFFFF; z-index: 0!important; }
+.cs-title h4 { color: #ffffff!important; font-size: 24px!important; }
+.cs-title p { cursor: pointer; }
+
+#cs-prev-coin-slider { display: none!important; }
+#cs-next-coin-slider { display: none!important; }
+
+#cs-buttons-coin-slider { position: absolute!important; top: 0!important; left: inherit!important; right: 0!important; }
+
+.cs-buttons a { border-radius: 6px!important; }
+
+.songs-top,
+.songs-new { background: #2a3e53; color: #ffffff; padding: 29px; height: 117px; position: relative; }
+
+.songs-top h4,
+.songs-new h4 { color: #ffffff!important; font-size: 24px!important; z-index: 80!important; }
+
+.songs-top { padding-bottom: 30px; margin-bottom: 34px; }
+
+.songs-top .ui.button,
+.songs-new .ui.button { position: absolute!important; top: 27px; right: 27px; }
+
+.songs-top a,
+.songs-new a { color: #ffffff; }
+
+.songs-top a:hover,
+.songs-new a:hover { text-decoration: none; color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: all 500ms ease; -moz-transition: all 500ms ease; -ms-transition: all 500ms ease; -o-transition: all 500ms ease; transition: all 500ms ease; }
+
+#playlist-slider:hover,
+.songs-top:hover,
+.songs-new:hover { opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: all 500ms ease; -moz-transition: all 500ms ease; -ms-transition: all 500ms ease; -o-transition: all 500ms ease; transition: all 500ms ease; }
+
+.popover { z-index: 99999; /* A value higher than 1010 that solves the problem */ }
+
+.playlist-cover,
+.playlist-cover h4 { color: #333!important; }
+.playlist-cover h4 { font-size: 20px!important; }
+.playlist-cover img { max-width: 200px; max-height: 200px; min-width: 200px; min-height: 200px; width: 200px; height: 200px; }
+.playlist-cover.grid { margin: 0; background: #ffffff }
+.playlist-cover .column:nth-child(2) .ui.button { position: absolute; top: 182px; }
