@@ -203,10 +203,10 @@ class database_classes
 
 	private static function advanced_get()
 	{
-		$result  = PHP_EOL . '	public static function get_by_%FIELD%($%FIELD%, $only_first = false)';
+		$result  = PHP_EOL . '	public static function get_by_%FIELD_LOWERCASE%($%FIELD_LOWERCASE%, $only_first = false)';
 		$result .= PHP_EOL . '	{';
 		$result .= PHP_EOL . '		$q = new query_select(RUDE_DATABASE_TABLE_%TABLE_NAME_UPPERCASE%);';
-		$result .= PHP_EOL . '		$q->where(\'%FIELD%\', $%FIELD%);';
+		$result .= PHP_EOL . '		$q->where(\'%FIELD%\', $%FIELD_LOWERCASE%);';
 		$result .= PHP_EOL . '		$q->query();';
 		$result .= PHP_EOL;
 		$result .= PHP_EOL . '		if ($only_first)';
@@ -223,10 +223,10 @@ class database_classes
 
 	private static function advanced_remove()
 	{
-		$result  = PHP_EOL . '	public static function remove_by_%FIELD%($%FIELD%)';
+		$result  = PHP_EOL . '	public static function remove_by_%FIELD_LOWERCASE%($%FIELD_LOWERCASE%)';
 		$result .= PHP_EOL . '	{';
 		$result .= PHP_EOL . '		$q = new query_delete(RUDE_DATABASE_TABLE_%TABLE_NAME_UPPERCASE%);';
-		$result .= PHP_EOL . '		$q->where(\'%FIELD%\', $%FIELD%);';
+		$result .= PHP_EOL . '		$q->where(\'%FIELD%\', $%FIELD_LOWERCASE%);';
 		$result .= PHP_EOL . '		$q->query();';
 		$result .= PHP_EOL;
 		$result .= PHP_EOL . '		return $q->affected();';
@@ -238,9 +238,9 @@ class database_classes
 
 	private static function advanced_is_exists()
 	{
-		$result  = PHP_EOL . '	public static function is_exists_%FIELD%($%FIELD%)';
+		$result  = PHP_EOL . '	public static function is_exists_%FIELD_LOWERCASE%($%FIELD_LOWERCASE%)';
 		$result .= PHP_EOL . '	{';
-		$result .= PHP_EOL . '		return static::get_by_%FIELD%($%FIELD%) == true;';
+		$result .= PHP_EOL . '		return static::get_by_%FIELD_LOWERCASE%($%FIELD_LOWERCASE%) == true;';
 		$result .= PHP_EOL . '	}';
 		$result .= PHP_EOL;
 
@@ -262,9 +262,13 @@ class database_classes
 		{
 			foreach ($fields as $field)
 			{
-				$field = static::escape($field);
+				$field           = static::escape($field, '_', false);
+				$field_lowercase = string::to_lowercase($field);
 
-				$result .= static::replace($template, '%FIELD%', $field, false);
+				$code = static::replace($template, '%FIELD_LOWERCASE%', $field_lowercase, false);
+				$code = static::replace($code,     '%FIELD%',           $field,           false);
+
+				$result .= $code;
 			}
 		}
 
@@ -274,9 +278,12 @@ class database_classes
 		return $result;
 	}
 
-	private static function escape($var, $replacer = '_')
+	private static function escape($var, $replacer = '_', $lowercase = true)
 	{
-		$var = string::to_lowercase($var);
+		if ($lowercase)
+		{
+			$var = string::to_lowercase($var);
+		}
 
 		$var = string::replace($var, ' ', $replacer);
 		$var = string::replace($var, '-', $replacer);
