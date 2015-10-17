@@ -8,7 +8,13 @@ class page_admin_import
 	{
 		if (get('init'))
 		{
+			ob_start();
+
 			static::import();
+
+			ob_clean();
+
+			headers::refresh();
 		}
 
 		?>
@@ -140,10 +146,8 @@ class page_admin_import
 			songs::add($info->title, $info->comment, $author_id, $genre->id, 0, $song_name, $file_size, null, 0);
 
 
-			@filesystem::move($file, RUDE_DIR_AUDIO . DIRECTORY_SEPARATOR . $song_name);
+			filesystem::move($file, RUDE_DIR_AUDIO . DIRECTORY_SEPARATOR . $song_name);
 		}
-
-		headers::refresh('/?page=admin&task=import');
 
 		return true;
 	}
