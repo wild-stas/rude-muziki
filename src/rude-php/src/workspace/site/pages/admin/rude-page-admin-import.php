@@ -114,14 +114,18 @@ class page_admin_import
 			}
 
 
-			$author_id = song_authors::get_by_name($info->artist, true)->id;
+			$author = song_authors::get_by_name($info->artist, true);
 
-			if (!$author_id)
+			if ($author)
+			{
+				$author_id = $author->id;
+			}
+			else
 			{
 				$author_id = song_authors::add($info->artist);
 			}
 
-
+			
 			$song_name = 'song_' . string::rand(13) . '.mp3';
 
 
