@@ -105,6 +105,11 @@ class page_admin_import
 				$info->comment = '';
 			}
 
+			if (!isset($info->artist))
+			{
+				$info->artist = 'unknown';
+			}
+
 
 			$genre = song_genres::get_by_name($info->genre, true);
 
@@ -125,7 +130,7 @@ class page_admin_import
 				$author_id = song_authors::add($info->artist);
 			}
 
-			
+
 			$song_name = 'song_' . string::rand(13) . '.mp3';
 
 
