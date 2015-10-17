@@ -143,7 +143,7 @@ class page_admin_import
 			@filesystem::move($file, RUDE_DIR_AUDIO . DIRECTORY_SEPARATOR . $song_name);
 		}
 
-		headers::refresh();
+		headers::refresh('/?page=admin&task=import');
 
 		return true;
 	}
