@@ -2,7 +2,7 @@
 
 namespace rude;
 
-class page_playlists
+class page_user_playlists
 {
 	public function __construct()
 	{
@@ -53,20 +53,36 @@ class page_playlists
 
 	public function main()
 	{
-		$admin_playlists = playlists::get_last(playlists::count());
+		if (current::user_id()){
+			$user_playlists = user_playlists::get_by_user_id(current::user_id());
+		}else
+		{
+			$user_playlists = '';
+		}
 		?>
 
 		<div id="main">
 			<div id="" class="ui double six doubling" style="font-size: 0;">
 				<?
-					if ($admin_playlists)
+
+					if ($user_playlists)
 					{
-						foreach ($admin_playlists as $admin_playlist)
+						foreach ($user_playlists as $user_playlist)
 						{
-							static::admin_playlist($admin_playlist);
+							static::user_playlist($user_playlist);
 						}
 					}
+				if (current::user_id()){
 				?>
+				<div class="playlist_card add_new_one">
+					<a href="/index.php?page=user&task=playlists&open_add=1"><span>
+							<span style="vertical-align: middle; display: table-cell">
+					<i class="icon add"></i><br>
+					Create a Playlist
+						</span></span></a>
+				</div>
+
+				<?}?>
 			</div>
 		</div>
 		<script>
@@ -97,19 +113,15 @@ class page_playlists
 		<?
 	}
 
-
-
-	public static function admin_playlist($admin_playlist)
+	public static function user_playlist($user_playlist)
 	{
 		?>
-
-
-		<div class="playlist_card " data-id="public_<?= $admin_playlist->id ?>">
+		<div class="playlist_card " data-id="user_<?= $user_playlist->id ?>">
 			<div class="image">
 				<?
-				if ($admin_playlist->file_image)
+				if ($user_playlist->file_image)
 				{
-					?><img src="src/img/<?= $admin_playlist->id ?>/<?= $admin_playlist->file_image ?>"><?
+					?><img src="src/img/playlist_covers/<?= $user_playlist->id ?>/<?= $user_playlist->file_image ?>"><?
 				}
 				else
 				{
@@ -121,14 +133,17 @@ class page_playlists
 				<i class="icon video play"></i> Listen
 			</div>
 			<div class="content">
-				<a href="?page=playlist&type=public&id=<?= $admin_playlist->id ?>"><p class="header"><?= $admin_playlist->name ?></p></a>
+				<a href="?page=playlist&type=user&id=<?= $user_playlist->id ?>"><p class="header"><?= $user_playlist->name ?></p></a>
+
 				<div class="ui divider"></div>
 
 				<div class="description">
-					<? $song_ids = playlist_items::get_by_playlist_id($admin_playlist->id); ?>
+					<? $song_ids = user_playlist_items::get_by_playlist_id($user_playlist->id); ?>
 					<span>Total: <?= count($song_ids) ?> tracks</span></p>
 				</div>
 			</div>
+
+
 
 			<div class="song_container" style="display: none">
 				<?
@@ -144,10 +159,11 @@ class page_playlists
 				}
 				?>
 			</div>
-
-
-
 		</div>
+		<script>
+			rude.crawler.init();
+		</script>
+
 	<?
 	}
 }

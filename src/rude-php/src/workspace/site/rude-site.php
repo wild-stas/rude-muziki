@@ -15,6 +15,7 @@ class site
 			case 'homepage':        $page = new page_homepage();        break;
 			case 'song':            $page = new page_song();            break;
 			case 'playlists':       $page = new page_playlists();       break;
+			case 'your_playlists':  $page = new page_user_playlists();       break;
 			case 'playlist':        $page = new page_playlist();        break;
 			case 'admin':           $page = new page_admin();           break;
 			case 'user':            $page = new page_user();            break;
@@ -124,12 +125,19 @@ class site
 						</a>
 					</div>
 
-					<div class="item" onclick="rude.menu.navigation.title('Playlists'); rude.menu.navigation.hide();">
+					<div class="item" onclick="rude.menu.navigation.title('Top playlists'); rude.menu.navigation.hide();">
 						<a href="<?= site::url('playlists') ?>">
-							<i class="icon list"></i> Playlists
+							<i class="icon list"></i> Top playlists
 						</a>
 					</div>
 
+					<? if(current::user_is_logged()): ?>
+					<div class="item" onclick="rude.menu.navigation.title('Playlists'); rude.menu.navigation.hide();">
+						<a href="<?= site::url('your_playlists') ?>">
+							<i class="icon list"></i> Playlists
+						</a>
+					</div>
+					<? endif; ?>
 
 					<div class="ui dropdown item">
 

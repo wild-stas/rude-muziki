@@ -227,9 +227,12 @@ var rude =
 
 						break;
 					}else{
-						rude.player.song.stop();
-						database.splice(database.indexOf(item), database.length);
-						break;
+						if (song_id==null)
+						{
+							rude.player.song.stop();
+							database.splice(database.indexOf(item), database.length);
+							break;
+						}
 					}
 				}
 
