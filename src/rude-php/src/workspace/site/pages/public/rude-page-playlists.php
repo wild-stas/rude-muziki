@@ -145,7 +145,9 @@ class page_playlists
 				?>
 			</div>
 
-
+			<script>
+				rude.crawler.init();
+			</script>
 
 		</div>
 	<?
