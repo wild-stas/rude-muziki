@@ -15,7 +15,7 @@ class site
 			case 'homepage':        $page = new page_homepage();        break;
 			case 'song':            $page = new page_song();            break;
 			case 'playlists':       $page = new page_playlists();       break;
-			case 'your_playlists':  $page = new page_user_playlists();       break;
+			case 'your_playlists':  $page = new page_user_playlists();  break;
 			case 'playlist':        $page = new page_playlist();        break;
 			case 'admin':           $page = new page_admin();           break;
 			case 'user':            $page = new page_user();            break;
@@ -164,22 +164,13 @@ class site
 				rude.semantic.init.dropdown();
 			</script>
 
-
-			<div class="ui dropdown item right settings" tabindex="0">
-				<i class="icon settings"></i>
-
-				Settings
-
-				<i class="dropdown icon"></i>
-				<div class="menu transition hidden" tabindex="-1">
-
 				<?
 					if (current::user_is_logged())
 					{
 						if (current::visitor_is_admin())
 						{
 							?>
-							<a class="ui item" href="<?= site::url('admin') ?>">
+							<a class="ui item right" href="<?= site::url('admin') ?>">
 								<i class="icon configure"></i>
 								Panel
 							</a>
@@ -188,17 +179,17 @@ class site
 						else if (current::visitor_is_user())
 						{
 							?>
-							<a class="ui item" href="<?= site::url('user') ?>">
+							<a class="ui item right" href="<?= site::url('user') ?>">
 								<i class="icon user"></i>
 								Account
 							</a>
 
-							<a class="ui item" href="<?= site::url('user', 'playlists') ?>">
+							<a class="ui item right" href="<?= site::url('user', 'playlists') ?>">
 								<i class="icon list"></i>
 								Playlists
 							</a>
 
-							<a class="ui item" href="<?= site::url('user', 'settings') ?>">
+							<a class="ui item right" href="<?= site::url('user', 'settings') ?>">
 								<i class="icon configure"></i>
 								Configure
 							</a>
@@ -206,7 +197,7 @@ class site
 						}
 
 						?>
-						<a class="ui item" href="<?= site::url('logout') ?>">
+						<a class="ui item right" href="<?= site::url('logout') ?>">
 							<i class="icon sign out"></i>
 							Logout
 						</a>
@@ -215,12 +206,12 @@ class site
 					else
 					{
 						?>
-						<a class="ui item" href="<?= site::url('registration') ?>">
+						<a class="ui item right" href="<?= site::url('registration') ?>">
 							<i class="icon add user"></i>
 							Sign Up
 						</a>
 
-						<a class="ui item" href="<?= site::url('login') ?>">
+						<a class="ui item right" href="<?= site::url('login') ?>">
 							<i class="icon sign in"></i>
 							Sign In
 						</a>
@@ -228,6 +219,15 @@ class site
 					}
 				?>
 
+
+			<div class="ui item right search">
+				<div class="ui icon input">
+					<form id="search-form" onsubmit="rude.crawler.open('?page=homepage&s=' + encodeURIComponent($('#search-field').val())); return false;">
+						<input id="search-field" type="text" placeholder="Search...">
+
+					</form>
+
+					<i class="search icon" onclick="$('#search-form').submit()"></i>
 				</div>
 			</div>
 		</div>

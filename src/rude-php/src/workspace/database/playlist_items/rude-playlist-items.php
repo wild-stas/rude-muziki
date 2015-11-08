@@ -50,7 +50,7 @@ class playlist_items
 		$q = new query_insert(RUDE_DATABASE_TABLE_PLAYLIST_ITEMS);
 
 		if ($playlist_id !== null) { $q->add('playlist_id', $playlist_id); }
-		if ($song_id     !== null) { $q->add('song_id',     $song_id    ); }
+		if ($song_id     !== null) { $q->add('song_id',     $song_id    ); }
 
 		$q->query();
 
@@ -62,7 +62,7 @@ class playlist_items
 		$q = new query_update(RUDE_DATABASE_TABLE_PLAYLIST_ITEMS);
 
 		if ($playlist_id !== null) { $q->update('playlist_id', $playlist_id); }
-		if ($song_id     !== null) { $q->update('song_id',     $song_id    ); }
+		if ($song_id     !== null) { $q->update('song_id',     $song_id    ); }
 
 		$q->where(RUDE_DATABASE_TABLE_PLAYLIST_ITEMS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -99,7 +99,7 @@ class playlist_items
 		return $database->get_object()->count;
 	}
 
-		public static function get_by_id($id, $only_first = false)
+	public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_PLAYLIST_ITEMS);
 		$q->where('id', $id);
@@ -181,5 +181,5 @@ class playlist_items
 	public static function is_exists_song_id($song_id)
 	{
 		return static::get_by_song_id($song_id) == true;
-	}
+	}
 }

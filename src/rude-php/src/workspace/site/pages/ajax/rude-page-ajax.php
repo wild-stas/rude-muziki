@@ -17,43 +17,12 @@ class page_ajax
 				break;
 			case 'lazy':
 
-				$songs = page_homepage::get_songs(get('genre_id'), get('offset'), get('limit'));
-
-
-				$database = database();
-				$database->query('
-					SELECT
-						songs.*,
-
-						song_authors.name AS author_name,
-						song_genres.name  AS genre_name,
-
-						(SELECT   SUM(value) FROM ratings WHERE song_id = songs.id) AS rating_value,
-						(SELECT COUNT(id)    FROM ratings WHERE song_id = songs.id) AS rating_votes
-
-					FROM
-						songs
-					LEFT JOIN
-						song_authors ON song_authors.id = songs.author_id
-					LEFT JOIN
-						song_genres ON song_genres.id = songs.genre_id
-					LEFT JOIN
-						ratings ON ratings.song_id = songs.id
-					WHERE
-						1 = 1
-					AND
-						songs.genre_id = ' . (int) get('genre_id') . '
-
-					ORDER BY
-						songs.id DESC LIMIT ' . (int) get('offset') . ',' . (int) get('limit') . '
-				');
-
+				$songs = page_homepage::get_songs(get('genre_id'), get('offset'), get('limit'), get('s'));
 
 				if (!$songs)
 				{
 					headers::not_found(); die;
 				}
-
 
 				page_homepage::html_songs($songs);
 

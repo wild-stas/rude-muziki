@@ -11,6 +11,7 @@ class page_homepage
         $email = get('email');
 		$social = get('social');
 		$uid = get('uid');
+		$keyword = get('s');
 
 
 
@@ -27,11 +28,13 @@ class page_homepage
 
 		$genre_id = get('genre_id');
 
-		$this->songs = static::get_songs($genre_id);
+		$this->songs = static::get_songs($genre_id, 0, 100, $keyword);
 	}
 
-	public static function get_songs($genre_id = null, $offset = 0, $limit = 100)
+	public static function get_songs($genre_id = null, $offset = 0, $limit = 100, $keyword = null)
 	{
+		$database = database();
+
 		$q =
 		'
 			SELECT
@@ -62,12 +65,28 @@ class page_homepage
 			$q .= 'AND songs.genre_id = ' . (int) $genre_id . PHP_EOL;
 		}
 
+		if ($keyword)
+		{
+			$keyword = $database->escape($keyword);
+
+			$q .=
+			'
+				AND
+				(
+						songs.name LIKE "%' . $keyword . '%"
+					OR
+						song_authors.name LIKE "%' . $keyword . '%"
+					OR
+						song_genres.name LIKE "%' . $keyword . '%"
+				)
+			';
+		}
+
 		$q .= 'GROUP BY	songs.id' . PHP_EOL;
 
 		$q .= 'ORDER BY songs.id DESC LIMIT ' . (int) $offset . ',' . (int) $limit . PHP_EOL;
 
 
-		$database = database();
 		$database->query($q);
 
 		return $database->get_object_list();
@@ -404,6 +423,8 @@ SELECT * FROM ratings WHERE value >= 4 AND timestamp >= \''.$date.'\'
 
 			<tbody>
 			<?
+				$keyword = get('s');
+
 				foreach ($songs as $song)
 				{
 					?>
@@ -424,11 +445,11 @@ SELECT * FROM ratings WHERE value >= 4 AND timestamp >= \''.$date.'\'
 						</td>
 
 						<td>
-							<a class="header" href="<?= site::url_seo('song', $song->alias) ?>"><?= $song->name ?></a>
+							<a class="header" href="<?= site::url_seo('song', $song->alias) ?>"><?= static::highlight($song->name, $keyword) ?></a>
 						</td>
 
 						<td>
-							<?= $song->author_name ?>
+							<?= static::highlight($song->author_name, $keyword) ?>
 						</td>
 
 
@@ -464,6 +485,16 @@ SELECT * FROM ratings WHERE value >= 4 AND timestamp >= \''.$date.'\'
 			rude.semantic.init.rating();
 		</script>
 		<?
+	}
+
+	public static function highlight($string, $keyword = null)
+	{
+		if (!$keyword or !string::contains($string, $keyword, false))
+		{
+			return $string;
+		}
+
+		return string::replace($string, $keyword, '<span class="highlight">' . $keyword . '</span>', false);
 	}
 
 	public static function escape_js($string)

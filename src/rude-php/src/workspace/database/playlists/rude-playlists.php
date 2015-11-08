@@ -56,7 +56,7 @@ class playlists
 		if ($file_image_size  !== null) { $q->add('file_image_size',  $file_image_size ); }
 		if ($timestamp        !== null) { $q->add('timestamp',        $timestamp       ); }
 		if ($background_color !== null) { $q->add('background_color', $background_color); }
-		if ($font_color       !== null) { $q->add('font_color',       $font_color      ); }
+		if ($font_color       !== null) { $q->add('font_color',       $font_color      ); }
 
 		$q->query();
 
@@ -74,7 +74,7 @@ class playlists
 		if ($file_image_size  !== null) { $q->update('file_image_size',  $file_image_size ); }
 		if ($timestamp        !== null) { $q->update('timestamp',        $timestamp       ); }
 		if ($background_color !== null) { $q->update('background_color', $background_color); }
-		if ($font_color       !== null) { $q->update('font_color',       $font_color      ); }
+		if ($font_color       !== null) { $q->update('font_color',       $font_color      ); }
 
 		$q->where(RUDE_DATABASE_TABLE_PLAYLISTS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -111,7 +111,7 @@ class playlists
 		return $database->get_object()->count;
 	}
 
-		public static function get_by_id($id, $only_first = false)
+	public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_PLAYLISTS);
 		$q->where('id', $id);
@@ -361,5 +361,5 @@ class playlists
 	public static function is_exists_font_color($font_color)
 	{
 		return static::get_by_font_color($font_color) == true;
-	}
+	}
 }

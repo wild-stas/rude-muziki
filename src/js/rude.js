@@ -858,8 +858,9 @@ var rude =
 		load: function()
 		{
 			var genre_id = rude.url.param.get('genre_id');
+			var keyword = $('#search-field').val();
 
-			debug('lazy load [offset: ' + rude.lazy.offset + ', limit: ' + rude.lazy.limit + ']');
+			debug('lazy load [offset: ' + rude.lazy.offset + ', limit: ' + rude.lazy.limit + ', keyword: ' + keyword + ']');
 
 			$.ajax
 			({
@@ -871,6 +872,7 @@ var rude =
 				{
 					limit:  rude.lazy.limit,
 					offset: rude.lazy.offset,
+					s: keyword,
 
 					genre_id: genre_id
 				},
