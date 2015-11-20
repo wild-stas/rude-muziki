@@ -306,7 +306,7 @@ class page_homepage
 								<?
 								if ($author->file_image)
 								{
-									?><img src="src/img/author/<?= $author->id ?>/<?= $author->file_image ?>"><?
+									?><img src="src/img/author/<?= $author->file_image ?>"><?
 								}
 								else
 								{
