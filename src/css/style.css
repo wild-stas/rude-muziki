@@ -141,6 +141,7 @@
 	margin: 0 1%;
 	margin-top: 20px;
 	vertical-align: top;
+	position: relative;
 }
 
 .playlist_card .image  {
@@ -154,7 +155,11 @@
 
 .playlist_card .button  {
 	margin: 0 5%;
-	width: 90%!important;
+	/* width: 90%!important; */
+	width: 43px;
+	position: absolute;
+	top: 14px;
+	left: 5px;
 }
 .playlist_card .image img {
 	max-width: 100%;
@@ -207,9 +212,15 @@
 }
 
 .playlist_card.active .header:after {
-	background-color: #E8E7E7;
-	content: " \f001";
-	font-family: Icons;
+	background: url('/src/img/audio.svg');
+	content: " ";
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	vertical-align: middle;
+	background-size: contain;
+	background-repeat: no-repeat;
+	margin: 0 0 0 8px;
 }
 
 #playlist-slider {     margin: 15px 0;	padding: 10px;background: #2a3e53; }
@@ -245,7 +256,7 @@
 .songs-top h4,
 .songs-new h4 { color: #ffffff!important; font-size: 24px!important; z-index: 80!important; }
 
-.songs-top { padding-bottom: 30px; margin-bottom: 34px; }
+.songs-top { padding-bottom: 30px }
 
 .songs-top .ui.button,
 .songs-new .ui.button { position: absolute!important; top: 27px; right: 27px; }
@@ -268,3 +279,10 @@
 .playlist-cover img { max-width: 200px; max-height: 200px; min-width: 200px; min-height: 200px; width: 200px; height: 200px; }
 .playlist-cover.grid { margin: 0; background: #ffffff }
 .playlist-cover .column:nth-child(2) .ui.button { position: absolute; top: 182px; }
+
+.homeplaylist{background: white;
+	border: none;
+	box-shadow: none;
+	border-radius: 0;
+	width: 25%;
+	margin: 0;}

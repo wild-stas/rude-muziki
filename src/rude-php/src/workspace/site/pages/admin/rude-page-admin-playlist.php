@@ -489,10 +489,15 @@ class page_admin_playlist
 				$description = get('playlist-description');
 				$background_color = get('playlist-background_color');
 				$font_color = get('playlist-font_color');
-
+				$is_news = get('is_news');
+				if ($is_news=='on'){
+					$is_news=1;
+				}else{
+					$is_news=0;
+				}
 				if ($name and $title and $description and $background_color and $font_color)
 				{
-					$playlist_id = playlists::add($name, $title, $description,null,null,null,$background_color,$font_color);
+					$playlist_id = playlists::add($name, $title, $description,null,null,null,$background_color,$font_color,$is_news);
 
 					$cover = items::to_object(get('playlist-logo', $_FILES));
 
@@ -531,10 +536,17 @@ class page_admin_playlist
 				$description = get('playlist-update-description');
 				$background_color = get('playlist-update-background_color');
 				$font_color = get('playlist-update-font_color');
+				$is_news = get('update_is_news');
+
+				if ($is_news=='on'){
+					$is_news=1;
+				}else{
+					$is_news=0;
+				}
 
 				if ($name and $title and $description and $background_color and $font_color)
 				{
-					playlists::update($playlist_id, $name, $title, $description,null,null,null,$background_color,$font_color);
+					playlists::update($playlist_id, $name, $title, $description,null,null,null,$background_color,$font_color,$is_news);
 
 
 					$cover = items::to_object(get('playlist-update-logo', $_FILES));
@@ -639,7 +651,10 @@ class page_admin_playlist
 							<input type="color" id="playlist-font_color" name="playlist-font_color">
 						</div>
 					</div>
-
+					<div class="ui toggle checkbox">
+						<label for="is_news">Mark as news</label>
+						<input type="checkbox" name="is_news" id="is_news">
+					</div>
 					<div class="field">
 						<label for="playlist-description">Playlist Description</label>
 
@@ -710,6 +725,12 @@ class page_admin_playlist
 
 							<input type="color" value=""  id="playlist-update-font_color" name="playlist-update-font_color">
 						</div>
+
+
+					</div>
+					<div class="ui toggle checkbox">
+						<label for="update_is_news">Mark as news</label>
+						<input type="checkbox" name="update_is_news" id="update_is_news">
 					</div>
 
 					<div class="field">
@@ -814,6 +835,7 @@ class page_admin_playlist
 			</thead>
 			<script>
 				rude.semantic.init.rating();
+				rude.semantic.init.checkbox();
 			</script>
 			<tbody>
 
@@ -839,7 +861,7 @@ class page_admin_playlist
 								<i class="icon music popup init" onclick="$(this).parent().submit()" data-content="Edit songs in playlist"></i>
 							</a>
 
-							<i class="icon configure black popup init" onclick="$('#playlist-update-background_color').val('<?= $playlist->background_color ?>'); $('#playlist-update-font_color').val('<?= $playlist->font_color ?>');$('#playlist-update-id').val(<?= $playlist->id ?>); $('#playlist-update-name').val('<?= static::escape_js($playlist->name) ?>'); $('#playlist-update-title').val('<?= static::escape_js($playlist->title) ?>'); $('#playlist-update-description').val('<?= static::escape_js($playlist->description) ?>'); $('#modal-update').modal({ closable: false }).modal('show');" data-content="Change playlist meta information"></i>
+							<i class="icon configure black popup init" onclick="$('#playlist-update-background_color').val('<?= $playlist->background_color ?>'); $('#playlist-update-font_color').val('<?= $playlist->font_color ?>');$('#playlist-update-id').val(<?= $playlist->id ?>); $('#playlist-update-name').val('<?= static::escape_js($playlist->name) ?>'); $('#playlist-update-title').val('<?= static::escape_js($playlist->title) ?>');<? if($playlist->is_news==1){ ?> $('#update_is_news').prop('checked', true);<? }else{ ?>$('#update_is_news').prop('checked', false);<?}?> $('#playlist-update-description').val('<?= static::escape_js($playlist->description) ?>'); $('#modal-update').modal({ closable: false }).modal('show');" data-content="Change playlist meta information"></i>
 
 							<span class="inline-block" style="position: relative">
 								<img style="display:none; position: absolute;max-width: 150px;right: 10px;top: 15px;padding: 3px;background-color: black;border-radius: 5px;" src="src/img/<?= $playlist->id ?>/<?= $playlist->file_image ?>">

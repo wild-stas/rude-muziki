@@ -63,6 +63,7 @@ class page_playlists
 					{
 						foreach ($admin_playlists as $admin_playlist)
 						{
+							if ($admin_playlist->is_news!=1)
 							static::admin_playlist($admin_playlist);
 						}
 					}
@@ -117,8 +118,8 @@ class page_playlists
 				}
 				?>
 			</div>
-			<div class="ui icon labeled button bottom fluid" onclick="listen_all(this)">
-				<i class="icon video play"></i> Listen
+			<div class="ui icon button" onclick="listen_all(this)">
+				<i class="icon video play"></i>
 			</div>
 			<div class="content">
 				<a href="?page=playlist&type=public&id=<?= $admin_playlist->id ?>"><p class="header"><?= $admin_playlist->name ?></p></a>

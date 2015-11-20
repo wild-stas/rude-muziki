@@ -16,6 +16,7 @@ class playlist
 	public $timestamp        = null;
 	public $background_color = null;
 	public $font_color       = null;
+	public $is_news          = null;
 
 
 	public function __construct($id = null)

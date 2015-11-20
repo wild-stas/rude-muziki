@@ -45,7 +45,7 @@ class playlists
 		return $q->get_object_list();
 	}
 
-	public static function add($name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null, $background_color = null, $font_color = null)
+	public static function add($name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null, $background_color = null, $font_color = null, $is_news = null)
 	{
 		$q = new query_insert(RUDE_DATABASE_TABLE_PLAYLISTS);
 
@@ -57,13 +57,14 @@ class playlists
 		if ($timestamp        !== null) { $q->add('timestamp',        $timestamp       ); }
 		if ($background_color !== null) { $q->add('background_color', $background_color); }
 		if ($font_color       !== null) { $q->add('font_color',       $font_color      ); }
+		if ($is_news          !== null) { $q->add('is_news',          $is_news         ); }
 
 		$q->query();
 
 		return $q->get_id();
 	}
 
-	public static function update($id, $name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null, $background_color = null, $font_color = null, $limit = null, $offset = null)
+	public static function update($id, $name = null, $title = null, $description = null, $file_image = null, $file_image_size = null, $timestamp = null, $background_color = null, $font_color = null, $is_news = null, $limit = null, $offset = null)
 	{
 		$q = new query_update(RUDE_DATABASE_TABLE_PLAYLISTS);
 
@@ -75,6 +76,7 @@ class playlists
 		if ($timestamp        !== null) { $q->update('timestamp',        $timestamp       ); }
 		if ($background_color !== null) { $q->update('background_color', $background_color); }
 		if ($font_color       !== null) { $q->update('font_color',       $font_color      ); }
+		if ($is_news          !== null) { $q->update('is_news',          $is_news         ); }
 
 		$q->where(RUDE_DATABASE_TABLE_PLAYLISTS_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -111,7 +113,7 @@ class playlists
 		return $database->get_object()->count;
 	}
 
-	public static function get_by_id($id, $only_first = false)
+		public static function get_by_id($id, $only_first = false)
 	{
 		$q = new query_select(RUDE_DATABASE_TABLE_PLAYLISTS);
 		$q->where('id', $id);
@@ -237,6 +239,20 @@ class playlists
 		return $q->get_object_list();
 	}
 
+	public static function get_by_is_news($is_news, $only_first = false)
+	{
+		$q = new query_select(RUDE_DATABASE_TABLE_PLAYLISTS);
+		$q->where('is_news', $is_news);
+		$q->query();
+
+		if ($only_first)
+		{
+			return $q->get_object();
+		}
+
+		return $q->get_object_list();
+	}
+
 	public static function remove_by_id($id)
 	{
 		$q = new query_delete(RUDE_DATABASE_TABLE_PLAYLISTS);
@@ -318,6 +334,15 @@ class playlists
 		return $q->affected();
 	}
 
+	public static function remove_by_is_news($is_news)
+	{
+		$q = new query_delete(RUDE_DATABASE_TABLE_PLAYLISTS);
+		$q->where('is_news', $is_news);
+		$q->query();
+
+		return $q->affected();
+	}
+
 	public static function is_exists_id($id)
 	{
 		return static::get_by_id($id) == true;
@@ -362,4 +387,9 @@ class playlists
 	{
 		return static::get_by_font_color($font_color) == true;
 	}
+
+	public static function is_exists_is_news($is_news)
+	{
+		return static::get_by_is_news($is_news) == true;
+	}
 }

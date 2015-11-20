@@ -238,28 +238,12 @@ class page_homepage
 					</h4>
 
 					<?
-					$date = date('Y-m-d', strtotime('-7 days'));
-
-					$q =
-						'
-SELECT * FROM ratings WHERE value >= 4 AND timestamp >= \''.$date.'\'
- ';
-
-
-					$q .= 'GROUP BY	song_id' . PHP_EOL;
-
-					$q .= 'ORDER BY value ASC LIMIT 20 '. PHP_EOL;
-
-
-					$database = database();
-					$database->query($q);
-
-					$songs_ids = $database->get_object_list();
+					$songs_ids = songs::get_by_is_top(1);
 					?>
 
 					<p>Top songs of the week</p>
 
-					<div class="ui button" onclick="<? static::songs_to_js($songs_ids,null,0) ?>">
+					<div class="ui button" onclick="<? static::songs_to_js($songs_ids,null,1) ?>">
 						&nbsp;&nbsp;&nbsp;<i class="icon video play"></i>
 					</div>
 				</div>
@@ -278,10 +262,153 @@ SELECT * FROM ratings WHERE value >= 4 AND timestamp >= \''.$date.'\'
 					</div>
 				</div>
 			</div>
+
+
+			<h2 class="">
+				Song news
+			</h2>
+			<? $news=playlists::get_by_is_news(1);
+			?>
+			<div id="" class="ui double six doubling" style="font-size: 0;    margin-bottom: 30px;">
+				<?
+				if ($news)
+				{
+					$count=1;
+					foreach ($news as $news_item)
+					{
+						if ($count>4){
+							continue;
+						}
+						static::news_as_playlist($news_item);
+						$count++;
+					}
+				}
+				?>
+			</div>
+			<h2 class="">
+				Top authors
+			</h2>
+			<div id="" class="ui double six doubling" style="font-size: 0;    margin-bottom: 30px;">
+				<?
+				$authors=song_authors::get_by_in_homepage(1);
+
+				if ($authors)
+				{
+					$count=1;
+					foreach ($authors as $author)
+					{
+						if ($count>4){
+							continue;
+						}
+						?>
+						<div class="homeplaylist playlist_card ">
+							<div class="image">
+								<?
+								if ($author->file_image)
+								{
+									?><img src="src/img/author/<?= $author->id ?>/<?= $author->file_image ?>"><?
+								}
+								else
+								{
+									?><img src="src/img/covers/image.png"><?
+								}
+								?>
+							</div>
+							<div class="content">
+								<a href="?page=searchpage&s=<?= $author->name ?>"><p class="header"><?= $author->name ?></p></a>
+							</div>
+						</div>
+				<?
+						$count++;
+					}
+				}
+				?>
+			</div>
+			<script>
+				$( document ).ready(function() {
+					$('.playlist_card.add_new_one').height($('.playlist_card').height());
+
+					$(".playlist_card").each(function() {
+						if ($( this ).data( "id" )==$('#current_playlist').val()){
+							$( this).addClass('active');
+						}
+					});
+				});
+				function listen_all(selector){
+					$('#current_playlist').val($(selector).parent().data('id'));
+					$('.playlist_card').removeClass('active');
+					$(selector).parent().addClass('active');
+					rude.player.playlist.remove();
+					rude.player.init();
+					var songs_cont = $(selector).parent().find('.song_container');
+					var all_songs = $(songs_cont).find('span');
+					$( all_songs ).each(function(  ) {
+						rude.player.song.add($(this).data('file_audio'), $(this).data('name'), $(this).data('author_name'),'false');
+					});
+				}
+
+			</script>
+			<div>
+
+			</div>
 		</div>
 
 		</div>
 		<?
+	}
+
+	public static function news_as_playlist($news_item)
+	{
+		?>
+
+
+		<div class="homeplaylist playlist_card " data-id="public_<?= $news_item->id ?>">
+			<div class="image">
+				<?
+				if ($news_item->file_image)
+				{
+					?><img src="src/img/<?= $news_item->id ?>/<?= $news_item->file_image ?>"><?
+				}
+				else
+				{
+					?><img src="src/img/covers/image.png"><?
+				}
+				?>
+			</div>
+			<div class="ui icon button" onclick="listen_all(this)">
+				<i class="icon video play"></i>
+			</div>
+			<div class="content">
+				<a href="?page=news&type=public&id=<?= $news_item->id ?>"><p class="header"><?= $news_item->name ?></p></a>
+				<div class="ui divider"></div>
+
+				<div class="description">
+					<? $song_ids = playlist_items::get_by_playlist_id($news_item->id); ?>
+					<?= $news_item->title ?>
+				</div>
+			</div>
+
+			<div class="song_container" style="display: none">
+				<?
+				if ($song_ids)
+				{
+					foreach ($song_ids as $song_id)
+					{
+						$song = songs::get_by_id($song_id->song_id,true);
+
+						?>
+						<span data-file_audio="<?= $song->file_audio ?>" data-name="<?= $song->name ?>" data-author_name="<?= song_authors::get_by_id($song->author_id,true)->name; ?>"></span>
+					<?}
+				}
+				?>
+			</div>
+
+			<script>
+				rude.crawler.init();
+			</script>
+
+		</div>
+	<?
 	}
 
 	public function songs_to_js($songs,$playlist_id=null,$is_song=0)

@@ -18,7 +18,7 @@ class page_admin_song_edit
 		$song = songs::get_by_id(get('id'),true);
 			?>
 			<audio id="audio"></audio>
-			<form class="ui form error" method="post" enctype="multipart/form-data" action="http://localhost/rude-muziki/?page=admin&task=edit_song&step=2">
+			<form class="ui form error" method="post" enctype="multipart/form-data" action="/?page=admin&task=edit_song&step=2">
 				<input type="hidden" id="id" name="id" value="<?=$song->id;?>">
 				<div class="field">
 					<label for="name">Name:</label>
@@ -60,6 +60,13 @@ class page_admin_song_edit
 							<?
 							}?>
 						</div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui toggle checkbox">
+						<label for="is_top">Mark as top</label>
+						<input type="checkbox" name="is_top" id="is_top">
 					</div>
 				</div>
 				
@@ -110,13 +117,23 @@ class page_admin_song_edit
 				;				
 
 				rude.semantic.init.dropdown();
+				rude.semantic.init.checkbox();
+				<? if ($song->is_top==1){?>
+				$('#is_top').prop('checked', true);
+				<?}?>
 			</script>
 			<?
 		}
 		if (get('step')=='2'){			
-			$timestamp = date('Y-m-d h:i:s', time());			
+			$timestamp = date('Y-m-d h:i:s', time());
+			$is_top = get('is_top');
+			if ($is_top=='on'){
+				$is_top=1;
+			}else{
+				$is_top=0;
+			}
 			
-			if (songs::update(get('id'),get('name'), get('description'), get('author_id'), get('genre_id'), null, null, null, null, null, $timestamp, 1))
+			if (songs::update(get('id'),get('name'), get('description'), get('author_id'), get('genre_id'), null, null, null, null, null, $timestamp, 1,$is_top))
 			{
 			?>
 				Track successfully changed.

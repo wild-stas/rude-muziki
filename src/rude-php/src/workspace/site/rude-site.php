@@ -13,10 +13,12 @@ class site
 		switch (current::page())
 		{
 			case 'homepage':        $page = new page_homepage();        break;
+			case 'searchpage':        $page = new page_searchpage();        break;
 			case 'song':            $page = new page_song();            break;
 			case 'playlists':       $page = new page_playlists();       break;
 			case 'your_playlists':  $page = new page_user_playlists();  break;
 			case 'playlist':        $page = new page_playlist();        break;
+			case 'news':        $page = new page_playlist();        break;
 			case 'admin':           $page = new page_admin();           break;
 			case 'user':            $page = new page_user();            break;
 			case 'about':           $page = new page_about();           break;
@@ -222,7 +224,7 @@ class site
 
 			<div class="ui item right search">
 				<div class="ui icon input">
-					<form id="search-form" onsubmit="rude.crawler.open('?page=homepage&s=' + encodeURIComponent($('#search-field').val())); return false;">
+					<form id="search-form" onsubmit="rude.crawler.open('?page=searchpage&s=' + encodeURIComponent($('#search-field').val())); return false;">
 						<input id="search-field" type="text" placeholder="Search...">
 
 					</form>

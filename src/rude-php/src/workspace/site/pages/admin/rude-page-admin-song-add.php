@@ -28,7 +28,7 @@ class page_admin_song_add
 			?>
 			<audio id="audio"></audio>
 
-			<form class="ui form error" method="post" enctype="multipart/form-data" action="http://localhost/rude-muziki/?page=admin&task=add_song&step=2">
+			<form class="ui form error" method="post" enctype="multipart/form-data" action="?page=admin&task=add_song&step=2">
 
 				<div class="field">
 					<label>Song</label>
@@ -99,6 +99,12 @@ class page_admin_song_add
 							<?
 							}?>
 						</div>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui toggle checkbox">
+						<label for="is_top">Mark as top</label>
+						<input type="checkbox" name="is_top" id="is_top">
 					</div>
 				</div>
 
@@ -177,6 +183,7 @@ class page_admin_song_add
 				});
 
 				rude.semantic.init.dropdown();
+				rude.semantic.init.checkbox();
 			</script>
 			<?
 		}
@@ -190,16 +197,23 @@ class page_admin_song_add
 			$file_audio_size = $_FILES['audiofile']['size'];
 			$file_image_size = $_FILES['imagefile']['size'];
 			$timestamp = date('Y-m-d h:i:s', time());
+			$is_top = get('is_top');
+
+			if ($is_top=='on'){
+				$is_top=1;
+			}else{
+				$is_top=0;
+			}
 			
 			if ( mime::is_audio($_FILES['audiofile']['type']) && mime::is_image($_FILES['imagefile']['type']) )
 			{
 				if ( move_uploaded_file($_FILES['audiofile']['tmp_name'], $uploadfile_audio) && move_uploaded_file($_FILES['imagefile']['tmp_name'], $uploadfile_image))
 				{
-					songs::add(get('name'), get('description'), get('author_id'), get('genre_id'), get('duration'), $file_audio, $file_audio_size, $file_image, $file_image_size, $timestamp);
+					songs::add(get('name'), get('description'), get('author_id'), get('genre_id'), get('duration'), $file_audio, $file_audio_size, $file_image, $file_image_size, $timestamp,null,$is_top);
 					?>
 						Song succesfully added.
 					<?
-				}				
+				}
 			}
 			else
 			{
