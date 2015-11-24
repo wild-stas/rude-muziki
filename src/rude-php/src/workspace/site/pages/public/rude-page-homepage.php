@@ -244,6 +244,7 @@ if ($author_id)
 				}
 				?>
 			</div>
+			<h2>HEAR THIS</h2>
 
 			<div class="five wide column">
 				<div class="songs-top">
