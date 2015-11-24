@@ -403,8 +403,6 @@ if ($author_id)
 			</div>
 			<div class="content">
 				<a href="?page=news_item&type=public&id=<?= $news_item->id ?>"><p class="header"><?= $news_item->name ?></p></a>
-				<div class="ui divider"></div>
-
 				<div class="description">
 					<? $song_ids = playlist_items::get_by_playlist_id($news_item->id); ?>
 					<?= $news_item->title ?>

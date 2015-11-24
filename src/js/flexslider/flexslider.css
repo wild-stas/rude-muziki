@@ -40,6 +40,7 @@
 .flexslider .slides > li {
   display: none;
   -webkit-backface-visibility: hidden;
+	padding: 3px;
 }
 .flexslider .slides img {
 	max-width: 300px;
