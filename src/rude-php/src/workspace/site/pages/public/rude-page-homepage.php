@@ -188,7 +188,7 @@ class page_homepage
 										<div class="flex-caption"><span>
 											<h4 class="ui white" onclick="rude.crawler.open('?page=playlist&type=public&id=<?= $playlist->id ?>');"><?= $playlist->title ?></h4>
 
-											<p ><?= $playlist->description ?></p>
+											<p ><?= substr($playlist->description, 0, 35); echo '...';  ?></p>
 
 											<div class="ui icon button" style="    position: absolute;    top: 12px;    left: 12px;" onclick="<? static::songs_to_js($playlist_items,$playlist->id) ?>">
 												<i class="icon video play" ></i>
@@ -379,7 +379,7 @@ class page_homepage
 		?>
 
 
-		<div class="homeplaylist playlist_card " data-id="public_<?= $news_item->id ?>">
+		<div class="homeplaylist playlist_card " style="height: 250px;">
 			<div class="image">
 				<?
 				if ($news_item->file_image)

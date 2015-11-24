@@ -53,13 +53,12 @@
 	bottom: 10px;
 }
 .flex-caption {
-	width: 59%;
 	margin-left: 1%;
 	display: inline-block;
 	vertical-align: top;
 }
 .flex-caption h4.ui {
-	font-size: 22px;
+	font-size: 17px;
 	cursor: pointer;
 }
 .flex-caption p {
