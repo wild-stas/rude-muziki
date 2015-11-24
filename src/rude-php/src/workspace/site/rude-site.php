@@ -155,7 +155,7 @@ class site
 								{
 									foreach ($genres as $genre)
 									{
-										?><a class="item" href="<?= site::url('genre') ?>&id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active'); rude.menu.navigation.title('Genre: <?= $genre->name ?>')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+										?><a class="item" href="<?= site::url('genre') ?>&genre_id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active'); rude.menu.navigation.title('Genre: <?= $genre->name ?>')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
 									}
 								}
 							?>

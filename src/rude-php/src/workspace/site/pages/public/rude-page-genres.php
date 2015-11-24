@@ -95,7 +95,7 @@ class page_genres
 				?>
 			</div>
 			<div class="content">
-				<a href="?page=genre&id=<?= $genre->id ?>">
+				<a href="?page=genre&genre_id=<?= $genre->id ?>">
 					<p class="header"><?= $genre->name ?></p>
 				</a>
 			</div>

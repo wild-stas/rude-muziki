@@ -6,10 +6,54 @@ class page_genre
 {
 	public function __construct()
 	{
+		$genre_id = get('genre_id');
 
+		$this->songs = static::get_songs($genre_id, 0, 100);
 	}
 
+	public static function get_songs($genre_id = null, $offset = 0, $limit = 100)
+	{
+		$database = database();
 
+		$q =
+			'
+			SELECT
+				songs.*,
+
+				song_authors.name AS author_name,
+				song_genres.name  AS genre_name,
+
+				(SELECT   SUM(value) FROM ratings WHERE song_id = songs.id) AS rating_value,
+				(SELECT COUNT(id)    FROM ratings WHERE song_id = songs.id) AS rating_votes
+
+			FROM
+				songs
+			LEFT JOIN
+				song_authors ON song_authors.id = songs.author_id
+			LEFT JOIN
+				song_genres ON song_genres.id = songs.genre_id
+			LEFT JOIN
+				ratings ON ratings.song_id = songs.id
+			WHERE
+				1 = 1
+		';
+
+
+
+		if ($genre_id)
+		{
+			$q .= 'AND songs.genre_id = ' . (int) $genre_id . PHP_EOL;
+		}
+
+		$q .= 'GROUP BY	songs.id' . PHP_EOL;
+
+		$q .= 'ORDER BY songs.id DESC LIMIT ' . (int) $offset . ',' . (int) $limit . PHP_EOL;
+
+
+		$database->query($q);
+
+		return $database->get_object_list();
+	}
 
 	public function init()
 	{
@@ -51,7 +95,7 @@ class page_genre
 
 	public function main()
 	{
-		$genre = song_genres::get_by_id(get('id'),true);
+		$genre = song_genres::get_by_id(get('genre_id'),true);
 		if (!$genre){
 			return;
 		}
@@ -86,7 +130,7 @@ class page_genre
 								{
 									?><img src="src/img/covers/image.png"><?
 								}
-								$songs = songs::get_by_genre_id($genre->id);
+								$songs = songs::get_by_genre_id(get('genre_id'));
 								?>
 								<div class="ui icon labeled button bottom fluid" onclick="listen_all(this)">
 									<i class="icon video play"></i> Listen
@@ -99,60 +143,9 @@ class page_genre
 									<span style="float: right" >Total: <?= count($songs) ?> tracks</span></p>
 								</div>
 							</div>
-							<table class="ui table striped celled small compact">
-								<thead>
-								<tr>
-									<th class="center small">Play</th>
-									<th>Name</th>
-									<th>Author</th>
-									<th>Lenght</th>
-									<th>Rating</th>
-								</tr>
-								</thead>
-								<tbody>
-								<?
-								if ($songs)
-								{
-									foreach ($songs as $song)
-									{
-										$ratings = ratings::get_by_song_id($song->id);
-
-
-										?>
-										<tr class="song <?= $song->file_audio ?>">
-											<td class="width-2"><i class="icon video play" onclick="play_song(this)" data-file_audio="<?= $song->file_audio ?>" data-name="<?= $song->name ?>" data-author_name="<?= song_authors::get_by_id($song->author_id,true)->name; ?>"></i></td>
-											<td><?= $song->name ?></td>
-											<td><?= song_authors::get_by_id($song->author_id,true)->name; ?></td>
-											<td><?= gmdate("i:s", $song->length); ?></td>
-											<td class="center"><div class="rating box">
-													<?
-													$rating = 0;
-													if ($ratings)
-													{
-														$rating_value = 0;
-														$rating_votes = 0;
-														foreach ($ratings as $rating_song){
-															$rating_value += $rating_song->value;
-															$rating_votes++;
-														}
-														$rating = float::to_upper($rating_value / $rating_votes);
-													}
-													?>
-
-													<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
-												</div></td>
-										</tr>
-									<?}
-								}
-								?>
-								</tbody>
-							</table>
-
-
-
-
-
-
+					<div id="recent">
+						<? static::html_songs($this->songs, true); ?>
+					</div>
 					</div>
 
 
@@ -226,5 +219,109 @@ class page_genre
 		</script>
 
 		<?
+	}
+
+	public static function html_songs($songs, $include_head = false)
+	{
+		if (!$songs)
+		{
+			return;
+		}
+
+		?>
+		<table class="ui celled table striped ">
+
+			<?
+			if ($include_head)
+			{
+				?>
+				<thead>
+				<tr>
+					<th>Image</th>
+					<th>Song Name</th>
+					<th>Author</th>
+					<th>Rating</th>
+					<th>Listen</th>
+				</tr>
+				</thead>
+			<?
+			}
+			?>
+
+			<tbody>
+			<?
+			$keyword = get('s');
+
+			foreach ($songs as $song)
+			{
+				?>
+				<tr>
+					<td>
+						<?
+						$image = 'image_white.png';
+
+						if ($song->file_image)
+						{
+							$image = $song->file_image;
+						}
+						?>
+
+						<a class="header" href="<?= site::url_seo('song', $song->alias) ?>">
+							<img src="<?= RUDE_SITE_URL ?>src/img/covers/<?= $image ?>">
+						</a>
+					</td>
+
+					<td>
+						<a class="header" href="<?= site::url_seo('song', $song->alias) ?>"><?= static::highlight($song->name, $keyword) ?></a>
+					</td>
+
+					<td>
+						<?= static::highlight($song->author_name, $keyword) ?>
+					</td>
+
+
+					<td>
+						<div class="rating box">
+							<?
+							$rating = 0;
+
+							if ($song->rating_votes)
+							{
+								$rating = float::to_upper($song->rating_value / $song->rating_votes);
+							}
+							?>
+
+							<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
+						</div>
+					</td>
+
+					<td>
+						<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.song.play('<?= $song->file_audio ?>')">
+							<i class="icon video play"></i>
+						</div>
+					</td>
+
+				</tr>
+			<?
+			}
+			?>
+			</tbody>
+		</table>
+
+		<script>
+			rude.semantic.init.rating();
+			rude.lazy.init();
+		</script>
+	<?
+	}
+
+	public static function highlight($string, $keyword = null)
+	{
+		if (!$keyword or !string::contains($string, $keyword, false))
+		{
+			return $string;
+		}
+
+		return string::replace($string, $keyword, '<span class="highlight">' . $keyword . '</span>', false);
 	}
 }
