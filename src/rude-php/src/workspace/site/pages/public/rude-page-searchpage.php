@@ -225,7 +225,7 @@ class page_searchpage
 				foreach ($songs as $song)
 				{
 					?>
-					<tr>
+					<tr class="song <?= $song->file_audio ?>">
 						<td>
 							<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.song.play('<?= $song->file_audio ?>')">
 								<i class="icon video play"></i>

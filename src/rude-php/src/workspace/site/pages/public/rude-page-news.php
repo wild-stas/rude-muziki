@@ -124,13 +124,10 @@ class page_news
 			</div>
 			<div class="content">
 				<a href="?page=news_item&type=public&id=<?= $admin_playlist->id ?>"><p class="header"><?= $admin_playlist->name ?></p></a>
-				<div class="ui divider"></div>
-
-				<div class="description">
 					<? $song_ids = playlist_items::get_by_playlist_id($admin_playlist->id); ?>
-					<span>Total: <?= count($song_ids) ?> tracks</span></p>
-				</div>
+					<span><i class="icon list"></i> <?= count($song_ids) ?></span></p>
 			</div>
+
 
 			<div class="song_container" style="display: none">
 				<?

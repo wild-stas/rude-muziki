@@ -202,7 +202,7 @@ class page_song
 						<p>
 							<b>Author:</b> <?= $this->song_author->name ?>.<br>
 							<b>Name:</b> <?= $this->song->name ?>.<br>
-							<b>Genre:</b> <?= $this->song_genre->name ?>.<br>
+							<b></b> <?= $this->song_genre->name ?>.<br>
 						</p>
 
 						<div class="ui divider"></div>

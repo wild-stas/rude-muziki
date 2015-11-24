@@ -95,7 +95,7 @@ class page_playlist
 						$song_ids = '';
 					}
 					?>
-							<div class="image">
+							<div class="image" style="position: relative">
 								<?
 								if ($playlist->file_image && get('type')=='public')
 								{
@@ -110,8 +110,9 @@ class page_playlist
 									?><img src="src/img/covers/image.png"><?
 								}
 								?>
-								<div class="ui icon labeled button bottom fluid" onclick="listen_all(this)">
-									<i class="icon video play"></i> Listen
+								<div class="ui icon button " onclick="listen_all(this)" style="position: absolute;top: 13px;left: 13px;
+">
+									<i class="icon video play"></i>
 								</div>
 							</div>
 							<div class="content">
@@ -122,7 +123,7 @@ class page_playlist
 								<div class="description">
 									<p class="description"><?= $playlist->description ?>
 
-										<span style="float: right" >Total: <?= count($song_ids) ?> tracks</span></p>
+										<span style="float: right" ><i class="icon list"></i> <?= count($song_ids) ?> </span></p>
 								</div>
 							</div>
 					<table class="ui celled unstackable table striped ">
