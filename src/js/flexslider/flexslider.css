@@ -53,8 +53,10 @@
 	bottom: 10px;
 }
 .flex-caption {
-	margin-left: 1%;
+	/* margin-left: 1%; */
 	vertical-align: top;
+	background: white;
+	padding: 0 5px;
 }
 .flex-caption h4.ui {
 	font-size: 17px;
@@ -91,7 +93,6 @@ html[xmlns] .flexslider .slides {
  * ====================================================================================================================*/
 .flexslider {
   margin: 0 0 0px;
-  background: #ffffff;
 
   position: relative;
   zoom: 1;

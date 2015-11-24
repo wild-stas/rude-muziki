@@ -129,7 +129,7 @@
 }
 
 .playlist_card{
-	width: 25%;
+	width: 23%;
 	padding: 0;
 	background: white;
 	border: none;
@@ -139,12 +139,12 @@
 	transition: box-shadow .2s ease;
 	vertical-align: top;
 	position: relative;
+	margin: 1%;
 }
 
 .playlist_card .image  {
 	display: inline-block;
 	width: 100%;
-	padding: 3px;
 	vertical-align: middle;
 	text-align: center;
 }
@@ -279,11 +279,11 @@
 .playlist-cover.grid { margin: 0; background: #ffffff }
 .playlist-cover .column:nth-child(2) .ui.button { position: absolute; top: 182px; }
 
-.homeplaylist{background: white;
+.homeplaylist{
 	border: none;
 	box-shadow: none;
 	border-radius: 0;
-	width: 25%;
+	width: 23%;
 	margin: 0;}
 
 #page-homepage .ui.icon.button {
@@ -324,7 +324,7 @@
 		width: 33.3333333333333%;
 	}
 	.playlist_card {
-		width: 33.3333333333333%
+		width: 31.3333333333333%
 	}
 }
 
@@ -344,7 +344,7 @@
 		width: 50%;
 	}
 	.playlist_card {
-		width: 50%;
+		width: 48%;
 	}
 }
 
@@ -364,7 +364,7 @@
 		width: 50%;
 	}
 	.playlist_card {
-		width: 50%;
+		width: 48%;
 	}
 }
 
