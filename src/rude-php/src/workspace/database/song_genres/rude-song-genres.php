@@ -45,22 +45,24 @@ class song_genres
 		return $q->get_object_list();
 	}
 
-	public static function add($name = null)
+	public static function add($name = null, $file_image = null)
 	{
 		$q = new query_insert(RUDE_DATABASE_TABLE_SONG_GENRES);
 
-		if ($name !== null) { $q->add('name', $name); }
+		if ($name       !== null) { $q->add('name',       $name      ); }
+		if ($file_image !== null) { $q->add('file_image', $file_image); }
 
 		$q->query();
 
 		return $q->get_id();
 	}
 
-	public static function update($id, $name = null, $limit = null, $offset = null)
+	public static function update($id, $name = null, $file_image = null, $limit = null, $offset = null)
 	{
 		$q = new query_update(RUDE_DATABASE_TABLE_SONG_GENRES);
 
-		if ($name !== null) { $q->update('name', $name); }
+		if ($name       !== null) { $q->update('name',       $name      ); }
+		if ($file_image !== null) { $q->update('file_image', $file_image); }
 
 		$q->where(RUDE_DATABASE_TABLE_SONG_GENRES_PRIMARY_KEY, $id);
 		$q->limit($limit, $offset);
@@ -125,6 +127,20 @@ class song_genres
 		return $q->get_object_list();
 	}
 
+	public static function get_by_file_image($file_image, $only_first = false)
+	{
+		$q = new query_select(RUDE_DATABASE_TABLE_SONG_GENRES);
+		$q->where('file_image', $file_image);
+		$q->query();
+
+		if ($only_first)
+		{
+			return $q->get_object();
+		}
+
+		return $q->get_object_list();
+	}
+
 	public static function remove_by_id($id)
 	{
 		$q = new query_delete(RUDE_DATABASE_TABLE_SONG_GENRES);
@@ -143,6 +159,15 @@ class song_genres
 		return $q->affected();
 	}
 
+	public static function remove_by_file_image($file_image)
+	{
+		$q = new query_delete(RUDE_DATABASE_TABLE_SONG_GENRES);
+		$q->where('file_image', $file_image);
+		$q->query();
+
+		return $q->affected();
+	}
+
 	public static function is_exists_id($id)
 	{
 		return static::get_by_id($id) == true;
@@ -151,5 +176,10 @@ class song_genres
 	public static function is_exists_name($name)
 	{
 		return static::get_by_name($name) == true;
+	}
+
+	public static function is_exists_file_image($file_image)
+	{
+		return static::get_by_file_image($file_image) == true;
 	}
 }

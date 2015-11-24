@@ -180,19 +180,23 @@ class page_homepage
 
 
 								?>
-								<li style="background: <?= $playlist->background_color ?>; color: <?= $playlist->font_color ?>">
-									<img width="252" src="src/img/<?= $playlist->id ?>/<?= $playlist->file_image ?>" alt="">
+<!--								<li style="background: --><?//= $playlist->background_color ?>/*; color: */<?//= $playlist->font_color ?><!--">-->
+								<li style="position: relative">
+									<div class="slider_item">
+										<img src="src/img/<?= $playlist->id ?>/<?= $playlist->file_image ?>" alt="">
 
-									<div class="flex-caption"><span>
-										<h4 class="ui white" onclick="rude.crawler.open('?page=playlist&type=public&id=<?= $playlist->id ?>');"><?= $playlist->title ?></h4>
+										<div class="flex-caption"><span>
+											<h4 class="ui white" onclick="rude.crawler.open('?page=playlist&type=public&id=<?= $playlist->id ?>');"><?= $playlist->title ?></h4>
 
-										<p ><?= $playlist->description ?></p>
+											<p ><?= $playlist->description ?></p>
 
-										<div class="ui icon labeled button bottom" onclick="<? static::songs_to_js($playlist_items,$playlist->id) ?>">
-											<i class="icon video play" ></i> Listen
+											<div class="ui icon button" style="    position: absolute;    top: 12px;    left: 12px;" onclick="<? static::songs_to_js($playlist_items,$playlist->id) ?>">
+												<i class="icon video play" ></i>
+											</div>
+										</span>
 										</div>
-									</span>
 									</div>
+
 								</li>
 							<?
 							}
@@ -205,60 +209,73 @@ class page_homepage
 						$(document).ready(function()
 						{
 
-							function color_navs(){
-								$('.flex-control-paging li a').css('background',$('.flexslider').find('.flex-active-slide').css('color'));
-								
-							}
-							setInterval(color_navs, 500);
+//							function color_navs(){
+//								$('.flex-control-paging li a').css('background',$('.flexslider').find('.flex-active-slide').css('color'));
+//
+//							}
+//							setInterval(color_navs, 500);
 
 
-
-
-
-								$('.flexslider').flexslider({
-									animation: "fade",
+							$('.flexslider').flexslider({
+									minItems: 2,
+									maxItems: 4,
+									itemWidth: 170,
+									itemMargin: 0,
+									animation: "slide",
 									directionNav: false,
 									start: function(slider){
 										$('body').removeClass('loading');
+										$(window).resize();
 									}
 								});
 
+
 						});
+
 					</script>
+
 				<?
 				}
 				?>
 			</div>
 
-			<div class="eight wide column">
+			<div class="five wide column">
 				<div class="songs-top">
 
 					<h4 class="ui header">
-						TOP 20
+						Top 20 songs
 					</h4>
 
 					<?
 					$songs_ids = songs::get_by_is_top(1);
 					?>
 
-					<p>Top songs of the week</p>
-
-					<div class="ui button" onclick="<? static::songs_to_js($songs_ids,null,1) ?>">
-						&nbsp;&nbsp;&nbsp;<i class="icon video play"></i>
+					<div class="ui icon button" style="top: 13px;" onclick="<? static::songs_to_js($songs_ids,null,1) ?>">
+						<i class="icon video play"></i>
 					</div>
 				</div>
 			</div>
 
-			<div class="eight wide column">
+			<div class="six wide column">
 				<div class="songs-new">
 					<h4 class="ui header">
-						New Songs
+						New releases
 					</h4>
-					<? $songs = songs::get_last(20);?>
-					<p>New songs of the week</p>
+					<? $songs = songs::get_last(40);?>
 
-					<div class="ui button" onclick="<? static::songs_to_js($songs,null,1) ?>">
-						&nbsp;&nbsp;&nbsp;<i class="icon video play"></i>
+					<div class="ui icon button" style="top: 13px;" onclick="<? static::songs_to_js($songs,null,1) ?>">
+						<i class="icon video play"></i>
+					</div>
+				</div>
+			</div>
+
+			<div class="five wide column">
+				<div class="songs-new">
+					<h4 class="ui header">
+						Selected Genres
+					</h4>
+					<div class="ui icon button" style="top: 13px;" onclick="rude.crawler.open('?page=genres')">
+						<i class="long arrow right icon"></i>
 					</div>
 				</div>
 			</div>
@@ -276,7 +293,7 @@ class page_homepage
 					$count=1;
 					foreach ($news as $news_item)
 					{
-						if ($count>4){
+						if ($count>8){
 							continue;
 						}
 						static::news_as_playlist($news_item);
@@ -297,7 +314,7 @@ class page_homepage
 					$count=1;
 					foreach ($authors as $author)
 					{
-						if ($count>4){
+						if ($count>8){
 							continue;
 						}
 						?>
@@ -470,7 +487,7 @@ class page_homepage
 		<div id="main">
 			<? static::slider() ?>
 			<div id="recent">
-				<? static::html_songs($this->songs, true); ?>
+				<? // static::html_songs($this->songs, true); ?>
 			</div>
 		</div>
 

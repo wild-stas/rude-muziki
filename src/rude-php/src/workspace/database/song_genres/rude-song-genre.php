@@ -7,8 +7,9 @@ if (!defined('RUDE_DATABASE_TABLE_SONG_GENRES_PRIMARY_KEY')) { define('RUDE_DATA
 
 class song_genre
 {
-	public $id   = null;
-	public $name = null;
+	public $id         = null;
+	public $name       = null;
+	public $file_image = null;
 
 
 	public function __construct($id = null)

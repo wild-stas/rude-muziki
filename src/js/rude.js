@@ -366,7 +366,7 @@ var rude =
 						slide:  function(event, ui) { rude.player.slider.volume.update(ui.value); }
 					});
 
-					rude.player.slider.volume.value(20);
+					rude.player.slider.volume.value(100);
 				},
 
 				update: function(value)
@@ -882,10 +882,12 @@ var rude =
 					$('#recent').append(html);
 
 					rude.lazy.init();
+					rude.crawler.init();
 				}
 			});
 
 			rude.lazy.offset += 100;
+			rude.crawler.init();
 		},
 
 		get:

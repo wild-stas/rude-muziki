@@ -251,12 +251,16 @@
 .cs-buttons a { border-radius: 6px!important; }
 
 .songs-top,
-.songs-new { background: #2a3e53; color: #ffffff; padding: 29px; height: 117px; position: relative; }
+.songs-new {     background: #FFFFFF;
+	color: #0B0909;
+	padding: 16px;
+	height: 54px;
+	position: relative;
+	border-radius: 55px; }
 
 .songs-top h4,
-.songs-new h4 { color: #ffffff!important; font-size: 24px!important; z-index: 80!important; }
+.songs-new h4 { font-size: 17px!important; z-index: 80!important;margin: 0!important; }
 
-.songs-top { padding-bottom: 30px }
 
 .songs-top .ui.button,
 .songs-new .ui.button { position: absolute!important; top: 27px; right: 27px; }
@@ -286,3 +290,13 @@
 	border-radius: 0;
 	width: 25%;
 	margin: 0;}
+
+#page-homepage .ui.icon.button {
+	border-radius: 50%;
+	background: #F7F7F7;
+	border: 0px solid #4C5162;
+	width: 30px;
+	height: 30px;
+	padding: 8px 6px;
+	box-shadow: none;
+}

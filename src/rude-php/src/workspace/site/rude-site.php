@@ -15,6 +15,8 @@ class site
 			case 'homepage':        $page = new page_homepage();        break;
 			case 'searchpage':        $page = new page_searchpage();        break;
 			case 'song':            $page = new page_song();            break;
+			case 'genres':            $page = new page_genres();            break;
+			case 'genre':            $page = new page_genre();            break;
 			case 'playlists':       $page = new page_playlists();       break;
 			case 'your_playlists':  $page = new page_user_playlists();  break;
 			case 'playlist':        $page = new page_playlist();        break;
@@ -78,7 +80,7 @@ class site
 
 		<script>
 			rude.crawler.init();
-			rude.lazy.init();
+			//rude.lazy.init();
 		</script>
 		<?
 	}
@@ -142,9 +144,9 @@ class site
 					<? endif; ?>
 
 					<div class="ui dropdown item">
-
+						<a href="<?= site::url('genres') ?>">
 						Genres
-
+						</a>
 						<i class="dropdown icon"></i>
 
 						<div class="menu">
@@ -153,7 +155,7 @@ class site
 								{
 									foreach ($genres as $genre)
 									{
-										?><a class="item" href="<?= site::url('homepage') ?>&genre_id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active'); rude.menu.navigation.title('Genre: <?= $genre->name ?>')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
+										?><a class="item" href="<?= site::url('genre') ?>&id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active'); rude.menu.navigation.title('Genre: <?= $genre->name ?>')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
 									}
 								}
 							?>
@@ -208,7 +210,7 @@ class site
 					else
 					{
 						?>
-						<a class="ui item right" href="<?= site::url('registration') ?>">
+						<!--<a class="ui item right" href="<?= site::url('registration') ?>">
 							<i class="icon add user"></i>
 							Sign Up
 						</a>
@@ -216,7 +218,7 @@ class site
 						<a class="ui item right" href="<?= site::url('login') ?>">
 							<i class="icon sign in"></i>
 							Sign In
-						</a>
+						</a>-->
 						<?
 					}
 				?>
@@ -297,9 +299,9 @@ class site
 				<div class="volume slider">
 					<i id="player-volume-icon" class="icon volume up" onclick="rude.player.slider.volume.toggle()"></i>
 
-					<div class="container"></div>
+					<div style="display: none" class="container"></div>
 
-					<span id="player-volume-level" class="value">0%</span>
+					<span style="display: none" id="player-volume-level" class="value">0%</span>
 				</div>
 			</div>
 
