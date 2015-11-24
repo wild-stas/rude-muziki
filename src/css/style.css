@@ -298,6 +298,20 @@
 	padding: 8px 6px;
 	box-shadow: none;
 }
+#page-homepage .ui.icon.labeled.button {
+	border-radius: 2px;
+	width: auto;
+}
+.playlist_card p {
+	white-space: nowrap;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+}
+.playlist_card .description {
+	white-space: nowrap;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+}
 @media only screen and (max-width: 1200px)
 {
 	#container {
@@ -309,8 +323,11 @@
 	.ui.grid>[class*="five wide"].column {
 		width: 50%!important;
 	}
-	.homeplaylist {
+	.homeplaylist  {
 		width: 33.3333333333333%;
+	}
+	.playlist_card {
+		width: 31.3333333333333%
 	}
 }
 
@@ -329,6 +346,9 @@
 	.homeplaylist {
 		width: 50%;
 	}
+	.playlist_card {
+		width: 48%;
+	}
 }
 
 @media only screen and (max-width: 600px)
@@ -345,6 +365,9 @@
 	}
 	.homeplaylist {
 		width: 50%;
+	}
+	.playlist_card {
+		width: 48%;
 	}
 }
 

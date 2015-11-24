@@ -57,6 +57,7 @@ class page_playlists
 		?>
 
 		<div id="main">
+			<h2>Top playlists</h2>
 			<div id="" class="ui double six doubling" style="font-size: 0;">
 				<?
 					if ($admin_playlists)

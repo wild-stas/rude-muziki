@@ -197,7 +197,8 @@ class page_searchpage
 		}
 
 		?>
-		<table class="ui celled table striped ">
+		<h2>Search results</h2>
+		<table class="ui celled unstackable  table striped ">
 
 			<?
 				if ($include_head)
@@ -205,11 +206,12 @@ class page_searchpage
 					?>
 					<thead>
 						<tr>
-							<th>Image</th>
+							<th>Listen</th>
+<!--							<th>Image</th>-->
 							<th>Song Name</th>
 							<th>Author</th>
-							<th>Rating</th>
-							<th>Listen</th>
+<!--							<th>Rating</th>-->
+
 						</tr>
 					</thead>
 					<?
@@ -225,19 +227,24 @@ class page_searchpage
 					?>
 					<tr>
 						<td>
-							<?
-								$image = 'image_white.png';
-
-								if ($song->file_image)
-								{
-									$image = $song->file_image;
-								}
-							?>
-
-							<a class="header" href="<?= site::url_seo('song', $song->alias) ?>">
-								<img src="<?= RUDE_SITE_URL ?>src/img/covers/<?= $image ?>">
-							</a>
+							<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.song.play('<?= $song->file_audio ?>')">
+								<i class="icon video play"></i>
+							</div>
 						</td>
+<!--						<td>-->
+<!--							--><?//
+//								$image = 'image_white.png';
+//
+//								if ($song->file_image)
+//								{
+//									$image = $song->file_image;
+//								}
+//							?>
+<!---->
+<!--							<a class="header" href="--><?//= site::url_seo('song', $song->alias) ?><!--">-->
+<!--								<img src="--><?//= RUDE_SITE_URL ?><!--src/img/covers/--><?//= $image ?><!--">-->
+<!--							</a>-->
+<!--						</td>-->
 
 						<td>
 							<a class="header" href="<?= site::url_seo('song', $song->alias) ?>"><?= static::highlight($song->name, $keyword) ?></a>
@@ -248,26 +255,22 @@ class page_searchpage
 						</td>
 
 
-						<td>
-							<div class="rating box">
-								<?
-									$rating = 0;
+<!--						<td>-->
+<!--							<div class="rating box">-->
+<!--								--><?//
+//									$rating = 0;
+//
+//									if ($song->rating_votes)
+//									{
+//										$rating = float::to_upper($song->rating_value / $song->rating_votes);
+//									}
+//								?>
+<!---->
+<!--								<div class="ui star tiny rating" data-song-id="--><?//= $song->id ?><!--" data-rating="--><?//= $rating ?><!--" data-max-rating="5" onclick="vote(this)"></div>-->
+<!--							</div>-->
+<!--						</td>-->
 
-									if ($song->rating_votes)
-									{
-										$rating = float::to_upper($song->rating_value / $song->rating_votes);
-									}
-								?>
 
-								<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
-							</div>
-						</td>
-
-						<td>
-							<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.song.play('<?= $song->file_audio ?>')">
-								<i class="icon video play"></i>
-							</div>
-						</td>
 
 					</tr>
 					<?

@@ -54,15 +54,20 @@
 }
 .flex-caption {
 	margin-left: 1%;
-	display: inline-block;
 	vertical-align: top;
 }
 .flex-caption h4.ui {
 	font-size: 17px;
 	cursor: pointer;
+	white-space: nowrap;
+	overflow:hidden !important;
+	text-overflow: ellipsis;
 }
 .flex-caption p {
 	font-size: 15px;
+	white-space: nowrap;
+	overflow:hidden !important;
+	text-overflow: ellipsis;
 }
 .flexslider .slides:after {
   content: "\0020";

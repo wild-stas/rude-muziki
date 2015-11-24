@@ -212,7 +212,7 @@ class page_genre
 		}
 
 		?>
-		<table class="ui celled table striped ">
+		<table class="ui celled unstackable table striped ">
 
 			<?
 			if ($include_head)

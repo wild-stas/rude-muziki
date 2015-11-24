@@ -125,7 +125,7 @@ class page_playlist
 										<span style="float: right" >Total: <?= count($song_ids) ?> tracks</span></p>
 								</div>
 							</div>
-					<table class="ui celled table striped ">
+					<table class="ui celled unstackable table striped ">
 
 							<thead>
 							<tr>

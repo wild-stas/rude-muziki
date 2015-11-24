@@ -194,7 +194,7 @@ if ($author_id)
 										<div class="flex-caption"><span>
 											<h4 class="ui white" onclick="rude.crawler.open('?page=playlist&type=public&id=<?= $playlist->id ?>');"><?= $playlist->title ?></h4>
 
-											<p ><?= substr($playlist->description, 0, 35); echo '...';  ?></p>
+											<p ><?= substr($playlist->description, 0, 35);  ?></p>
 
 											<div class="ui icon button" style="    position: absolute;    top: 12px;    left: 12px;" onclick="<? static::songs_to_js($playlist_items,$playlist->id) ?>">
 												<i class="icon video play" ></i>
@@ -385,7 +385,7 @@ if ($author_id)
 		?>
 
 
-		<div class="homeplaylist playlist_card " style="height: 300px;">
+		<div class="homeplaylist playlist_card ">
 			<div class="image">
 				<?
 				if ($news_item->file_image)
@@ -552,7 +552,7 @@ if ($author_id)
 		}
 
 		?>
-		<table class="ui celled table striped ">
+		<table class="ui celled unstackable  table striped ">
 
 			<?
 				if ($include_head)

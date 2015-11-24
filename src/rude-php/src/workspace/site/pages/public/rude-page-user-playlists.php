@@ -62,6 +62,7 @@ class page_user_playlists
 		?>
 
 		<div id="main">
+			<h2>Your playlists</h2>
 			<div id="" class="ui double six doubling" style="font-size: 0;">
 				<?
 
