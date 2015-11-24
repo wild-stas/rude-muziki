@@ -385,7 +385,7 @@ if ($author_id)
 		?>
 
 
-		<div class="homeplaylist playlist_card " style="height: 250px;">
+		<div class="homeplaylist playlist_card " style="height: 300px;">
 			<div class="image">
 				<?
 				if ($news_item->file_image)
