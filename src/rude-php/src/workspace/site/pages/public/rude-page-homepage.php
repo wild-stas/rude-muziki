@@ -287,7 +287,7 @@ if ($author_id)
 			</div>
 
 
-			<h2 class="">
+			<h2 style="font-size: 17px">
 				MUZIKI NEWS
 			</h2>
 			<? $news=playlists::get_by_is_news(1);
@@ -308,7 +308,7 @@ if ($author_id)
 				}
 				?>
 			</div>
-			<h2 class="">
+			<h2 style="font-size: 17px">
 				TRENDING ARTISTS
 			</h2>
 			<div id="" class="ui double six doubling" style="font-size: 0;    margin-bottom: 30px;">
