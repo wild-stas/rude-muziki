@@ -75,6 +75,7 @@ class page_genres
 		$genres = song_genres::get();
 		?>
 		<div id="main">
+			<h2> Selected Genres </h2>
 			<div id="" class="ui double six doubling" style="font-size: 0;">
 				<?
 				if ($genres)

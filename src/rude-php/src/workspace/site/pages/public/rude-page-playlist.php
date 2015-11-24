@@ -129,11 +129,12 @@ class page_playlist
 
 							<thead>
 							<tr>
-								<th>Image</th>
+								<th>Listen</th>
+<!--								<th>Image</th>-->
 								<th>Song Name</th>
 								<th>Author</th>
-								<th>Rating</th>
-								<th>Listen</th>
+<!--								<th>Rating</th>-->
+
 							</tr>
 							</thead>
 
@@ -145,21 +146,28 @@ class page_playlist
 						{
 							$song = songs::get_by_id($song_id->song_id,true);
 							?>
-							<tr>
+							<tr class="song <?= $song->file_audio ?>">
 								<td>
-									<?
-									$image = 'image_white.png';
-
-									if ($song->file_image)
-									{
-										$image = $song->file_image;
-									}
-									?>
-
-									<a class="header" href="<?= site::url_seo('song', $song->alias) ?>">
-										<img src="<?= RUDE_SITE_URL ?>src/img/covers/<?= $image ?>">
-									</a>
+									<div class="ui icon button">
+										<i class="icon video play" onclick="play_song(this)" data-file_audio="<?= $song->file_audio ?>" data-name="<?= $song->name ?>" data-author_name="<?= song_authors::get_by_id($song->author_id,true)->name; ?>"></i>
+									</div>
 								</td>
+
+
+								<!--								<td>-->
+<!--									--><?//
+//									$image = 'image_white.png';
+//
+//									if ($song->file_image)
+//									{
+//										$image = $song->file_image;
+//									}
+//									?>
+<!---->
+<!--									<a class="header" href="--><?//= site::url_seo('song', $song->alias) ?><!--">-->
+<!--										<img src="--><?//= RUDE_SITE_URL ?><!--src/img/covers/--><?//= $image ?><!--">-->
+<!--									</a>-->
+<!--								</td>-->
 
 								<td>
 									<a class="header" href="<?= site::url_seo('song', $song->alias) ?>"><?= $song->name ?></a>
@@ -170,31 +178,27 @@ class page_playlist
 								</td>
 
 
-								<td>
-									<div class="rating box">
-										<?
-										$rating = 0;
-										$song->rating_value = 0;
-										$rating_value = ratings::get_by_song_id($song->id);
-										foreach ($rating_value as $value){
-											$song->rating_value += $value->value;
-										}
-										$song->rating_votes = count(ratings::get_by_song_id($song->id));
-										if ($song->rating_votes)
-										{
-											$rating = float::to_upper($song->rating_value / $song->rating_votes);
-										}
-										?>
+<!--								<td>-->
+<!--									<div class="rating box">-->
+<!--										--><?//
+//										$rating = 0;
+//										$song->rating_value = 0;
+//										$rating_value = ratings::get_by_song_id($song->id);
+//										foreach ($rating_value as $value){
+//											$song->rating_value += $value->value;
+//										}
+//										$song->rating_votes = count(ratings::get_by_song_id($song->id));
+//										if ($song->rating_votes)
+//										{
+//											$rating = float::to_upper($song->rating_value / $song->rating_votes);
+//										}
+//										?>
+<!---->
+<!--										<div class="ui star tiny rating" data-song-id="--><?//= $song->id ?><!--" data-rating="--><?//= $rating ?><!--" data-max-rating="5" onclick="vote(this)"></div>-->
+<!--									</div>-->
+<!--								</td>-->
 
-										<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
-									</div>
-								</td>
 
-								<td>
-									<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.song.play('<?= $song->file_audio ?>')">
-										<i class="icon video play"></i>
-									</div>
-								</td>
 
 							</tr>
 						<?

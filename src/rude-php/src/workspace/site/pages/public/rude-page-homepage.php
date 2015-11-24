@@ -27,11 +27,12 @@ class page_homepage
 
 
 		$genre_id = get('genre_id');
+		$author_id = get('author_id');
 
 		$this->songs = static::get_songs($genre_id, 0, 100, $keyword);
 	}
 
-	public static function get_songs($genre_id = null, $offset = 0, $limit = 100, $keyword = null)
+	public static function get_songs($genre_id = null, $offset = 0, $limit = 100, $keyword = null, $author_id= null)
 	{
 		$database = database();
 
@@ -64,6 +65,11 @@ class page_homepage
 		{
 			$q .= 'AND songs.genre_id = ' . (int) $genre_id . PHP_EOL;
 		}
+
+if ($author_id)
+{
+	$q .= 'AND songs.author_id = ' . (int) $author_id . PHP_EOL;
+}
 
 		if ($keyword)
 		{
@@ -332,7 +338,7 @@ class page_homepage
 								?>
 							</div>
 							<div class="content">
-								<a href="?page=searchpage&s=<?= $author->name ?>"><p class="header"><?= $author->name ?></p></a>
+								<a href="?page=author&author_id=<?= $author->id ?>"><p class="header"><?= $author->name ?></p></a>
 							</div>
 						</div>
 				<?
@@ -396,7 +402,7 @@ class page_homepage
 				<i class="icon video play"></i>
 			</div>
 			<div class="content">
-				<a href="?page=news&type=public&id=<?= $news_item->id ?>"><p class="header"><?= $news_item->name ?></p></a>
+				<a href="?page=news_item&type=public&id=<?= $news_item->id ?>"><p class="header"><?= $news_item->name ?></p></a>
 				<div class="ui divider"></div>
 
 				<div class="description">
@@ -554,11 +560,12 @@ class page_homepage
 					?>
 					<thead>
 						<tr>
-							<th>Image</th>
+							<th>Listen</th>
+<!--							<th>Image</th>-->
 							<th>Song Name</th>
 							<th>Author</th>
-							<th>Rating</th>
-							<th>Listen</th>
+<!--							<th>Rating</th>-->
+
 						</tr>
 					</thead>
 					<?
@@ -572,21 +579,26 @@ class page_homepage
 				foreach ($songs as $song)
 				{
 					?>
-					<tr>
+					<tr class="song <?= $song->file_audio ?>">
 						<td>
-							<?
-								$image = 'image_white.png';
-
-								if ($song->file_image)
-								{
-									$image = $song->file_image;
-								}
-							?>
-
-							<a class="header" href="<?= site::url_seo('song', $song->alias) ?>">
-								<img src="<?= RUDE_SITE_URL ?>src/img/covers/<?= $image ?>">
-							</a>
+							<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.song.play('<?= $song->file_audio ?>')">
+								<i class="icon video play"></i>
+							</div>
 						</td>
+<!--						<td>-->
+<!--							--><?//
+//								$image = 'image_white.png';
+//
+//								if ($song->file_image)
+//								{
+//									$image = $song->file_image;
+//								}
+//							?>
+<!---->
+<!--							<a class="header" href="--><?//= site::url_seo('song', $song->alias) ?><!--">-->
+<!--								<img src="--><?//= RUDE_SITE_URL ?><!--src/img/covers/--><?//= $image ?><!--">-->
+<!--							</a>-->
+<!--						</td>-->
 
 						<td>
 							<a class="header" href="<?= site::url_seo('song', $song->alias) ?>"><?= static::highlight($song->name, $keyword) ?></a>
@@ -597,26 +609,22 @@ class page_homepage
 						</td>
 
 
-						<td>
-							<div class="rating box">
-								<?
-									$rating = 0;
+<!--						<td>-->
+<!--							<div class="rating box">-->
+<!--								--><?//
+//									$rating = 0;
+//
+//									if ($song->rating_votes)
+//									{
+//										$rating = float::to_upper($song->rating_value / $song->rating_votes);
+//									}
+//								?>
+<!---->
+<!--								<div class="ui star tiny rating" data-song-id="--><?//= $song->id ?><!--" data-rating="--><?//= $rating ?><!--" data-max-rating="5" onclick="vote(this)"></div>-->
+<!--							</div>-->
+<!--						</td>-->
 
-									if ($song->rating_votes)
-									{
-										$rating = float::to_upper($song->rating_value / $song->rating_votes);
-									}
-								?>
 
-								<div class="ui star tiny rating" data-song-id="<?= $song->id ?>" data-rating="<?= $rating ?>" data-max-rating="5" onclick="vote(this)"></div>
-							</div>
-						</td>
-
-						<td>
-							<div class="ui icon button" onclick="rude.player.song.add('<?= $song->file_audio ?>', '<?= $song->name ?>', '<?= $song->author_name ?>'); rude.player.song.play('<?= $song->file_audio ?>')">
-								<i class="icon video play"></i>
-							</div>
-						</td>
 
 					</tr>
 					<?

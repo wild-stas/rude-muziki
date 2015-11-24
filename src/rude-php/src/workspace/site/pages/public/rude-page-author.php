@@ -2,16 +2,16 @@
 
 namespace rude;
 
-class page_genre
+class page_author
 {
 	public function __construct()
 	{
-		$genre_id = get('genre_id');
+		$author_id = get('author_id');
 
-		$this->songs = static::get_songs($genre_id, 0, 100);
+		$this->songs = static::get_songs($author_id, 0, 100);
 	}
 
-	public static function get_songs($genre_id = null, $offset = 0, $limit = 100)
+	public static function get_songs($author_id = null, $offset = 0, $limit = 100)
 	{
 		$database = database();
 
@@ -40,9 +40,9 @@ class page_genre
 
 
 
-		if ($genre_id)
+		if ($author_id)
 		{
-			$q .= 'AND songs.genre_id = ' . (int) $genre_id . PHP_EOL;
+			$q .= 'AND songs.author_id = ' . (int) $author_id . PHP_EOL;
 		}
 
 		$q .= 'GROUP BY	songs.id' . PHP_EOL;
@@ -95,8 +95,8 @@ class page_genre
 
 	public function main()
 	{
-		$genre = song_genres::get_by_id(get('genre_id'),true);
-		if (!$genre){
+		$author = song_authors::get_by_id(get('author_id'),true);
+		if (!$author){
 			return;
 		}
 		?>
@@ -122,9 +122,9 @@ class page_genre
 
 							<div class="image">
 								<?
-								if ($genre->file_image )
+								if ($author->file_image )
 								{
-									?><img src="src/img/genres/<?= $genre->file_image ?>"><?
+									?><img src="src/img/author/<?= $author->file_image ?>"><?
 								}
 								else
 								{
@@ -133,7 +133,7 @@ class page_genre
 								?>
 							</div>
 							<div class="content">
-								<p class="header"><?= $genre->name ?></p>
+								<p class="header"><?= $author->name ?></p>
 
 							</div>
 					<div id="recent">

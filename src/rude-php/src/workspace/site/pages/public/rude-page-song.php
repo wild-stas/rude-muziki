@@ -207,11 +207,11 @@ class page_song
 
 						<div class="ui divider"></div>
 
-						<p>
-							<b>Song rating:</b> <?= round($rating, 1) ?>
-						</p>
+<!--						<p>-->
+<!--							<b>Song rating:</b> --><?//= round($rating, 1) ?>
+<!--						</p>-->
 
-						<div class="ui divider"></div>
+<!--						<div class="ui divider"></div>-->
 
 						<div class="ui icon labeled button" onclick="rude.player.song.add('<?= $this->song->file_audio ?>', '<?= $this->song->name ?>', '<?= $this->song->author_name ?>'); rude.player.song.play('<?= $this->song->file_audio ?>')">
 							<i class="icon video play"></i> Listen
@@ -223,7 +223,7 @@ class page_song
 
 			<script>
 				rude.semantic.init.dropdown();
-				rude.semantic.init.rating();
+				//rude.semantic.init.rating();
 				rude.crawler.init();
 
 				function vote(selector)
@@ -266,7 +266,7 @@ class page_song
 				}
 			</script>
 
-			<? static::comments() ?>
+			<?// static::comments() ?>
 		</div>
 		<?
 	}

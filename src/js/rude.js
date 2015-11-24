@@ -858,6 +858,7 @@ var rude =
 		load: function()
 		{
 			var genre_id = rude.url.param.get('genre_id');
+			var author_id = rude.url.param.get('author_id');
 			var keyword = $('#search-field').val();
 
 			debug('lazy load [offset: ' + rude.lazy.offset + ', limit: ' + rude.lazy.limit + ', keyword: ' + keyword + ']');
@@ -873,7 +874,7 @@ var rude =
 					limit:  rude.lazy.limit,
 					offset: rude.lazy.offset,
 					s: keyword,
-
+					author_id:author_id,
 					genre_id: genre_id
 				},
 

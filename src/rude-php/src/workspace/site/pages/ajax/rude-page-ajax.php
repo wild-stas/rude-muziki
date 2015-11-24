@@ -17,7 +17,7 @@ class page_ajax
 				break;
 			case 'lazy':
 
-				$songs = page_homepage::get_songs(get('genre_id'), get('offset'), get('limit'), get('s'));
+				$songs = page_homepage::get_songs(get('genre_id'), get('offset'), get('limit'), get('s'),get('author_id'));
 
 				if (!$songs)
 				{

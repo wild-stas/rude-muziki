@@ -17,10 +17,12 @@ class site
 			case 'song':            $page = new page_song();            break;
 			case 'genres':            $page = new page_genres();            break;
 			case 'genre':            $page = new page_genre();            break;
+			case 'author':            $page = new page_author();            break;
 			case 'playlists':       $page = new page_playlists();       break;
+			case 'news':       $page = new page_news();       break;
 			case 'your_playlists':  $page = new page_user_playlists();  break;
 			case 'playlist':        $page = new page_playlist();        break;
-			case 'news':        $page = new page_playlist();        break;
+			case 'news_item':        $page = new page_playlist();        break;
 			case 'admin':           $page = new page_admin();           break;
 			case 'user':            $page = new page_user();            break;
 			case 'about':           $page = new page_about();           break;
@@ -109,60 +111,75 @@ class site
 					<i class="icon home"></i> Homepage
 				</a>
 			</div>
-
-			<div class="ui dropdown item navigation" tabindex="0">
-				<i class="icon sidebar"></i>
-
-				<span class="title">Navigation</span>
-
-				<i class="dropdown icon"></i>
-				<div class="menu transition hidden" tabindex="-1">
-					<div class="item" onclick="rude.menu.navigation.title('Popular'); rude.menu.navigation.hide();">
-						<a href="#">
-							<i class="icon diamond"></i> Popular
-						</a>
-					</div>
-
-					<div class="item" onclick="rude.menu.navigation.title('New'); rude.menu.navigation.hide();">
-						<a href="#">
-							<i class="icon announcement"></i> New
-						</a>
-					</div>
-
-					<div class="item" onclick="rude.menu.navigation.title('Top playlists'); rude.menu.navigation.hide();">
-						<a href="<?= site::url('playlists') ?>">
-							<i class="icon list"></i> Top playlists
-						</a>
-					</div>
-
-					<? if(current::user_is_logged()): ?>
-					<div class="item" onclick="rude.menu.navigation.title('Playlists'); rude.menu.navigation.hide();">
-						<a href="<?= site::url('your_playlists') ?>">
-							<i class="icon list"></i> Playlists
-						</a>
-					</div>
-					<? endif; ?>
-
-					<div class="ui dropdown item">
-						<a href="<?= site::url('genres') ?>">
-						Genres
-						</a>
-						<i class="dropdown icon"></i>
-
-						<div class="menu">
-							<?
-								if ($genres)
-								{
-									foreach ($genres as $genre)
-									{
-										?><a class="item" href="<?= site::url('genre') ?>&genre_id=<?= url::encode($genre->id) ?>" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active'); rude.menu.navigation.title('Genre: <?= $genre->name ?>')"><?= $genre->name ?> [<?= $genre->count ?>]</a><?
-									}
-								}
-							?>
-						</div>
-					</div>
-				</div>
+			<div class="item" onclick="rude.menu.navigation.title('');">
+				<a href="<?= site::url('playlists') ?>">
+					<i class="icon list"></i> Top playlists
+				</a>
 			</div>
+			<div class="item" onclick="rude.menu.navigation.title('');">
+				<a href="<?= site::url('genres') ?>">
+					<i class="icon list"></i> Genres
+				</a>
+			</div>
+			<div class="item" onclick="rude.menu.navigation.title('');">
+				<a href="<?= site::url('news') ?>">
+					<i class="icon announcement"></i> News
+				</a>
+			</div>
+
+<!--			<div class="ui dropdown item navigation" tabindex="0">-->
+<!--				<i class="icon sidebar"></i>-->
+<!---->
+<!--				<span class="title">Navigation</span>-->
+<!---->
+<!--				<i class="dropdown icon"></i>-->
+<!--				<div class="menu transition hidden" tabindex="-1">-->
+<!--					<div class="item" onclick="rude.menu.navigation.title('Popular'); rude.menu.navigation.hide();">-->
+<!--						<a href="#">-->
+<!--							<i class="icon diamond"></i> Popular-->
+<!--						</a>-->
+<!--					</div>-->
+<!---->
+<!--					<div class="item" onclick="rude.menu.navigation.title('New'); rude.menu.navigation.hide();">-->
+<!--						<a href="#">-->
+<!--							<i class="icon announcement"></i> New-->
+<!--						</a>-->
+<!--					</div>-->
+<!---->
+<!--					<div class="item" onclick="rude.menu.navigation.title('Top playlists'); rude.menu.navigation.hide();">-->
+<!--						<a href="--><?//= site::url('playlists') ?><!--">-->
+<!--							<i class="icon list"></i> Top playlists-->
+<!--						</a>-->
+<!--					</div>-->
+<!---->
+<!--					--><?// if(current::user_is_logged()): ?>
+<!--					<div class="item" onclick="rude.menu.navigation.title('Playlists'); rude.menu.navigation.hide();">-->
+<!--						<a href="--><?//= site::url('your_playlists') ?><!--">-->
+<!--							<i class="icon list"></i> Playlists-->
+<!--						</a>-->
+<!--					</div>-->
+<!--					--><?// endif; ?>
+<!---->
+<!--					<div class="ui dropdown item">-->
+<!--						<a href="--><?//= site::url('genres') ?><!--">-->
+<!--						Genres-->
+<!--						</a>-->
+<!--						<i class="dropdown icon"></i>-->
+<!---->
+<!--						<div class="menu">-->
+<!--							--><?//
+//								if ($genres)
+//								{
+//									foreach ($genres as $genre)
+//									{
+//										?><!--<a class="item" href="--><?//= site::url('genre') ?><!--&genre_id=--><?//= url::encode($genre->id) ?><!--" onclick="$(this).parent().find('.item').removeClass('active'); $(this).addClass('active'); rude.menu.navigation.title('Genre: --><?//= $genre->name ?>//')"><?//= $genre->name ?><!-- [--><?//= $genre->count ?><!--]</a>--><?//
+//									}
+//								}
+//							?>
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
 
 			<script>
 				rude.semantic.init.dropdown();
