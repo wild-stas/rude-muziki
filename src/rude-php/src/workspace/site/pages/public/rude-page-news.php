@@ -57,7 +57,7 @@ class page_news
 		?>
 
 		<div id="main">
-			<h2>News</h2>
+			<h2>MUZIKI NEWS</h2>
 			<div id="" class="ui double six doubling" style="font-size: 0;">
 				<?
 					if ($admin_playlists)

@@ -288,7 +288,7 @@ if ($author_id)
 
 
 			<h2 class="">
-				Song news
+				MUZIKI NEWS
 			</h2>
 			<? $news=playlists::get_by_is_news(1);
 			?>
@@ -309,7 +309,7 @@ if ($author_id)
 				?>
 			</div>
 			<h2 class="">
-				Top authors
+				TRENDING ARTISTS
 			</h2>
 			<div id="" class="ui double six doubling" style="font-size: 0;    margin-bottom: 30px;">
 				<?

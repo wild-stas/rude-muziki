@@ -113,12 +113,12 @@ class site
 			</div>
 			<div class="item" onclick="rude.menu.navigation.title('');">
 				<a href="<?= site::url('playlists') ?>">
-					<i class="icon announcement"></i> Top playlists
+					<i class="icon diamond"></i> Top playlists
 				</a>
 			</div>
 			<div class="item" onclick="rude.menu.navigation.title('');">
 				<a href="<?= site::url('genres') ?>">
-					<i class="icon announcement"></i> Genres
+					<i class="icon list"></i> Genres
 				</a>
 			</div>
 			<div class="item" onclick="rude.menu.navigation.title('');">
