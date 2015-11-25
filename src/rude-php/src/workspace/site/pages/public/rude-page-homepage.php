@@ -473,6 +473,9 @@ if ($author_id)
 	public function main()
 	{
 		?>
+		<script>
+			$(window).unbind('scroll');
+			</script>
 		<div id="modal-vote-denied" class="ui small modal transition">
 			<i class="close icon"></i>
 			<div class="header">
@@ -491,9 +494,9 @@ if ($author_id)
 
 		<div id="main">
 			<? static::slider() ?>
-			<div id="recent">
-				<? // static::html_songs($this->songs, true); ?>
-			</div>
+<!--			<div id="recent">-->
+<!--				--><?// // static::html_songs($this->songs, true); ?>
+<!--			</div>-->
 		</div>
 
 		<script>

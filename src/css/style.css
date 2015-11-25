@@ -59,8 +59,10 @@
 #player #playlist-size { bottom: 17px; left: 14px; position: absolute; background: rgb(245, 156, 52); color: black; padding: 1px 2px 0 1px; font-family: monospace; font-size: 11px; }
 #player #player-button-repeat.icon.active { color: orange; }
 
-#playlist .content { background: #F7F7F8; }
-#playlist table { border: none; }
+#playlist .content { background: #F7F7F8; padding: 0;}
+#playlist table { border: none;overflow: auto;
+	max-height: 440px;
+	display: block; }
 #playlist table .icon { margin: 0!important; }
 #playlist tr.song .icon { cursor: pointer; }
 #playlist tr.song.active td { background: rgba(255, 165, 0, 0.55)!important; }
@@ -298,6 +300,9 @@
 #page-homepage .ui.icon.labeled.button {
 	border-radius: 2px;
 	width: auto;
+}
+h2{
+	font-size: 17px;
 }
 .playlist_card p {
 	white-space: nowrap;
