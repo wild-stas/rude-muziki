@@ -142,7 +142,9 @@ if ($author_id)
 
 
 		<div class="ui grid">
-			<div> <!--class="eleven wide column " -->
+		<h2 style="font-size: 17px">HEAR THIS</h2>
+
+		<div> <!--class="eleven wide column " -->
 				<?
 				$playlists = playlists::get_last(10);
 
@@ -244,7 +246,6 @@ if ($author_id)
 				}
 				?>
 			</div>
-			<h2 style="font-size: 17px">HEAR THIS</h2>
 
 			<div class="five wide column">
 				<div class="songs-top">
