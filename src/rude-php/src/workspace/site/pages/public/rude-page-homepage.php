@@ -144,6 +144,47 @@ if ($author_id)
 		<div class="ui grid">
 		<h2 style="font-size: 17px">HEAR THIS</h2>
 
+		<div class="five wide column">
+			<div class="songs-top">
+
+				<h4 class="ui header">
+					Top 20 songs
+				</h4>
+
+				<?
+				$songs_ids = songs::get_by_is_top(1);
+				?>
+
+				<div class="ui icon button" style="top: 13px;" onclick="<? static::songs_to_js($songs_ids,null,1) ?>">
+					<i class="icon video play"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="six wide column">
+			<div class="songs-new">
+				<h4 class="ui header">
+					New releases
+				</h4>
+				<? $songs = songs::get_last(40);?>
+
+				<div class="ui icon button" style="top: 13px;" onclick="<? static::songs_to_js($songs,null,1) ?>">
+					<i class="icon video play"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="five wide column">
+			<div class="songs-new">
+				<h4 class="ui header">
+					Selected Genres
+				</h4>
+				<div class="ui icon button" style="top: 13px;" onclick="rude.crawler.open('?page=genres')">
+					<i class="long arrow right icon"></i>
+				</div>
+			</div>
+		</div>
+
 		<div> <!--class="eleven wide column " -->
 				<?
 				$playlists = playlists::get_last(10);
@@ -247,46 +288,7 @@ if ($author_id)
 				?>
 			</div>
 
-			<div class="five wide column">
-				<div class="songs-top">
 
-					<h4 class="ui header">
-						Top 20 songs
-					</h4>
-
-					<?
-					$songs_ids = songs::get_by_is_top(1);
-					?>
-
-					<div class="ui icon button" style="top: 13px;" onclick="<? static::songs_to_js($songs_ids,null,1) ?>">
-						<i class="icon video play"></i>
-					</div>
-				</div>
-			</div>
-
-			<div class="six wide column">
-				<div class="songs-new">
-					<h4 class="ui header">
-						New releases
-					</h4>
-					<? $songs = songs::get_last(40);?>
-
-					<div class="ui icon button" style="top: 13px;" onclick="<? static::songs_to_js($songs,null,1) ?>">
-						<i class="icon video play"></i>
-					</div>
-				</div>
-			</div>
-
-			<div class="five wide column">
-				<div class="songs-new">
-					<h4 class="ui header">
-						Selected Genres
-					</h4>
-					<div class="ui icon button" style="top: 13px;" onclick="rude.crawler.open('?page=genres')">
-						<i class="long arrow right icon"></i>
-					</div>
-				</div>
-			</div>
 
 
 			<h2 style="font-size: 17px">
