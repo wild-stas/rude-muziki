@@ -66,8 +66,11 @@
 #playlist table .icon { margin: 0!important; }
 #playlist tr.song .icon { cursor: pointer; }
 #playlist tr.song.active td { background: rgba(255, 165, 0, 0.55)!important; }
+input#search-field {
+	width: 270px;
+}
 
-#menu { background: #4C5162; }
+#menu { background: #4C5162;text-align: center; }
 #menu .item:hover,
 #menu .item .ui.dropdown.item a { color: black; }
 #menu .item a:hover { color: orange; opacity: 0.95; transition-delay: 0.5; -webkit-transition-delay: 0.5s; -webkit-transition: color 500ms ease; -moz-transition: color 500ms ease; -ms-transition: color 500ms ease; -o-transition: color 500ms ease; transition: color 500ms ease; }

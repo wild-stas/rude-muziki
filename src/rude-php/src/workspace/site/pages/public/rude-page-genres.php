@@ -57,7 +57,7 @@ class page_genres
 		?>
 
 		<div id="main">
-			<div id="recent">
+			<div id="content">
 				<?  static::html_genres(); ?>
 			</div>
 		</div>

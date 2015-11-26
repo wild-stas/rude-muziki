@@ -18,6 +18,9 @@ class site
 			case 'genres':            $page = new page_genres();            break;
 			case 'genre':            $page = new page_genre();            break;
 			case 'author':            $page = new page_author();            break;
+			case 'about':            $page = new page_about();            break;
+			case 'help':            $page = new page_help();            break;
+			case 'terms':            $page = new page_terms();            break;
 			case 'playlists':       $page = new page_playlists();       break;
 			case 'news':       $page = new page_news();       break;
 			case 'your_playlists':  $page = new page_user_playlists();  break;
@@ -25,7 +28,6 @@ class site
 			case 'news_item':        $page = new page_playlist();        break;
 			case 'admin':           $page = new page_admin();           break;
 			case 'user':            $page = new page_user();            break;
-			case 'about':           $page = new page_about();           break;
 			case 'login':           $page = new page_login();           break;
 			case 'logout':          $page = new page_logout();          break;
 			case 'registration':    $page = new page_registration();    break;
@@ -48,9 +50,12 @@ class site
 	{
 		?>
 		<head>
-			<title><?= current::title() ?></title>
+<!--			<title>--><?//= current::title() ?><!--</title>-->
+	<title>Kitangoma</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-			<meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1" />
+	<meta name="keywords" content="Bongoflava, bolingo, dini, taarabu, genge, singeli, mchiriku,joh makini, christian bella zilipendwa, vigodoro, wasafi, diamond platnumz, weusi, alikiba">
+	<meta name="description" content="Furahia Muziki Kutoka Tanzania, Kenya, Uganda na Afrika BURE">
 
 			<?= html::js(RUDE_SITE_URL . 'src/js/jquery/1.11.3/jquery-1.11.3.min.js') ?>
 
@@ -184,6 +189,16 @@ class site
 			<script>
 				rude.semantic.init.dropdown();
 			</script>
+			<div class="ui item  search">
+				<div class="ui icon input">
+					<form id="search-form" onsubmit="rude.crawler.open('?page=searchpage&s=' + encodeURIComponent($('#search-field').val())); return false;">
+						<input id="search-field" type="text" placeholder="Search...">
+
+					</form>
+
+					<i class="search icon" onclick="$('#search-form').submit()"></i>
+				</div>
+			</div>
 
 				<?
 					if (current::user_is_logged())
@@ -191,7 +206,7 @@ class site
 						if (current::visitor_is_admin())
 						{
 							?>
-							<a class="ui item right" href="<?= site::url('admin') ?>">
+							<a class="ui item " href="<?= site::url('admin') ?>">
 								<i class="icon configure"></i>
 								Panel
 							</a>
@@ -200,17 +215,17 @@ class site
 						else if (current::visitor_is_user())
 						{
 							?>
-							<a class="ui item right" href="<?= site::url('user') ?>">
+							<a class="ui item " href="<?= site::url('user') ?>">
 								<i class="icon user"></i>
 								Account
 							</a>
 
-							<a class="ui item right" href="<?= site::url('user', 'playlists') ?>">
+							<a class="ui item " href="<?= site::url('user', 'playlists') ?>">
 								<i class="icon list"></i>
 								Playlists
 							</a>
 
-							<a class="ui item right" href="<?= site::url('user', 'settings') ?>">
+							<a class="ui item " href="<?= site::url('user', 'settings') ?>">
 								<i class="icon configure"></i>
 								Configure
 							</a>
@@ -218,7 +233,7 @@ class site
 						}
 
 						?>
-						<a class="ui item right" href="<?= site::url('logout') ?>">
+						<a class="ui item " href="<?= site::url('logout') ?>">
 							<i class="icon sign out"></i>
 							Logout
 						</a>
@@ -241,16 +256,7 @@ class site
 				?>
 
 
-			<div class="ui item right search">
-				<div class="ui icon input">
-					<form id="search-form" onsubmit="rude.crawler.open('?page=searchpage&s=' + encodeURIComponent($('#search-field').val())); return false;">
-						<input id="search-field" type="text" placeholder="Search...">
 
-					</form>
-
-					<i class="search icon" onclick="$('#search-form').submit()"></i>
-				</div>
-			</div>
 		</div>
 		<?
 	}

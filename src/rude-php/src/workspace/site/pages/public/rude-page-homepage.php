@@ -161,6 +161,11 @@ if ($author_id)
 									continue;
 								}
 
+								if ($playlist->is_news)
+								{
+									continue;
+								}
+
 
 								$playlist_items = playlist_items::get_by_playlist_id($playlist->id);
 
@@ -291,16 +296,23 @@ if ($author_id)
 			<h2 style="font-size: 17px">
 				MUZIKI NEWS
 			</h2>
-			<? $news=playlists::get_by_is_news(1);
+
+			<? $news=playlists::get_last(playlists::count());
 			?>
 			<div id="" class="ui double six doubling" style="font-size: 0;    margin-bottom: 30px;">
 				<?
 				if ($news)
 				{
+
 					$count=1;
 					foreach ($news as $news_item)
 					{
-						if ($count>8){
+
+						if (!$news_item->is_news)
+						{
+							continue;
+						}
+						if ($count>12){
 							continue;
 						}
 						static::news_as_playlist($news_item);
@@ -321,7 +333,7 @@ if ($author_id)
 					$count=1;
 					foreach ($authors as $author)
 					{
-						if ($count>8){
+						if ($count>12){
 							continue;
 						}
 						?>
@@ -347,6 +359,42 @@ if ($author_id)
 					}
 				}
 				?>
+			</div>
+			<div id="homefooter" class="ui menu visible">
+
+						<div class="item" onclick=" rude.menu.navigation.hide();">
+							<a href="<?= site::url('about') ?>">
+								About
+							</a>
+						</div>
+
+						<div class="item" onclick="rude.menu.navigation.hide();">
+							<a href="<?= site::url('help') ?>">
+								Help and Contacts
+							</a>
+						</div>
+
+						<div class="item" onclick=" rude.menu.navigation.hide();">
+							<a href="<?= site::url('terms') ?>">
+								Terms & Conditions
+							</a>
+						</div>
+
+
+
+						<div class="item" onclick="rude.menu.navigation.hide();">
+							<a class="footersocial" href="http://www.facebook.com/Muziki.net" title="We're on Facebook" target="_blank">Facebook</a>
+						</div>
+
+						<div class="item" onclick="rude.menu.navigation.hide();">
+							<a class="footersocial" href="http://www.twitter.com/MuzikiNet" title="We're on Twitter" target="_blank">Twitter</a>
+						</div>
+
+						<div class="item" onclick=" rude.menu.navigation.hide();">
+							<a class="footersocial" href="http://www.google.com/+MuzikiNet" title="We're on Google+" target="_blank">Google+</a>
+						</div>
+
+				</div>
 			</div>
 			<script>
 				$( document ).ready(function() {

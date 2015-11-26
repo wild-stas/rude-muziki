@@ -1020,9 +1020,9 @@ var rude =
 		{
 			$(function()
 			{
-				$('a').not('.flex-control-nav li a').unbind('click');
+				$('a').not('.flex-control-nav li a').not('.footersocial').unbind('click');
 
-				$('a').not('.flex-control-nav li a').click(function ()
+				$('a').not('.flex-control-nav li a').not('.footersocial').click(function ()
 				{
 					$('#content').html('');
 					var url = $(this).attr('href');
